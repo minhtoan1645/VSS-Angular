@@ -1,0 +1,34 @@
+<footer class="table-footer">
+  <div class="table-footer__size">
+    <select [value]="pageSize" aria-label="Số dòng mỗi trang" (change)="onPageSizeChange($any($event.target).value)">
+      <option *ngFor="let option of pageSizeOptions" [value]="option">{{ option }}</option>
+    </select>
+  </div>
+
+  <div class="table-footer__right">
+    <p>Hiển thị từ {{ rangeStart }} tới {{ rangeEnd }} trên {{ totalItems }} bản ghi</p>
+
+    <nav class="pagination" aria-label="Phân trang">
+      <button type="button" aria-label="Trang đầu" [disabled]="currentPage === 1" (click)="changePage(1)">
+        <img src="assets/images/icons/arrow-letft.png" alt="" />
+      </button>
+      <button type="button" aria-label="Trang trước" [disabled]="currentPage === 1" (click)="changePage(currentPage - 1)">
+        <img src="assets/images/icons/arrow-left.png" alt="" />
+      </button>
+      <button
+        *ngFor="let page of pageNumbers"
+        type="button"
+        [class.pagination__item--active]="page === currentPage"
+        (click)="changePage(page)"
+      >
+        {{ page }}
+      </button>
+      <button type="button" aria-label="Trang sau" [disabled]="currentPage === totalPages" (click)="changePage(currentPage + 1)">
+        <img src="assets/images/icons/right.png" alt="" />
+      </button>
+      <button type="button" aria-label="Trang cuối" [disabled]="currentPage === totalPages" (click)="changePage(totalPages)">
+        <img src="assets/images/icons/arrow-righttt.png" alt="" />
+      </button>
+    </nav>
+  </div>
+</footer>

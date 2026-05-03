@@ -1,0 +1,415 @@
+@use '../abstracts/variables' as v;
+@use '../abstracts/mixins' as m;
+
+/* =========================================================
+   LOGIN PAGE
+========================================================= */
+
+.login-page {
+  min-height: 100vh;
+}
+
+.login-page .auth {
+  grid-template-columns: minmax(0, 1fr) minmax(444px, 492px);
+}
+
+.login-page .auth__visual {
+  background: v.$color-white;
+}
+
+.login-page .auth__visual-shape {
+  inset: 0 44px 0 0;
+}
+
+.login-page .auth__visual::after {
+  display: none;
+}
+
+.login-page .auth__content {
+  justify-content: flex-start;
+  padding: 88px 24px 32px 0;
+}
+
+.login-page .auth__card {
+  width: min(100%, 492px);
+  margin-left: -34px;
+}
+
+/* =========================================================
+   AUTH CARD SPACING
+========================================================= */
+
+.login-page .card--auth {
+  padding: 0;
+  min-height: auto;
+}
+
+.login-page .card__header {
+  padding: 40px 36px 0;
+}
+
+.login-page .card__body {
+  padding: 0 36px 40px;
+}
+
+.login-page .card__footer {
+  padding: 0 36px 40px;
+}
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.login-page .auth__logo {
+  margin-bottom: 24px;
+}
+
+.login-page .auth__logo img {
+  width: 248px;
+}
+
+.login-page .auth__header {
+  gap: 0;
+}
+
+.login-page .auth__title {
+  width: 100%;
+  margin: 0 auto 24px;
+  font-size: 22px;
+}
+
+/* =========================================================
+   FORM
+========================================================= */
+
+.login-page .auth__form .form {
+  gap: 0;
+}
+
+.login-page .auth__form .form__body {
+  gap: 16px;
+}
+
+.login-page .auth__form .form__footer {
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.login-page .form-group {
+  gap: 0;
+}
+
+.login-page .auth__form .input,
+.login-page .auth__form .input-password .input {
+  width: 100%;
+  height: 58px;
+  min-height: 58px;
+  padding: 0 18px;
+  border: 1px solid v.$color-border;
+  border-radius: 8px;
+  background: v.$color-white;
+  font-size: 14px;
+  font-weight: 500;
+  color: v.$color-text;
+}
+
+.login-page .auth__form .input::placeholder,
+.login-page .auth__form .input-password .input::placeholder {
+  color: v.$color-text-placeholder;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.login-page .auth__form .input:hover,
+.login-page .auth__form .input-password .input:hover {
+  border-color: v.$color-text-secondary;
+}
+
+.login-page .auth__form .input:focus,
+.login-page .auth__form .input-password .input:focus {
+  border-color: v.$color-text-secondary;
+  box-shadow: 0 0 0 3px rgba(86, 128, 249, 0.1);
+}
+
+.login-page .input-password {
+  width: 100%;
+}
+
+.login-page .input-password__toggle {
+  right: 18px;
+  color: v.$color-text-placeholder;
+}
+
+/* =========================================================
+   REMEMBER / FORGOT
+========================================================= */
+
+.login-page .form-inline {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 4px;
+}
+
+.login-page .form-check {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.login-page .form-check__input {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: v.$color-primary;
+}
+
+.login-page .form-check__label {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: v.$color-text;
+}
+
+.login-page .auth__link {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+/* =========================================================
+   LOGIN BUTTON
+========================================================= */
+
+.login-page .auth__form .btn--primary {
+  width: 100%;
+  height: 58px;
+  min-height: 58px;
+  padding: 0 24px;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1;
+  background: v.$color-primary;
+  color: v.$color-white;
+}
+
+.login-page .auth__form .btn--primary:hover {
+  background: v.$color-primary-hover;
+}
+
+/* =========================================================
+   BOTTOM NOTE
+========================================================= */
+
+.login-page .auth__text {
+  margin-top: -2px;
+  font-size: 14px;
+  font-weight: 500;
+  color: v.$color-text;
+}
+
+.login-page .auth__text a {
+  margin-left: 2px;
+}
+
+/* =========================================================
+   LEFT VISUAL TEXT / DOTS
+========================================================= */
+
+.login-page .auth__visual-shape img {
+  object-fit: fill;
+}
+
+.login-page .auth__visual-inner {
+  padding: 60px 0 28px;
+  justify-content: flex-start;
+}
+
+.login-page .auth__visual-media {
+  width: min(67.35%, 843px);
+  max-width: 843px;
+  margin-top: 22px;
+  margin-left: 12.8%;
+  margin-right: auto;
+}
+
+.login-page .auth__visual-media img {
+  width: 100%;
+  max-height: min(56vh, 614px);
+  margin: 0 auto;
+  object-fit: contain;
+}
+
+.login-page .auth__visual-text {
+  width: min(58.72%, 735px);
+  max-width: calc(100% - 40px);
+  margin-top: 30px;
+  margin-left: 17.1%;
+  margin-right: auto;
+}
+
+.login-page .auth__visual-title {
+  font-size: clamp(24px, 2.3vw, 40px);
+  line-height: 1.12;
+  white-space: normal;
+  text-wrap: balance;
+  overflow-wrap: break-word;
+}
+
+.login-page .auth__visual-desc {
+  margin-top: 10px;
+  font-size: clamp(14px, 1.1vw, 16px);
+  line-height: 1.45;
+}
+
+.login-page .login-dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.login-page .login-dots__item {
+  width: 10px;
+  height: 10px;
+  border-radius: 9999px;
+  background: rgba(86, 128, 249, 0.35);
+}
+
+.login-page .login-dots__item--active {
+  background: v.$color-text-secondary;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@include m.max-lg {
+  .login-page .auth {
+    grid-template-columns: 1fr;
+  }
+
+  .login-page .auth__content {
+    justify-content: center;
+    padding: 80px 24px 24px;
+  }
+
+  .login-page .auth__visual-inner {
+    padding: 32px 28px 20px;
+  }
+
+  .login-page .auth__visual-media {
+    width: min(100%, 540px);
+    max-width: 540px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .login-page .auth__visual-text {
+    width: min(100%, 620px);
+    max-width: calc(100% - 24px);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .login-page .auth__visual-title {
+    font-size: 32px;
+    text-wrap: balance;
+  }
+
+  .login-page .card__header {
+    padding: 36px 28px 0;
+  }
+
+  .login-page .card__body,
+  .login-page .card__footer {
+    padding-left: 28px;
+    padding-right: 28px;
+    padding-bottom: 32px;
+  }
+
+  .login-page .auth__logo {
+    margin-bottom: 24px;
+  }
+
+  .login-page .auth__form .input,
+  .login-page .auth__form .input-password .input,
+  .login-page .input-password,
+  .login-page .form-inline,
+  .login-page .auth__form .btn--primary {
+    width: 100%;
+  }
+}
+
+@include m.max-md {
+  .login-page .card__header {
+    padding: 32px 20px 0;
+  }
+
+  .login-page .card__body,
+  .login-page .card__footer {
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-bottom: 24px;
+  }
+
+  .login-page .auth__logo {
+    margin-bottom: 20px;
+  }
+
+  .login-page .auth__title {
+    margin-bottom: 24px;
+    font-size: 20px;
+  }
+
+  .login-page .auth__form .input,
+  .login-page .auth__form .input-password .input,
+  .login-page .auth__form .btn--primary {
+    height: 52px;
+    min-height: 52px;
+  }
+
+  .login-page .form-inline {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+}
+
+@include m.max-sm {
+  .login-page .card__header {
+    padding: 28px 16px 0;
+  }
+
+  .login-page .card__body,
+  .login-page .card__footer {
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-bottom: 20px;
+  }
+
+  .login-page .auth__logo img {
+    width: 190px;
+  }
+
+  .login-page .auth__title {
+    font-size: 18px;
+  }
+
+  .login-page .auth__form .input,
+  .login-page .auth__form .input-password .input,
+  .login-page .auth__form .btn--primary {
+    height: 48px;
+    min-height: 48px;
+    font-size: 14px;
+  }
+
+  .login-page .form-check__label,
+  .login-page .auth__link,
+  .login-page .auth__text {
+    font-size: 13px;
+  }
+}

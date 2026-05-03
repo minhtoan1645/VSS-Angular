@@ -1,0 +1,217 @@
+@use '../abstracts/variables' as v;
+@use '../abstracts/mixins' as m;
+
+/* =========================================================
+   TYPOGRAPHY
+========================================================= */
+
+/* Base text */
+body {
+  font-family: v.$font-family-primary;
+  font-size: v.$font-size-md;
+  font-weight: v.$font-weight-regular;
+  line-height: v.$line-height-base;
+  color: v.$color-text;
+}
+
+/* Headings */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: v.$font-family-heading;
+  font-weight: v.$font-weight-bold;
+  line-height: v.$line-height-tight;
+  color: v.$color-text;
+}
+
+h1 {
+  font-size: v.$font-size-lg;
+
+  @include m.lg {
+    font-size: v.$font-size-xl;
+  }
+}
+
+h2 {
+  font-size: v.$font-size-lg;
+}
+
+h3 {
+  font-size: v.$font-size-md;
+  font-weight: v.$font-weight-bold;
+}
+
+h4 {
+  font-size: v.$font-size-md;
+  font-weight: v.$font-weight-semibold;
+}
+
+h5 {
+  font-size: v.$font-size-sm;
+  font-weight: v.$font-weight-semibold;
+}
+
+h6 {
+  font-size: v.$font-size-sm;
+  font-weight: v.$font-weight-medium;
+}
+
+/* Paragraph */
+p {
+  font-size: v.$font-size-md;
+  font-weight: v.$font-weight-regular;
+  line-height: v.$line-height-base;
+  color: v.$color-text;
+}
+
+/* Small text */
+small {
+  font-size: v.$font-size-sm;
+  line-height: v.$line-height-base;
+  color: v.$color-text;
+}
+
+/* Strong / emphasis */
+strong,
+b {
+  font-weight: v.$font-weight-bold;
+}
+
+em,
+i {
+  font-style: italic;
+}
+
+/* =========================================================
+   LINK STYLES
+========================================================= */
+
+a {
+  font-size: inherit;
+  font-weight: v.$font-weight-medium;
+  color: v.$color-text-secondary;
+  transition: v.$transition-fast;
+
+  &:hover {
+    color: v.$color-primary;
+  }
+}
+
+/* =========================================================
+   COMMON TEXT UTILITIES
+========================================================= */
+
+.text-xs {
+  font-size: v.$font-size-sm;
+}
+
+.text-sm {
+  font-size: v.$font-size-sm;
+}
+
+.text-md {
+  font-size: v.$font-size-md;
+}
+
+.text-lg {
+  font-size: v.$font-size-lg;
+}
+
+.text-xl {
+  font-size: v.$font-size-xl;
+}
+
+.text-regular {
+  font-weight: v.$font-weight-regular;
+}
+
+.text-medium {
+  font-weight: v.$font-weight-medium;
+}
+
+.text-semibold {
+  font-weight: v.$font-weight-semibold;
+}
+
+.text-bold {
+  font-weight: v.$font-weight-bold;
+}
+
+.text-primary {
+  color: v.$color-primary;
+}
+
+.text-secondary {
+  color: v.$color-text-secondary;
+}
+
+.text-muted {
+  color: v.$color-text-placeholder;
+}
+
+.text-white {
+  color: v.$color-white;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+/* =========================================================
+   PROJECT-SPECIFIC TYPOGRAPHY TOKENS
+========================================================= */
+
+/* Big slogan on auth visual */
+.heading-hero {
+  font-size: v.$font-size-lg;
+  font-weight: v.$font-weight-bold;
+  line-height: v.$line-height-tight;
+  color: v.$color-text-secondary;
+
+  @include m.lg {
+    font-size: v.$font-size-xl;
+  }
+}
+
+/* Main title inside auth card */
+.heading-auth {
+  font-size: v.$font-size-lg;
+  font-weight: v.$font-weight-bold;
+  line-height: v.$line-height-tight;
+  color: v.$color-primary;
+}
+
+/* Description text under auth titles */
+.text-auth-desc {
+  font-size: v.$font-size-md;
+  font-weight: v.$font-weight-regular;
+  line-height: v.$line-height-base;
+  color: v.$color-text;
+}
+
+/* Small helper text */
+.text-helper {
+  font-size: v.$font-size-sm;
+  font-weight: v.$font-weight-regular;
+  line-height: v.$line-height-base;
+  color: v.$color-text-placeholder;
+}
+
+/* Table / dashboard text */
+.text-table {
+  font-size: v.$font-size-sm;
+  font-weight: v.$font-weight-medium;
+  line-height: v.$line-height-base;
+  color: v.$color-text;
+}

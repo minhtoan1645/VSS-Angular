@@ -1,0 +1,152 @@
+<div class="auth__card">
+  <app-card cardClass="card--auth">
+    <div class="card__header">
+      <div class="auth__logo">
+        <img src="assets/images/logo/Group 16085.png" alt="VSS Chat Platform" />
+      </div>
+
+      <div class="auth__header">
+        <h2 class="auth__title">Đăng ký trải nghiệm</h2>
+      </div>
+    </div>
+
+    <div class="card__body">
+      <div class="auth__form">
+        <form class="form" [formGroup]="registerForm" (ngSubmit)="onSubmit()" novalidate>
+          <div class="form__body">
+            <div class="form-row form-row--2">
+              <div class="form-group">
+                <app-input
+                  id="first-name"
+                  name="firstName"
+                  label="Họ"
+                  placeholder="Nhập họ của bạn"
+                  autocomplete="family-name"
+                  [control]="registerForm.get('firstName')"
+                ></app-input>
+              </div>
+
+              <div class="form-group">
+                <app-input
+                  id="last-name"
+                  name="lastName"
+                  label="Tên"
+                  placeholder="Nhập tên của bạn"
+                  autocomplete="given-name"
+                  [control]="registerForm.get('lastName')"
+                ></app-input>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <app-input
+                id="work-email"
+                type="email"
+                name="workEmail"
+                label="Email làm việc"
+                placeholder="Nhập email làm việc"
+                autocomplete="email"
+                [control]="workEmailControl"
+              ></app-input>
+              <p *ngIf="workEmailControl?.hasError('required') && workEmailControl?.touched" class="form-group__error">
+                Email là bắt buộc.
+              </p>
+              <p *ngIf="workEmailControl?.hasError('email') && workEmailControl?.touched" class="form-group__error">
+                Email không đúng định dạng.
+              </p>
+            </div>
+
+            <div class="form-row form-row--2">
+              <div class="form-group">
+                <app-input
+                  id="company-name"
+                  name="companyName"
+                  label="Tên công ty"
+                  placeholder="Nhập tên công ty"
+                  autocomplete="organization"
+                  [control]="registerForm.get('companyName')"
+                ></app-input>
+              </div>
+
+              <div class="form-group">
+                <label class="visually-hidden" for="country">Quốc gia</label>
+                <div class="form-select register-form__select">
+                  <select id="country" formControlName="country">
+                    <option value="" disabled>Quốc gia</option>
+                    <option *ngFor="let country of countries" [value]="country">{{ country }}</option>
+                  </select>
+                  <span class="form-select__icon" aria-hidden="true">
+                    <svg viewBox="0 0 16 16">
+                      <path
+                        d="M3.5 5.75 8 10.25l4.5-4.5"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="1.5"
+                      />
+                    </svg>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="visually-hidden" for="industry">Lĩnh vực</label>
+              <div class="form-select register-form__select">
+                <select id="industry" formControlName="industry">
+                  <option value="" disabled>Nhập lĩnh vực</option>
+                  <option *ngFor="let industry of industries" [value]="industry">{{ industry }}</option>
+                </select>
+                <span class="form-select__icon" aria-hidden="true">
+                  <svg viewBox="0 0 16 16">
+                    <path
+                      d="M3.5 5.75 8 10.25l4.5-4.5"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="1.5"
+                    />
+                  </svg>
+                </span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <app-input
+                id="job-title"
+                name="jobTitle"
+                label="Vị trí làm việc"
+                placeholder="Vị trí làm việc"
+                autocomplete="organization-title"
+                [control]="registerForm.get('jobTitle')"
+              ></app-input>
+            </div>
+
+            <div class="form-group">
+              <app-input
+                id="purpose"
+                name="purpose"
+                label="Mục đích"
+                placeholder="Mục đích bạn đến với website"
+                [control]="registerForm.get('purpose')"
+              ></app-input>
+            </div>
+          </div>
+
+          <div class="form__footer">
+            <div class="form__actions form__actions--block">
+              <app-button type="submit" buttonClass="btn btn--primary btn--block btn--md" label="Đăng ký"></app-button>
+            </div>
+
+            <p class="auth__text">
+              Bạn đã có tài khoản?
+              <a routerLink="/login">Đăng nhập</a>
+            </p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </app-card>
+</div>

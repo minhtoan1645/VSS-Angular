@@ -1,0 +1,18 @@
+<header class="dashboard-header">
+  <div class="dashboard-header__tab">
+    <img [src]="iconSrc" alt="" />
+    <span>{{ title }}</span>
+    <button type="button" aria-label="Đóng tab">×</button>
+  </div>
+
+  <div class="dashboard-header__actions">
+    <button class="dashboard-header__notification" type="button" aria-label="Thông báo">
+      <img src="assets/images/icons/notification.png" alt="" />
+      <span></span>
+    </button>
+    <div class="dashboard-header__avatar" aria-label="Tài khoản">
+      <span class="dashboard-header__avatar-photo"></span>
+      <span class="dashboard-header__avatar-status"></span>
+    </div>
+  </div>
+</header>

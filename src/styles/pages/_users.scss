@@ -1,0 +1,84 @@
+@use '../abstracts/variables' as v;
+@use '../abstracts/mixins' as m;
+
+/* =========================================================
+   USERS / PARTNERS PAGE
+========================================================= */
+
+.users-page {
+  min-height: 100vh;
+  background: v.$color-white;
+}
+
+.users-page__header {
+  margin-bottom: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.users-page__header h1 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: v.$color-heading;
+}
+
+.users-page__actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.users-page__button {
+  min-height: 32px;
+  padding: 0 14px;
+  gap: 9px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.users-page__button img {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+}
+
+.users-page__button.btn--outline {
+  color: v.$color-primary;
+  border-color: v.$color-primary;
+  background: v.$color-white;
+}
+
+.users-page__button.btn--outline:hover {
+  color: v.$color-primary;
+  border-color: v.$color-primary;
+  background: v.$color-white;
+}
+
+.users-page__button.btn--outline img {
+  filter: brightness(0) saturate(100%) invert(14%) sepia(89%) saturate(6776%) hue-rotate(340deg) brightness(94%) contrast(104%);
+}
+
+.users-page__button.btn--primary {
+  color: v.$color-white;
+  background: v.$color-primary;
+}
+
+.users-page__button.btn--primary img {
+  filter: brightness(0) invert(1);
+}
+
+@include m.max-md {
+  .users-page__header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .users-page__actions {
+    display: none;
+  }
+}

@@ -1,0 +1,54 @@
+<aside class="sidebar" aria-label="Menu chính">
+  <a class="sidebar__brand" routerLink="/users" aria-label="VSS Chat Platform">
+    <img src="assets/images/logo/Group 16086.png" alt="" />
+  </a>
+
+  <nav class="sidebar__nav" aria-label="Menu module">
+    <ng-container *ngFor="let item of mainNavItems">
+      <a
+        *ngIf="item.route; else staticMainItem"
+        class="sidebar__icon"
+        [class.sidebar__icon--active]="isMainItemActive(item)"
+        [routerLink]="item.route"
+        [attr.aria-label]="item.label"
+      >
+        <img [src]="item.icon" alt="" />
+      </a>
+
+      <ng-template #staticMainItem>
+        <span class="sidebar__icon" [attr.aria-label]="item.label">
+          <img [src]="item.icon" alt="" />
+        </span>
+      </ng-template>
+    </ng-container>
+  </nav>
+
+  <button class="sidebar__collapse" type="button" aria-label="Thu gọn menu">
+    <img src="assets/images/icons/arrow-right.png" alt="" />
+  </button>
+</aside>
+
+<aside class="section-sidebar" aria-label="Menu quản trị">
+  <h2>{{ sectionTitle }}</h2>
+
+  <nav class="section-sidebar__nav">
+    <ng-container *ngFor="let item of sectionItems">
+      <a
+        *ngIf="item.route; else disabledSectionItem"
+        class="section-sidebar__item"
+        [class.section-sidebar__item--active]="isSectionItemActive(item)"
+        [routerLink]="item.route"
+      >
+        <img [src]="item.icon" alt="" />
+        <span>{{ item.label }}</span>
+      </a>
+
+      <ng-template #disabledSectionItem>
+        <span class="section-sidebar__item">
+          <img [src]="item.icon" alt="" />
+          <span>{{ item.label }}</span>
+        </span>
+      </ng-template>
+    </ng-container>
+  </nav>
+</aside>

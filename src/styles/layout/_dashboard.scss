@@ -1,0 +1,51 @@
+@use '../abstracts/variables' as v;
+@use '../abstracts/mixins' as m;
+
+/* =========================================================
+   DASHBOARD LAYOUT
+========================================================= */
+
+.dashboard-shell {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 50px 220px minmax(0, 1fr);
+  grid-template-rows: 44px minmax(0, 1fr);
+  background: v.$color-white;
+}
+
+.dashboard-content {
+  grid-column: 3;
+  grid-row: 2;
+  min-width: 0;
+  padding: 22px 20px 28px;
+  background: v.$color-white;
+}
+
+@include m.max-xl {
+  .dashboard-shell {
+    grid-template-columns: 50px 208px minmax(0, 1fr);
+  }
+
+  .dashboard-content {
+    padding: 20px 16px 26px;
+  }
+}
+
+@include m.max-lg {
+  .dashboard-shell {
+    grid-template-columns: 50px 190px minmax(0, 1fr);
+  }
+}
+
+@include m.max-md {
+  .dashboard-shell {
+    grid-template-columns: 50px minmax(0, 1fr);
+    grid-template-rows: 44px minmax(0, 1fr);
+  }
+
+  .dashboard-content {
+    grid-column: 2;
+    grid-row: 2;
+    padding: 20px 16px 28px;
+  }
+}

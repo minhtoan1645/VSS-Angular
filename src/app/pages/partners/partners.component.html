@@ -1,0 +1,143 @@
+<div class="users-page">
+  <section class="users-page__header">
+    <h1>Danh sách đối tác ({{ totalPartners }})</h1>
+
+    <div class="users-page__actions">
+      <app-button
+        buttonClass="btn btn--outline users-page__button"
+        label="Xuất danh sách"
+        iconSrc="assets/images/icons/export.png"
+      ></app-button>
+      <app-button
+        buttonClass="btn btn--primary users-page__button"
+        label="Thêm đối tác"
+        iconSrc="assets/images/icons/Plus.png"
+      ></app-button>
+    </div>
+  </section>
+
+  <section class="data-card" aria-label="Bảng danh sách đối tác">
+    <form class="data-table-wrap" [formGroup]="filterForm">
+      <table class="data-table">
+        <thead>
+          <tr class="data-table__head-row">
+            <th scope="col">STT</th>
+            <th scope="col">Tên</th>
+            <th scope="col">Email</th>
+            <th scope="col">Số điện thoại</th>
+            <th scope="col">Lĩnh vực</th>
+            <th scope="col">Gói sử dụng</th>
+            <th scope="col">Trạng thái</th>
+            <th scope="col">Hạn sử dụng</th>
+            <th scope="col"></th>
+          </tr>
+          <tr class="data-table__filter-row">
+            <th>
+              <button class="table-sort" type="button" aria-label="Sắp xếp STT">
+                <img src="assets/images/icons/default.png" alt="" />
+              </button>
+            </th>
+            <th>
+              <label class="search-field search-field--table">
+                <img src="assets/images/icons/Search.png" alt="" aria-hidden="true" />
+                <input formControlName="name" type="search" placeholder="Tìm kiếm" />
+              </label>
+            </th>
+            <th>
+              <label class="search-field search-field--table">
+                <img src="assets/images/icons/Search.png" alt="" aria-hidden="true" />
+                <input formControlName="email" type="search" placeholder="Tìm kiếm" />
+              </label>
+            </th>
+            <th>
+              <label class="search-field search-field--table">
+                <img src="assets/images/icons/Search.png" alt="" aria-hidden="true" />
+                <input formControlName="phone" type="search" placeholder="Tìm kiếm" />
+              </label>
+            </th>
+            <th>
+              <select class="table-filter" formControlName="industry" aria-label="Lọc lĩnh vực">
+                <option *ngFor="let option of industryOptions" [value]="option">{{ option }}</option>
+              </select>
+            </th>
+            <th>
+              <select class="table-filter" formControlName="packageName" aria-label="Lọc gói sử dụng">
+                <option *ngFor="let option of packageOptions" [value]="option">{{ option }}</option>
+              </select>
+            </th>
+            <th>
+              <select class="table-filter" formControlName="status" aria-label="Lọc trạng thái">
+                <option *ngFor="let option of statusOptions" [value]="option">{{ option }}</option>
+              </select>
+            </th>
+            <th>
+              <div class="table-filter-group">
+                <select class="table-filter" formControlName="expiryYear" aria-label="Lọc hạn sử dụng">
+                  <option *ngFor="let option of expiryYearOptions" [value]="option">{{ option }}</option>
+                </select>
+                <button class="table-sort" type="button" aria-label="Sắp xếp hạn sử dụng">
+                  <img src="assets/images/icons/default.png" alt="" />
+                </button>
+              </div>
+            </th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let partner of partners; trackBy: trackByPartnerId">
+            <td>{{ partner.id }}</td>
+            <td>
+              <div class="partner-cell">
+                <span [class]="'avatar avatar--' + partner.avatarVariant">{{ partner.avatarText }}</span>
+                <span>{{ partner.name }}</span>
+              </div>
+            </td>
+            <td>{{ partner.email }}</td>
+            <td>{{ partner.phone }}</td>
+            <td>
+              <div class="badge-group">
+                <span *ngFor="let industry of getVisibleIndustries(partner)" class="badge badge--blue">
+                  {{ industry }}
+                </span>
+                <span *ngIf="getRemainingIndustries(partner) > 0" class="badge badge--count">
+                  +{{ getRemainingIndustries(partner) }}
+                </span>
+              </div>
+            </td>
+            <td><span [class]="getPackageBadgeClass(partner.packageName)">{{ partner.packageName }}</span></td>
+            <td>
+              <span [class]="getStatusClass(partner.status)">
+                <span></span>
+                {{ partner.status }}
+              </span>
+            </td>
+            <td>{{ partner.expiryDate }}</td>
+            <td>
+              <div class="table-actions">
+                <button type="button" [attr.aria-label]="'Sửa ' + partner.name">
+                  <img src="assets/images/icons/edit-2.png" alt="" />
+                </button>
+                <button type="button" [attr.aria-label]="'Khóa ' + partner.name">
+                  <img src="assets/images/icons/Lock.png" alt="" />
+                </button>
+                <button type="button" [attr.aria-label]="'Xóa ' + partner.name">
+                  <img src="assets/images/icons/trash.png" alt="" />
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </form>
+
+    <app-pagination
+      [currentPage]="pagination.currentPage"
+      [pageSize]="pagination.pageSize"
+      [totalItems]="pagination.totalItems"
+      [totalPages]="pagination.totalPages"
+      [pageSizeOptions]="pageSizeOptions"
+      (pageChange)="onPageChange($event)"
+      (pageSizeChange)="onPageSizeChange($event)"
+    ></app-pagination>
+  </section>
+</div>

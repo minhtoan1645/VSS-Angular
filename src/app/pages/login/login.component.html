@@ -1,0 +1,83 @@
+<div class="auth__card">
+  <app-card cardClass="card--auth">
+    <div class="card__header">
+      <div class="auth__logo">
+        <img src="assets/images/logo/Group 16085.png" alt="VSS Chat Platform" />
+      </div>
+
+      <div class="auth__header">
+        <h2 class="auth__title">Đăng nhập vào tài khoản của bạn</h2>
+      </div>
+    </div>
+
+    <div class="card__body">
+      <div class="auth__form">
+        <form class="form" [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
+          <div class="form__body">
+            <div class="form-group">
+              <app-input
+                id="login-email"
+                type="email"
+                name="email"
+                label="Email"
+                placeholder="Nhập tài khoản/email"
+                autocomplete="email"
+                [control]="emailControl"
+              ></app-input>
+              <p *ngIf="emailControl?.hasError('required') && emailControl?.touched" class="form-group__error">
+                Email là bắt buộc.
+              </p>
+              <p *ngIf="emailControl?.hasError('email') && emailControl?.touched" class="form-group__error">
+                Email không đúng định dạng.
+              </p>
+            </div>
+
+            <div class="form-group">
+              <app-input
+                id="login-password"
+                type="password"
+                name="password"
+                label="Mật khẩu"
+                placeholder="Nhập mật khẩu"
+                autocomplete="current-password"
+                wrapperClass="input-password"
+                [showToggle]="true"
+                [control]="passwordControl"
+              ></app-input>
+              <p *ngIf="passwordControl?.hasError('required') && passwordControl?.touched" class="form-group__error">
+                Mật khẩu là bắt buộc.
+              </p>
+              <p *ngIf="passwordControl?.hasError('minlength') && passwordControl?.touched" class="form-group__error">
+                Mật khẩu tối thiểu 6 ký tự.
+              </p>
+            </div>
+
+            <div class="form-inline">
+              <label class="form-check" for="remember">
+                <input class="form-check__input" id="remember" type="checkbox" formControlName="rememberMe" />
+                <span class="form-check__label">Lưu mật khẩu</span>
+              </label>
+
+              <a class="auth__link" routerLink="/forgot-password">Quên mật khẩu?</a>
+            </div>
+          </div>
+
+          <div class="form__footer">
+            <div class="form__actions form__actions--block">
+              <app-button
+                type="submit"
+                buttonClass="btn btn--primary btn--block btn--md"
+                label="Đăng nhập"
+              ></app-button>
+            </div>
+
+            <p class="auth__text">
+              Bạn chưa có tài khoản?
+              <a routerLink="/register">Đăng ký</a>
+            </p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </app-card>
+</div>

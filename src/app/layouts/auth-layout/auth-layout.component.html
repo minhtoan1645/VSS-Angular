@@ -1,0 +1,34 @@
+<div [ngClass]="pageClasses">
+  <main class="auth">
+    <section class="auth__visual" aria-label="Giới thiệu nền tảng">
+      <div class="auth__visual-shape">
+        <img src="assets/images/auth/Rectangle 9192.png" alt="" aria-hidden="true" />
+      </div>
+
+      <div class="auth__visual-inner">
+        <div class="auth__visual-media">
+          <img src="assets/images/auth/Group 18161.png" alt="Hệ thống quản lý chat đa nền tảng" />
+        </div>
+
+        <div class="auth__visual-text">
+          <h1 class="auth__visual-title">Hệ thống quản lý chat đa nền tảng</h1>
+          <p class="auth__visual-desc">Tiết kiệm thời gian tư vấn và chăm sóc khách hàng</p>
+
+          <div class="login-dots" aria-hidden="true">
+            <span class="login-dots__item login-dots__item--active"></span>
+            <span class="login-dots__item"></span>
+            <span class="login-dots__item"></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="auth__content">
+      <div class="auth__lang">
+        <img src="assets/images/icons/ChangeLanguage.png" alt="Chuyển ngôn ngữ" />
+      </div>
+
+      <router-outlet></router-outlet>
+    </section>
+  </main>
+</div>

@@ -1,0 +1,118 @@
+@use '../abstracts/variables' as v;
+
+/* =========================================================
+   BADGE
+========================================================= */
+
+.badge-group {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.badge {
+  min-height: 20px;
+  padding: 0 8px;
+  display: inline-flex;
+  align-items: center;
+  border-radius: 5px;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.badge--primary {
+  color: v.$color-primary;
+  background: rgba(238, 0, 51, 0.1);
+}
+
+.badge--secondary,
+.badge--info {
+  color: v.$color-text-secondary;
+  background: rgba(86, 128, 249, 0.1);
+}
+
+.badge--success {
+  color: v.$color-success;
+  background: rgba(34, 197, 94, 0.12);
+}
+
+.badge--warning {
+  color: #d97706;
+  background: rgba(245, 158, 11, 0.14);
+}
+
+.badge--muted {
+  color: v.$color-text;
+  background: rgba(141, 153, 187, 0.14);
+}
+
+.badge--blue {
+  color: v.$color-white;
+  background: v.$color-text-secondary;
+}
+
+.badge--count {
+  color: v.$color-text;
+  background: v.$color-surface-soft;
+}
+
+.badge--soft-success {
+  color: v.$color-success-text;
+  background: v.$color-success-soft;
+}
+
+.badge--soft-info {
+  color: v.$color-text-secondary;
+  background: v.$color-info-soft;
+}
+
+.badge--soft-danger {
+  color: v.$color-primary;
+  background: v.$color-danger-soft;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  max-width: 100%;
+  overflow: hidden;
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.status-badge span {
+  width: 7px;
+  height: 7px;
+  border-radius: v.$radius-full;
+}
+
+.status-badge--active {
+  color: v.$color-success-text;
+}
+
+.status-badge--active span {
+  background: v.$color-success-text;
+}
+
+.status-badge--warning {
+  color: v.$color-warning;
+}
+
+.status-badge--warning span {
+  background: v.$color-warning;
+}
+
+.status-badge--inactive,
+.status-badge--paused {
+  color: v.$color-text;
+}
+
+.status-badge--inactive span,
+.status-badge--paused span {
+  background: v.$color-text;
+}

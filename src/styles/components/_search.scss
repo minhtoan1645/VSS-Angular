@@ -1,0 +1,64 @@
+@use '../abstracts/variables' as v;
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+.search-field {
+  position: relative;
+  display: block;
+  width: 100%;
+}
+
+.search-field img {
+  position: absolute;
+  top: 50%;
+  left: 14px;
+  width: 16px;
+  height: 16px;
+  transform: translateY(-50%);
+  opacity: 0.72;
+  pointer-events: none;
+}
+
+.search-field input {
+  width: 100%;
+  min-height: 42px;
+  padding: 0 14px 0 40px;
+  border: 1px solid rgba(141, 153, 187, 0.34);
+  border-radius: 12px;
+  font-family: v.$font-family-primary;
+  font-size: 14px;
+  font-weight: 500;
+  color: v.$color-text;
+  background: v.$color-surface-alt;
+  outline: none;
+  transition:
+    border-color v.$transition-fast,
+    box-shadow v.$transition-fast,
+    background-color v.$transition-fast;
+}
+
+.search-field input::placeholder {
+  color: v.$color-text-placeholder;
+}
+
+.search-field input:focus {
+  border-color: v.$color-text-secondary;
+  background: v.$color-white;
+  box-shadow: 0 0 0 3px rgba(86, 128, 249, 0.1);
+}
+
+.search-field--table img {
+  left: 7px;
+  width: 13px;
+  height: 13px;
+}
+
+.search-field--table input {
+  min-height: 26px;
+  padding: 0 7px 0 25px;
+  border-radius: 4px;
+  font-size: 11px;
+  background: v.$color-white;
+}

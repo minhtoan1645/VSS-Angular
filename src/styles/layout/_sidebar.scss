@@ -1,0 +1,175 @@
+@use '../abstracts/variables' as v;
+@use '../abstracts/mixins' as m;
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.sidebar {
+  position: sticky;
+  top: 0;
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  width: 50px;
+  height: 100vh;
+  padding: 7px 0 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: v.$color-white;
+  border-right: 1px solid rgba(141, 153, 187, 0.18);
+  box-shadow: 10px 0 22px rgba(86, 128, 249, 0.13);
+  z-index: 2;
+}
+
+.sidebar__brand {
+  width: 50px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sidebar__brand img {
+  width: 44px;
+  height: auto;
+  object-fit: contain;
+}
+
+.sidebar__nav {
+  width: 100%;
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+}
+
+.sidebar__icon {
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  background: transparent;
+}
+
+.sidebar__icon img {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  opacity: 0.62;
+}
+
+.sidebar__icon--active {
+  background: v.$color-primary-light;
+}
+
+.sidebar__icon--active img {
+  opacity: 1;
+  filter: brightness(0) saturate(100%) invert(14%) sepia(89%) saturate(6776%) hue-rotate(340deg) brightness(94%) contrast(104%);
+}
+
+.sidebar__collapse {
+  width: 20px;
+  height: 20px;
+  margin-top: auto;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid v.$color-border;
+  border-radius: 6px;
+  background: v.$color-white;
+  cursor: pointer;
+}
+
+.sidebar__collapse img {
+  width: 14px;
+  height: 14px;
+  object-fit: contain;
+  opacity: 0.72;
+}
+
+.section-sidebar {
+  grid-column: 2;
+  grid-row: 2;
+  min-width: 0;
+  height: calc(100vh - 44px);
+  background: v.$color-surface-muted;
+  border-right: 1px solid rgba(141, 153, 187, 0.16);
+  z-index: 1;
+}
+
+.section-sidebar h2 {
+  height: 58px;
+  margin: 0;
+  padding: 0 18px;
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: v.$color-heading;
+}
+
+.section-sidebar__nav {
+  display: flex;
+  flex-direction: column;
+}
+
+.section-sidebar__item {
+  height: 52px;
+  padding: 0 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: v.$color-text;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.section-sidebar__item img {
+  width: 17px;
+  height: 17px;
+  object-fit: contain;
+  opacity: 0.72;
+}
+
+.section-sidebar__item--active {
+  color: v.$color-primary;
+  background: v.$color-white;
+}
+
+.section-sidebar__item:hover {
+  color: v.$color-text;
+}
+
+.section-sidebar__item--active:hover {
+  color: v.$color-primary;
+}
+
+.section-sidebar__item--active img {
+  opacity: 1;
+  filter: brightness(0) saturate(100%) invert(14%) sepia(89%) saturate(6776%) hue-rotate(340deg) brightness(94%) contrast(104%);
+}
+
+@include m.max-xl {
+  .section-sidebar h2,
+  .section-sidebar__item {
+    padding-right: 20px;
+    padding-left: 20px;
+  }
+}
+
+@include m.max-md {
+  .sidebar {
+    grid-row: 1;
+  }
+
+  .section-sidebar {
+    display: none;
+  }
+}

@@ -1,0 +1,51 @@
+@use '../abstracts/variables' as v;
+@use '../abstracts/mixins' as m;
+
+/* =========================================================
+   AVATAR
+========================================================= */
+
+.avatar {
+  @include m.flex-center;
+  width: 26px;
+  height: 26px;
+  flex: 0 0 26px;
+  border-radius: v.$radius-full;
+  background: rgba(86, 128, 249, 0.12);
+  color: v.$color-text-secondary;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.avatar--sm {
+  width: 28px;
+  height: 28px;
+  flex-basis: 28px;
+  font-size: 12px;
+}
+
+.avatar--green {
+  background: rgba(34, 197, 94, 0.12);
+  color: v.$color-success;
+}
+
+.avatar--red {
+  background: rgba(238, 0, 51, 0.1);
+  color: v.$color-primary;
+}
+
+.avatar--purple {
+  color: v.$color-white;
+  background: #a2719e;
+}
+
+.avatar--brown {
+  color: v.$color-white;
+  background: #a7655b;
+}
+
+.avatar--pink {
+  color: v.$color-white;
+  background: #d858bf;
+}

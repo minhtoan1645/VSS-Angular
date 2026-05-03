@@ -1,1 +1,29 @@
-/* You can add global styles to this file, and also import other style files */
+@use './styles/abstracts/variables';
+@use './styles/abstracts/breakpoints';
+@use './styles/abstracts/mixins';
+
+@use './styles/base/reset';
+@use './styles/base/global';
+@use './styles/base/typography';
+
+@use './styles/components/button';
+@use './styles/components/input';
+@use './styles/components/form';
+@use './styles/components/card';
+@use './styles/components/search';
+@use './styles/components/avatar';
+@use './styles/components/badge';
+@use './styles/components/table';
+
+@use './styles/layout/auth';
+@use './styles/layout/dashboard';
+@use './styles/layout/sidebar';
+@use './styles/layout/header';
+
+@use './styles/pages/auth-flow';
+@use './styles/pages/forgot-password';
+@use './styles/pages/verify-code';
+@use './styles/pages/reset-password';
+@use './styles/pages/login';
+@use './styles/pages/register';
+@use './styles/pages/users';

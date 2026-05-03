@@ -1,0 +1,108 @@
+@use '../abstracts/variables' as v;
+@use '../abstracts/mixins' as m;
+
+/* =========================================================
+   AUTH FLOW SHARED
+========================================================= */
+
+.auth-flow__topbar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 70px;
+  padding: 16px 24px;
+  background: v.$color-primary;
+}
+
+.auth-flow__topbar-title {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: v.$color-white;
+  text-align: center;
+}
+
+.auth-flow__back {
+  position: absolute;
+  top: 50%;
+  left: 24px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transform: translateY(-50%);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.5;
+  color: v.$color-white;
+}
+
+.auth-flow__back:hover {
+  color: v.$color-white;
+  opacity: 0.92;
+}
+
+.auth-flow__back-icon {
+  font-size: 28px;
+  line-height: 1;
+}
+
+.auth-flow__illustration {
+  display: flex;
+  justify-content: center;
+}
+
+.auth-flow__illustration img {
+  width: 168px;
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+.auth-flow__content {
+  width: min(100%, 398px);
+  margin: 0 auto;
+}
+
+.auth-flow__desc {
+  width: 100%;
+  margin: 0;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+  text-align: left;
+  color: v.$color-text;
+}
+
+@include m.max-md {
+  .auth-flow__topbar {
+    min-height: 64px;
+    padding: 14px 20px;
+  }
+
+  .auth-flow__topbar-title {
+    font-size: 18px;
+  }
+
+  .auth-flow__back {
+    left: 16px;
+    font-size: 12px;
+  }
+
+  .auth-flow__back-icon {
+    font-size: 24px;
+  }
+
+  .auth-flow__illustration {
+    margin-bottom: 20px;
+  }
+
+  .auth-flow__illustration img {
+    width: 148px;
+  }
+
+  .auth-flow__desc {
+    font-size: 13px;
+  }
+}

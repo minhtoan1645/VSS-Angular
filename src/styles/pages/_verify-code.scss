@@ -1,0 +1,175 @@
+@use '../abstracts/variables' as v;
+@use '../abstracts/mixins' as m;
+
+/* =========================================================
+   VERIFY CODE PAGE
+========================================================= */
+
+.verify-code-page {
+  min-height: 100vh;
+}
+
+.login-page.verify-code-page .auth__card {
+  width: min(100%, 492px);
+}
+
+.login-page.verify-code-page .card--auth {
+  min-height: auto;
+}
+
+.login-page.verify-code-page .card__header {
+  padding: 24px 36px 0;
+}
+
+.login-page.verify-code-page .card__body {
+  padding: 18px 36px 40px;
+}
+
+.login-page.verify-code-page .auth__header {
+  gap: 0;
+}
+
+.login-page.verify-code-page .auth-flow__body {
+  padding-top: 18px;
+}
+
+.auth-flow__illustration--verify img {
+  width: 188px;
+}
+
+.auth-flow__content--verify {
+  width: min(100%, 464px);
+}
+
+.login-page.verify-code-page .auth-flow__header {
+  width: 100%;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.login-page.verify-code-page .auth__title.auth-flow__heading {
+  width: 100%;
+  margin: 0 0 8px;
+  color: v.$color-primary;
+  text-align: left;
+}
+
+.verify-code-page .auth-flow__desc {
+  max-width: 392px;
+  color: v.$color-black;
+}
+
+.login-page.verify-code-page .auth__form .form {
+  gap: 0;
+}
+
+.login-page.verify-code-page .auth__form .form__body {
+  gap: 0;
+}
+
+.login-page.verify-code-page .auth__form .form__footer {
+  gap: 0;
+  margin-top: 26px;
+}
+
+.auth-flow__code-row {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  max-width: 464px;
+}
+
+.login-page.verify-code-page .auth__form .auth-flow__code-input {
+  flex: 1 1 auto;
+  max-width: none;
+  height: 56px;
+  min-height: 56px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.auth-flow__resend {
+  flex: 0 0 124px;
+  min-height: 56px;
+  padding: 0 16px;
+  border: 1px solid v.$color-text-secondary;
+  border-left: 0;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: v.$color-text-secondary;
+  background: v.$color-white;
+}
+
+.auth-flow__resend:hover {
+  background: rgba(86, 128, 249, 0.04);
+  color: v.$color-text-secondary;
+}
+
+.login-page.verify-code-page .auth__form .btn--primary {
+  width: 100%;
+  max-width: 464px;
+  height: 48px;
+  min-height: 48px;
+}
+
+.login-page.verify-code-page .auth__form .auth-flow__submit:disabled,
+.login-page.verify-code-page .auth__form .auth-flow__submit.btn--disabled {
+  opacity: 1;
+  background: v.$color-disabled-blue;
+  color: v.$color-white;
+  pointer-events: none;
+}
+
+@include m.max-lg {
+  .login-page.verify-code-page .auth__card {
+    width: 100%;
+  }
+}
+
+@include m.max-md {
+  .login-page.verify-code-page .card__header {
+    padding: 24px 20px 0;
+  }
+
+  .login-page.verify-code-page .card__body {
+    padding: 18px 20px 28px;
+  }
+
+  .auth-flow__content--verify {
+    width: 100%;
+  }
+
+  .auth-flow__illustration--verify img {
+    width: 164px;
+  }
+
+  .login-page.verify-code-page .auth-flow__header {
+    margin-bottom: 20px;
+  }
+
+  .auth-flow__code-row {
+    flex-direction: column;
+    max-width: none;
+    gap: 12px;
+  }
+
+  .login-page.verify-code-page .auth__form .auth-flow__code-input {
+    border-radius: 8px;
+  }
+
+  .auth-flow__resend {
+    flex-basis: auto;
+    width: 100%;
+    min-height: 48px;
+    border-left: 1px solid v.$color-text-secondary;
+    border-radius: 8px;
+  }
+
+  .login-page.verify-code-page .auth__form .btn--primary {
+    max-width: none;
+  }
+}

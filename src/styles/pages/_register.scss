@@ -1,0 +1,345 @@
+@use '../abstracts/variables' as v;
+@use '../abstracts/mixins' as m;
+
+/* =========================================================
+   REGISTER PAGE
+========================================================= */
+
+.register-page {
+  min-height: 100vh;
+}
+
+.register-page .auth {
+  grid-template-columns: minmax(0, 1fr) minmax(500px, 560px);
+}
+
+.register-page .auth__visual {
+  background: v.$color-white;
+}
+
+.register-page .auth__visual-shape {
+  inset: 0 44px 0 0;
+}
+
+.register-page .auth__visual::after {
+  display: none;
+}
+
+.register-page .auth__content {
+  justify-content: flex-start;
+  padding: 88px 20px 24px 0;
+}
+
+.register-page .auth__card {
+  width: min(100%, 500px);
+  margin-left: -16px;
+}
+
+.register-page .card--auth {
+  padding: 0;
+  min-height: auto;
+}
+
+.register-page .card__header {
+  padding: 22px 28px 0;
+}
+
+.register-page .card__body {
+  padding: 0 28px 22px;
+}
+
+.register-page .auth__logo {
+  margin-bottom: 18px;
+}
+
+.register-page .auth__logo img {
+  width: 238px;
+}
+
+.register-page .auth__header {
+  gap: 0;
+}
+
+.register-page .auth__title {
+  width: 100%;
+  margin: 0 auto 18px;
+  font-size: 19px;
+}
+
+.register-page .auth__form .form {
+  gap: 0;
+}
+
+.register-page .auth__form .form__body {
+  gap: 10px;
+}
+
+.register-page .auth__form .form-row,
+.register-page .auth__form .form-row--2 {
+  gap: 8px;
+}
+
+.register-page .form-group {
+  gap: 0;
+}
+
+.register-page .auth__form .input,
+.register-page .auth__form .form-select select {
+  width: 100%;
+  height: 48px;
+  min-height: 48px;
+  padding: 0 16px;
+  border: 1px solid v.$color-border;
+  border-radius: 8px;
+  background: v.$color-white;
+  font-size: 14px;
+  font-weight: 500;
+  color: v.$color-text;
+}
+
+.register-page .auth__form .input::placeholder,
+.register-page .auth__form .form-select select:invalid {
+  color: v.$color-text-placeholder;
+}
+
+.register-page .auth__form .form-select select {
+  padding-right: 44px;
+}
+
+.register-page .auth__form .input:hover,
+.register-page .auth__form .form-select select:hover {
+  border-color: v.$color-text-secondary;
+}
+
+.register-page .auth__form .input:focus,
+.register-page .auth__form .form-select select:focus {
+  border-color: v.$color-text-secondary;
+  box-shadow: 0 0 0 3px rgba(86, 128, 249, 0.1);
+}
+
+.register-page .auth__form .form__footer {
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.register-page .auth__form .btn--primary {
+  width: 100%;
+  height: 44px;
+  min-height: 44px;
+  padding: 0 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.register-page .auth__text {
+  font-size: 13px;
+  font-weight: 500;
+  color: v.$color-text;
+}
+
+.register-page .auth__text a {
+  margin-left: 2px;
+}
+
+.register-page .form-select__icon {
+  color: v.$color-text-placeholder;
+}
+
+.register-page .form-select__icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.register-page .auth__visual-shape img {
+  object-fit: fill;
+}
+
+.register-page .auth__visual-inner {
+  padding: 60px 0 28px;
+  justify-content: flex-start;
+}
+
+.register-page .auth__visual-media {
+  width: min(67.35%, 843px);
+  max-width: 843px;
+  margin-top: 22px;
+  margin-left: 12.8%;
+  margin-right: auto;
+}
+
+.register-page .auth__visual-media img {
+  width: 100%;
+  max-height: min(56vh, 614px);
+  margin: 0 auto;
+  object-fit: contain;
+}
+
+.register-page .auth__visual-text {
+  width: min(58.72%, 735px);
+  max-width: calc(100% - 40px);
+  margin-top: 30px;
+  margin-left: 17.1%;
+  margin-right: auto;
+}
+
+.register-page .auth__visual-title {
+  font-size: clamp(24px, 2.3vw, 40px);
+  line-height: 1.12;
+  white-space: normal;
+  text-wrap: balance;
+  overflow-wrap: break-word;
+}
+
+.register-page .auth__visual-desc {
+  margin-top: 10px;
+  font-size: clamp(14px, 1.1vw, 16px);
+  line-height: 1.45;
+}
+
+.register-page .login-dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.register-page .login-dots__item {
+  width: 10px;
+  height: 10px;
+  border-radius: 9999px;
+  background: rgba(86, 128, 249, 0.35);
+}
+
+.register-page .login-dots__item--active {
+  background: v.$color-text-secondary;
+}
+
+@include m.max-xl {
+  .register-page .auth {
+    grid-template-columns: minmax(0, 1fr) minmax(480px, 540px);
+  }
+
+  .register-page .auth__content {
+    padding-top: 84px;
+    padding-right: 12px;
+  }
+
+  .register-page .card__header {
+    padding-left: 28px;
+    padding-right: 28px;
+  }
+
+  .register-page .card__body {
+    padding-left: 28px;
+    padding-right: 28px;
+  }
+
+  .register-page .auth__logo img {
+    width: 240px;
+  }
+}
+
+@include m.max-lg {
+  .register-page .auth {
+    grid-template-columns: 1fr;
+  }
+
+  .register-page .auth__content {
+    justify-content: center;
+    padding: 80px 24px 24px;
+  }
+
+  .register-page .auth__card {
+    width: 100%;
+    max-width: 500px;
+    margin-left: 0;
+  }
+
+  .register-page .auth__visual-inner {
+    padding: 32px 28px 20px;
+  }
+
+  .register-page .auth__visual-media {
+    width: min(100%, 540px);
+    max-width: 540px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .register-page .auth__visual-text {
+    width: min(100%, 620px);
+    max-width: calc(100% - 24px);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .register-page .auth__visual-title {
+    font-size: 32px;
+    text-wrap: balance;
+  }
+}
+
+@include m.max-md {
+  .register-page .card__header {
+    padding: 24px 20px 0;
+  }
+
+  .register-page .card__body {
+    padding: 0 20px 24px;
+  }
+
+  .register-page .auth__logo img {
+    width: 220px;
+  }
+
+  .register-page .auth__title {
+    margin-bottom: 18px;
+    font-size: 18px;
+  }
+
+  .register-page .auth__form .form__body {
+    gap: 12px;
+  }
+}
+
+@include m.max-sm {
+  .register-page .card__header {
+    padding: 28px 16px 0;
+  }
+
+  .register-page .card__body {
+    padding: 0 16px 24px;
+  }
+
+  .register-page .auth__logo img {
+    width: 190px;
+  }
+
+  .register-page .auth__title {
+    margin-bottom: 16px;
+    font-size: 18px;
+  }
+
+  .register-page .auth__form .form-row--2 {
+    grid-template-columns: 1fr;
+  }
+
+  .register-page .auth__form .input,
+  .register-page .auth__form .form-select select {
+    height: 48px;
+    min-height: 48px;
+  }
+
+  .register-page .auth__form .btn--primary {
+    height: 44px;
+    min-height: 44px;
+    font-size: 14px;
+  }
+
+  .register-page .auth__text {
+    font-size: 13px;
+  }
+}
