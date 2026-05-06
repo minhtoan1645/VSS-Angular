@@ -162,15 +162,6 @@ Mock data được tạo bằng TypeScript, không gọi backend và không có 
   - tính `totalPages = ceil(totalItems / pageSize)`
   - cắt mảng theo `slice(startIndex, startIndex + pageSize)`
 
-## Ghi chú chuyển đổi
 
-- Source static gốc được giữ trong thư mục `old-static/` để đối chiếu.
-- Source static chỉ có 6 page HTML và chỉ có 1 page dashboard tên `users.html`, nhưng nội dung thực tế là danh sách đối tác.
-- Vì route yêu cầu có cả `/users` và `/partners`, project Angular hiện tại tạo cả 2 page:
-  - `/partners` bám sát page dashboard gốc nhất
-  - `/users` dùng cùng visual/table system để mở rộng hợp lý
-- Static source gốc không có page chat riêng, nên chưa tạo `ChatService` hoặc `ChatItem`.
 
-## Tài liệu mentor
 
-- [docs/report-angular.md](docs/report-angular.md)
