@@ -249,7 +249,7 @@
 
   .register-page .auth__content {
     justify-content: center;
-    padding: 80px 24px 24px;
+    padding: 48px 24px 24px;
   }
 
   .register-page .auth__card {
@@ -283,6 +283,10 @@
 }
 
 @include m.max-md {
+  .register-page .auth__content {
+    padding: 32px 16px 16px;
+  }
+
   .register-page .card__header {
     padding: 24px 20px 0;
   }

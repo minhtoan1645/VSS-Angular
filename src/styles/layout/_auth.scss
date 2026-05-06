@@ -8,8 +8,11 @@
 .auth {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(569px, 668px);
+  width: 100%;
+  min-width: 0;
   min-height: 100vh;
   background: v.$color-white;
+  overflow: hidden;
 }
 
 /* =========================================================
@@ -96,6 +99,8 @@
 
 .auth__content {
   position: relative;
+  width: 100%;
+  min-width: 0;
   min-height: 100vh;
   background: v.$color-white;
   display: flex;
@@ -119,10 +124,13 @@
 }
 
 .auth__card {
-  width: 569px;
+  width: 100%;
+  max-width: 569px;
+  min-width: 0;
   display: flex;
   align-items: center;
   justify-content: center;
+  margin: 0 auto;
 }
 
 /* =========================================================
@@ -218,7 +226,9 @@
 
   .auth__content {
     min-height: 100vh;
-    padding: 96px 24px 40px;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 72px 24px 32px;
   }
 
   .auth__lang {
@@ -243,7 +253,7 @@
 
 @include m.max-md {
   .auth__content {
-    padding: 88px 16px 24px;
+    padding: 56px 16px 20px;
   }
 
   .auth__lang {

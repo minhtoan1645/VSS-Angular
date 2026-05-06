@@ -13,7 +13,9 @@
 }
 
 .card--auth {
-  width: 569px;
+  width: 100%;
+  max-width: 569px;
+  min-width: 0;
   min-height: 621px;
   background: v.$color-white;
   border: 1px solid rgba(141, 153, 187, 0.12);

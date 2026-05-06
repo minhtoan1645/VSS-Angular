@@ -7,7 +7,10 @@ import { DashboardSectionItem } from '../../models/dashboard-section-item.model'
 @Component({
   selector: 'app-dashboard-layout',
   templateUrl: './dashboard-layout.component.html',
-  styleUrls: ['./dashboard-layout.component.scss']
+  styleUrls: ['./dashboard-layout.component.scss'],
+  host: {
+    class: 'users-page'
+  }
 })
 export class DashboardLayoutComponent implements OnInit, OnDestroy {
   tabTitle = 'Người dùng';

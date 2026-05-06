@@ -294,7 +294,11 @@
 
   .login-page .auth__content {
     justify-content: center;
-    padding: 80px 24px 24px;
+    padding: 48px 24px 24px;
+  }
+
+  .login-page .auth__card {
+    margin-left: 0;
   }
 
   .login-page .auth__visual-inner {
@@ -345,6 +349,10 @@
 }
 
 @include m.max-md {
+  .login-page .auth__content {
+    padding: 32px 16px 16px;
+  }
+
   .login-page .card__header {
     padding: 32px 20px 0;
   }

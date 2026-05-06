@@ -16,6 +16,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 20px;
+  min-width: 0;
 }
 
 .users-page__header h1 {
@@ -30,6 +31,8 @@
   display: flex;
   align-items: center;
   gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
 
 .users-page__button {
@@ -70,6 +73,18 @@
 
 .users-page__button.btn--primary img {
   filter: brightness(0) invert(1);
+}
+
+@include m.max-lg {
+  .users-page__header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .users-page__actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
 }
 
 @include m.max-md {
