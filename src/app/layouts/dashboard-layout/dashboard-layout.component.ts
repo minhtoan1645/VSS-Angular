@@ -1,8 +1,17 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Data, NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import {
+  DASHBOARD_SECTION_ITEMS,
+  DEFAULT_DASHBOARD_SECTION_KEY,
+  DEFAULT_DASHBOARD_SECTION_TITLE,
+  DEFAULT_DASHBOARD_TAB_ICON,
+  DEFAULT_DASHBOARD_TAB_TITLE,
+  DashboardSectionKey
+} from '../../constants/dashboard.constants';
 import { DashboardSectionItem } from '../../models/dashboard-section-item.model';
+import { getDeepestRouteData } from '../../utils/route-data.util';
 
 @Component({
   selector: 'app-dashboard-layout',
@@ -13,9 +22,9 @@ import { DashboardSectionItem } from '../../models/dashboard-section-item.model'
   }
 })
 export class DashboardLayoutComponent implements OnInit, OnDestroy {
-  tabTitle = 'Người dùng';
-  tabIcon = 'assets/images/icons/tag-user.png';
-  sectionTitle = 'Người dùng';
+  tabTitle = DEFAULT_DASHBOARD_TAB_TITLE;
+  tabIcon = DEFAULT_DASHBOARD_TAB_ICON;
+  sectionTitle = DEFAULT_DASHBOARD_SECTION_TITLE;
   sectionItems: DashboardSectionItem[] = [];
 
   private readonly subscriptions = new Subscription();
@@ -39,62 +48,12 @@ export class DashboardLayoutComponent implements OnInit, OnDestroy {
   }
 
   private syncRouteData(): void {
-    let currentRoute = this.activatedRoute;
+    const data = getDeepestRouteData(this.activatedRoute);
+    const sectionKey: DashboardSectionKey = data.sectionKey === 'partners' ? 'partners' : DEFAULT_DASHBOARD_SECTION_KEY;
 
-    while (currentRoute.firstChild) {
-      currentRoute = currentRoute.firstChild;
-    }
-
-    const data: Data = currentRoute.snapshot.data;
-    const sectionKey = typeof data.sectionKey === 'string' ? data.sectionKey : 'users';
-
-    this.tabTitle = typeof data.tabTitle === 'string' ? data.tabTitle : 'Người dùng';
-    this.tabIcon = typeof data.tabIcon === 'string' ? data.tabIcon : 'assets/images/icons/tag-user.png';
-    this.sectionTitle = typeof data.sectionTitle === 'string' ? data.sectionTitle : 'Người dùng';
-    this.sectionItems = this.buildSectionItems(sectionKey);
-  }
-
-  private buildSectionItems(sectionKey: string): DashboardSectionItem[] {
-    if (sectionKey === 'partners') {
-      return [
-        {
-          key: 'partners',
-          label: 'Danh sách đối tác',
-          icon: 'assets/images/icons/tag-user.png',
-          route: '/partners'
-        },
-        {
-          key: 'users',
-          label: 'Danh sách người dùng',
-          icon: 'assets/images/icons/edit-2.png',
-          route: '/users'
-        },
-        {
-          key: 'analytics',
-          label: 'Phân tích',
-          icon: 'assets/images/icons/presention-chart.png'
-        }
-      ];
-    }
-
-    return [
-      {
-        key: 'users',
-        label: 'Danh sách người dùng',
-        icon: 'assets/images/icons/tag-user.png',
-        route: '/users'
-      },
-      {
-        key: 'partners',
-        label: 'Danh sách đối tác',
-        icon: 'assets/images/icons/edit-2.png',
-        route: '/partners'
-      },
-      {
-        key: 'analytics',
-        label: 'Phân tích',
-        icon: 'assets/images/icons/presention-chart.png'
-      }
-    ];
+    this.tabTitle = typeof data.tabTitle === 'string' ? data.tabTitle : DEFAULT_DASHBOARD_TAB_TITLE;
+    this.tabIcon = typeof data.tabIcon === 'string' ? data.tabIcon : DEFAULT_DASHBOARD_TAB_ICON;
+    this.sectionTitle = typeof data.sectionTitle === 'string' ? data.sectionTitle : DEFAULT_DASHBOARD_SECTION_TITLE;
+    this.sectionItems = DASHBOARD_SECTION_ITEMS[sectionKey];
   }
 }

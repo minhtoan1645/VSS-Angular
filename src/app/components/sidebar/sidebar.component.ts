@@ -1,12 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
+import { MAIN_NAV_ITEMS, MainNavItem } from '../../constants/dashboard.constants';
 import { DashboardSectionItem } from '../../models/dashboard-section-item.model';
-
-interface MainNavItem {
-  icon: string;
-  label: string;
-  route?: string;
-}
 
 @Component({
   selector: 'app-sidebar',
@@ -17,11 +12,7 @@ export class SidebarComponent {
   @Input() sectionTitle = 'Quản lý';
   @Input() sectionItems: DashboardSectionItem[] = [];
 
-  readonly mainNavItems: MainNavItem[] = [
-    { icon: 'assets/images/icons/messages-2.png', label: 'Hội thoại' },
-    { icon: 'assets/images/icons/tag-user.png', label: 'Quản lý', route: '/users' },
-    { icon: 'assets/images/icons/presention-chart.png', label: 'Phân tích' }
-  ];
+  readonly mainNavItems: MainNavItem[] = MAIN_NAV_ITEMS;
 
   constructor(private readonly router: Router) {}
 

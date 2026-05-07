@@ -1,7 +1,9 @@
 import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Data, NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { DEFAULT_AUTH_PAGE_CLASS } from '../../constants/app.constants';
+import { getDeepestRouteData } from '../../utils/route-data.util';
 
 @Component({
   selector: 'app-auth-layout',
@@ -9,7 +11,7 @@ import { filter } from 'rxjs/operators';
   styleUrls: ['./auth-layout.component.scss']
 })
 export class AuthLayoutComponent implements OnInit, OnDestroy {
-  pageClasses: string[] = ['login-page'];
+  pageClasses: string[] = [DEFAULT_AUTH_PAGE_CLASS];
   private readonly subscriptions = new Subscription();
 
   constructor(
@@ -36,13 +38,7 @@ export class AuthLayoutComponent implements OnInit, OnDestroy {
   }
 
   private syncRouteData(): void {
-    let currentRoute = this.activatedRoute;
-
-    while (currentRoute.firstChild) {
-      currentRoute = currentRoute.firstChild;
-    }
-
-    const data: Data = currentRoute.snapshot.data;
-    this.pageClasses = Array.isArray(data.pageClasses) ? data.pageClasses : ['login-page'];
+    const data = getDeepestRouteData(this.activatedRoute);
+    this.pageClasses = Array.isArray(data.pageClasses) ? data.pageClasses : [DEFAULT_AUTH_PAGE_CLASS];
   }
 }

@@ -24,42 +24,35 @@ const routes: Routes = [
         path: 'login',
         component: LoginComponent,
         data: {
-          pageClasses: ['login-page'],
-          authTitle: 'Đăng nhập',
-          authSubtitle: 'Đăng nhập vào tài khoản của bạn'
+          pageClasses: ['login-page']
         }
       },
       {
         path: 'register',
         component: RegisterComponent,
         data: {
-          pageClasses: ['register-page'],
-          authTitle: 'Đăng ký',
-          authSubtitle: 'Đăng ký trải nghiệm'
+          pageClasses: ['register-page']
         }
       },
       {
         path: 'forgot-password',
         component: ForgotPasswordComponent,
         data: {
-          pageClasses: ['login-page', 'forgot-password-page'],
-          authTitle: 'Quên mật khẩu'
+          pageClasses: ['login-page', 'forgot-password-page']
         }
       },
       {
         path: 'verify-code',
         component: VerifyCodeComponent,
         data: {
-          pageClasses: ['login-page', 'verify-code-page'],
-          authTitle: 'Xác thực mã'
+          pageClasses: ['login-page', 'verify-code-page']
         }
       },
       {
         path: 'reset-password',
         component: ResetPasswordComponent,
         data: {
-          pageClasses: ['login-page', 'reset-password-page'],
-          authTitle: 'Tạo mật khẩu mới'
+          pageClasses: ['login-page', 'reset-password-page']
         }
       }
     ]
@@ -100,4 +93,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
