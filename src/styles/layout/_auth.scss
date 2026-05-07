@@ -12,7 +12,7 @@
   min-width: 0;
   min-height: 100vh;
   background: v.$color-white;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 /* =========================================================
@@ -106,7 +106,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 120px 60px;
+  padding: 96px 40px 40px;
 }
 
 .auth__lang {
@@ -127,9 +127,6 @@
   width: 100%;
   max-width: 569px;
   min-width: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   margin: 0 auto;
 }
 
@@ -226,9 +223,9 @@
 
   .auth__content {
     min-height: 100vh;
-    align-items: flex-start;
     justify-content: center;
-    padding: 72px 24px 32px;
+    align-items: center;
+    padding: 72px 24px 24px;
   }
 
   .auth__lang {
@@ -252,22 +249,88 @@
 }
 
 @include m.max-md {
+  .auth {
+    grid-template-columns: 1fr !important;
+  }
+
+  .auth__visual {
+    display: none !important;
+  }
+
   .auth__content {
-    padding: 56px 16px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    min-height: 100vh;
+    padding: 16px 16px 24px !important;
+  }
+
+  .auth__content > .auth__lang,
+  .auth__content > app-login,
+  .auth__content > app-register,
+  .auth__content > app-forgot-password,
+  .auth__content > app-verify-code,
+  .auth__content > app-reset-password {
+    width: min(100%, 428px);
   }
 
   .auth__lang {
-    top: 16px;
-    right: 16px;
-    width: 132px;
-    height: auto;
+    position: static;
+    display: flex;
+    justify-content: flex-end;
+    align-self: center;
+    margin-bottom: 0;
+    width: 100%;
+    height: 30px;
+  }
+
+  .auth__card {
+    width: 100%;
+    max-width: 428px;
+    margin: 0 auto;
   }
 
   .auth__logo img {
-    width: 220px;
+    width: 228px;
   }
 
   .auth__title {
+    width: 100%;
     font-size: 22px;
+    line-height: 1.2;
+  }
+}
+
+@include m.max-sm {
+  .auth__content {
+    gap: 8px;
+    padding: 12px 12px 20px !important;
+  }
+
+  .auth__content > .auth__lang,
+  .auth__content > app-login,
+  .auth__content > app-register,
+  .auth__content > app-forgot-password,
+  .auth__content > app-verify-code,
+  .auth__content > app-reset-password {
+    width: min(100%, 400px);
+  }
+
+  .auth__lang {
+    height: 28px;
+  }
+
+  .auth__card {
+    max-width: 100%;
+  }
+
+  .auth__logo img {
+    width: 214px;
+  }
+
+  .auth__title {
+    font-size: 20px;
   }
 }

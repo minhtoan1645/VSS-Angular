@@ -117,6 +117,16 @@
   background: #4bd372;
 }
 
+@include m.max-lg {
+  .dashboard-header__tab {
+    display: none !important;
+  }
+
+  .dashboard-header {
+    padding: 0 14px;
+  }
+}
+
 @include m.max-md {
   .dashboard-header {
     grid-column: 2;
@@ -147,10 +157,5 @@
 @include m.max-lg {
   .dashboard-header {
     grid-column: 2;
-  }
-
-  .dashboard-header__tab {
-    width: auto;
-    min-width: 0;
   }
 }

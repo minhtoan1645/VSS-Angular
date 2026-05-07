@@ -26,13 +26,13 @@
 }
 
 .login-page .auth__content {
-  justify-content: flex-start;
-  padding: 88px 24px 32px 0;
+  justify-content: center;
+  padding: 88px 24px 32px;
 }
 
 .login-page .auth__card {
   width: min(100%, 492px);
-  margin-left: -34px;
+  margin-left: 0;
 }
 
 /* =========================================================
@@ -293,8 +293,8 @@
   }
 
   .login-page .auth__content {
-    justify-content: center;
-    padding: 48px 24px 24px;
+    justify-content: flex-start;
+    padding: 72px 24px 24px;
   }
 
   .login-page .auth__card {
@@ -350,63 +350,57 @@
 
 @include m.max-md {
   .login-page .auth__content {
-    padding: 32px 16px 16px;
+    padding: 16px 16px 24px !important;
   }
 
   .login-page .card__header {
-    padding: 32px 20px 0;
+    padding: 28px 20px 0;
   }
 
   .login-page .card__body,
   .login-page .card__footer {
     padding-left: 20px;
     padding-right: 20px;
-    padding-bottom: 24px;
+    padding-bottom: 22px;
   }
 
   .login-page .auth__logo {
-    margin-bottom: 20px;
+    margin-bottom: 18px;
   }
 
   .login-page .auth__title {
-    margin-bottom: 24px;
+    margin-bottom: 20px;
     font-size: 20px;
+  }
+
+  .login-page .auth__card {
+    margin-top: 0;
+  }
+
+  .login-page .auth__form .form__body {
+    gap: 12px;
+  }
+
+  .login-page .auth__form .form__footer {
+    gap: 12px;
+    margin-top: 14px;
   }
 
   .login-page .auth__form .input,
   .login-page .auth__form .input-password .input,
   .login-page .auth__form .btn--primary {
-    height: 52px;
-    min-height: 52px;
+    height: 50px;
+    min-height: 50px;
   }
 
   .login-page .form-inline {
     flex-direction: column;
     align-items: flex-start;
-    gap: 12px;
+    gap: 8px;
   }
 }
 
 @include m.max-sm {
-  .login-page .card__header {
-    padding: 28px 16px 0;
-  }
-
-  .login-page .card__body,
-  .login-page .card__footer {
-    padding-left: 16px;
-    padding-right: 16px;
-    padding-bottom: 20px;
-  }
-
-  .login-page .auth__logo img {
-    width: 190px;
-  }
-
-  .login-page .auth__title {
-    font-size: 18px;
-  }
-
   .login-page .auth__form .input,
   .login-page .auth__form .input-password .input,
   .login-page .auth__form .btn--primary {

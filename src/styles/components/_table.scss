@@ -8,7 +8,7 @@
 .data-card {
   width: 100%;
   min-width: 0;
-  overflow: visible;
+  overflow: hidden;
   background: v.$color-white;
   border: 0;
   border-radius: 0;
@@ -17,7 +17,10 @@
 
 .data-table-wrap {
   width: 100%;
+  max-width: 100%;
   overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
   border: 1px solid v.$color-border-subtle;
   border-radius: 4px;
   @include m.custom-scrollbar(8px, rgba(141, 153, 187, 0.35), transparent);
@@ -25,10 +28,10 @@
 
 .data-table {
   width: 100%;
-  min-width: 0;
+  min-width: 1180px;
   border-collapse: collapse;
   border-spacing: 0;
-  table-layout: fixed;
+  table-layout: auto;
 }
 
 .data-table th,
@@ -60,48 +63,49 @@
 
 .data-table th:nth-child(1),
 .data-table td:nth-child(1) {
-  width: 4%;
+  width: 56px;
+  min-width: 56px;
   text-align: center;
 }
 
 .data-table th:nth-child(2),
 .data-table td:nth-child(2) {
-  width: 15%;
+  min-width: 240px;
 }
 
 .data-table th:nth-child(3),
 .data-table td:nth-child(3) {
-  width: 15.5%;
+  min-width: 210px;
 }
 
 .data-table th:nth-child(4),
 .data-table td:nth-child(4) {
-  width: 10%;
+  min-width: 160px;
 }
 
 .data-table th:nth-child(5),
 .data-table td:nth-child(5) {
-  width: 20.5%;
+  min-width: 290px;
 }
 
 .data-table th:nth-child(6),
 .data-table td:nth-child(6) {
-  width: 9%;
+  min-width: 150px;
 }
 
 .data-table th:nth-child(7),
 .data-table td:nth-child(7) {
-  width: 9.5%;
+  min-width: 150px;
 }
 
 .data-table th:nth-child(8),
 .data-table td:nth-child(8) {
-  width: 9.5%;
+  min-width: 150px;
 }
 
 .data-table th:nth-child(9),
 .data-table td:nth-child(9) {
-  width: 7%;
+  min-width: 90px;
 }
 
 .data-table th {
@@ -218,7 +222,8 @@
 
 .partner-cell span:last-child {
   min-width: 0;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
+  word-break: normal;
 }
 
 .table-actions {
@@ -345,10 +350,6 @@
 }
 
 @include m.max-md {
-  .data-table {
-    min-width: 1200px;
-  }
-
   .table-footer {
     align-items: flex-start;
     flex-direction: column;
@@ -356,22 +357,20 @@
 
   .table-footer__right {
     width: 100%;
+    margin-left: 0;
     justify-content: space-between;
     flex-wrap: wrap;
   }
 }
 
 @include m.max-lg {
-  .data-table {
-    min-width: 1100px;
-  }
-
   .table-footer {
     gap: 14px;
   }
 
   .table-footer__right {
     width: 100%;
+    margin-left: 0;
     justify-content: space-between;
   }
 }

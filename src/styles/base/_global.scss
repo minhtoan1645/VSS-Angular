@@ -8,7 +8,6 @@
 html,
 body {
   width: 100%;
-  height: 100%;
   min-height: 100%;
 }
 
@@ -24,9 +23,23 @@ body {
 app-root {
   display: block;
   width: 100%;
-  min-height: 100%;
   min-height: 100vh;
+  min-width: 0;
   overflow-x: hidden;
+}
+
+app-auth-layout,
+app-dashboard-layout,
+app-login,
+app-register,
+app-forgot-password,
+app-verify-code,
+app-reset-password,
+app-users,
+app-partners {
+  display: block;
+  width: 100%;
+  min-width: 0;
 }
 
 /* Accessibility */

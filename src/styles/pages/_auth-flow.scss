@@ -77,12 +77,12 @@
 
 @include m.max-md {
   .auth-flow__topbar {
-    min-height: 64px;
-    padding: 14px 20px;
+    min-height: 56px;
+    padding: 12px 16px;
   }
 
   .auth-flow__topbar-title {
-    font-size: 18px;
+    font-size: 16px;
   }
 
   .auth-flow__back {
@@ -95,11 +95,11 @@
   }
 
   .auth-flow__illustration {
-    margin-bottom: 20px;
+    margin-bottom: 12px;
   }
 
   .auth-flow__illustration img {
-    width: 148px;
+    width: 132px;
   }
 
   .auth-flow__desc {

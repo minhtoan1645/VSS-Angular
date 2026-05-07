@@ -28,31 +28,31 @@
 }
 
 @mixin max-sm {
-  @media (max-width: calc(bp.$breakpoint-sm - 1px)) {
+  @media (max-width: #{bp.$breakpoint-sm - 1px}) {
     @content;
   }
 }
 
 @mixin max-md {
-  @media (max-width: calc(bp.$breakpoint-md - 1px)) {
+  @media (max-width: #{bp.$breakpoint-md - 1px}) {
     @content;
   }
 }
 
 @mixin max-lg {
-  @media (max-width: calc(bp.$breakpoint-lg - 1px)) {
+  @media (max-width: #{bp.$breakpoint-lg - 1px}) {
     @content;
   }
 }
 
 @mixin max-xl {
-  @media (max-width: calc(bp.$breakpoint-xl - 1px)) {
+  @media (max-width: #{bp.$breakpoint-xl - 1px}) {
     @content;
   }
 }
 
 @mixin between-md-lg {
-  @media (min-width: bp.$breakpoint-md) and (max-width: calc(bp.$breakpoint-lg - 1px)) {
+  @media (min-width: bp.$breakpoint-md) and (max-width: #{bp.$breakpoint-lg - 1px}) {
     @content;
   }
 }

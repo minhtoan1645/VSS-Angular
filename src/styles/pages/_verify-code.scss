@@ -136,7 +136,7 @@
   }
 
   .login-page.verify-code-page .card__body {
-    padding: 18px 20px 28px;
+    padding: 16px 20px 22px;
   }
 
   .auth-flow__content--verify {
@@ -144,11 +144,11 @@
   }
 
   .auth-flow__illustration--verify img {
-    width: 164px;
+    width: 148px;
   }
 
   .login-page.verify-code-page .auth-flow__header {
-    margin-bottom: 20px;
+    margin-bottom: 18px;
   }
 
   .auth-flow__code-row {
@@ -164,12 +164,14 @@
   .auth-flow__resend {
     flex-basis: auto;
     width: 100%;
-    min-height: 48px;
+    min-height: 46px;
     border-left: 1px solid v.$color-text-secondary;
     border-radius: 8px;
   }
 
   .login-page.verify-code-page .auth__form .btn--primary {
     max-width: none;
+    height: 46px;
+    min-height: 46px;
   }
 }

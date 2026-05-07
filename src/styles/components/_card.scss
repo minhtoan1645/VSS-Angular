@@ -35,3 +35,9 @@
     min-height: auto;
   }
 }
+
+@include m.max-md {
+  .card--auth {
+    border-radius: 18px;
+  }
+}
