@@ -25,6 +25,7 @@ export class DashboardLayoutComponent implements OnInit, OnDestroy {
   tabTitle = DEFAULT_DASHBOARD_TAB_TITLE;
   tabIcon = DEFAULT_DASHBOARD_TAB_ICON;
   sectionTitle = DEFAULT_DASHBOARD_SECTION_TITLE;
+  contentClass = '';
   sectionItems: DashboardSectionItem[] = [];
 
   private readonly subscriptions = new Subscription();
@@ -54,6 +55,7 @@ export class DashboardLayoutComponent implements OnInit, OnDestroy {
     this.tabTitle = typeof data.tabTitle === 'string' ? data.tabTitle : DEFAULT_DASHBOARD_TAB_TITLE;
     this.tabIcon = typeof data.tabIcon === 'string' ? data.tabIcon : DEFAULT_DASHBOARD_TAB_ICON;
     this.sectionTitle = typeof data.sectionTitle === 'string' ? data.sectionTitle : DEFAULT_DASHBOARD_SECTION_TITLE;
+    this.contentClass = typeof data.contentClass === 'string' ? data.contentClass : '';
     this.sectionItems = DASHBOARD_SECTION_ITEMS[sectionKey];
   }
 }

@@ -6,6 +6,7 @@
 ========================================================= */
 
 .dashboard-shell {
+  height: 100vh;
   min-height: 100vh;
   width: 100%;
   max-width: 100%;
@@ -20,11 +21,24 @@
   grid-column: 3;
   grid-row: 2;
   width: 100%;
+  max-width: 100%;
   min-width: 0;
   min-height: calc(100vh - 44px);
   padding: 22px 20px 28px;
   background: v.$color-white;
   overflow: visible;
+}
+
+.dashboard-content--add-partner {
+  height: calc(100vh - 44px);
+  min-height: 0;
+  padding: 0;
+  overflow: hidden;
+  max-width: 100%;
+}
+
+.dashboard-content--add-partner > app-add-partner {
+  height: 100%;
 }
 
 @include m.max-xl {
@@ -36,6 +50,10 @@
     grid-column: 2 !important;
     grid-row: 2 !important;
     padding: 20px 16px 26px;
+  }
+
+  .dashboard-content--add-partner {
+    padding: 0;
   }
 }
 
@@ -49,6 +67,10 @@
     grid-row: 2;
     padding: 20px 16px 24px;
   }
+
+  .dashboard-content--add-partner {
+    padding: 0;
+  }
 }
 
 @include m.max-md {
@@ -61,5 +83,9 @@
     grid-column: 2;
     grid-row: 2;
     padding: 20px 16px 28px;
+  }
+
+  .dashboard-content--add-partner {
+    padding: 0;
   }
 }

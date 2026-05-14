@@ -17,6 +17,10 @@ export class SidebarComponent {
   constructor(private readonly router: Router) {}
 
   isMainItemActive(item: MainNavItem): boolean {
+    if (item.activeRoutes?.length) {
+      return item.activeRoutes.some((route) => this.router.url.startsWith(route));
+    }
+
     return Boolean(item.route) && this.router.url.startsWith(item.route as string);
   }
 

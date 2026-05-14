@@ -19,6 +19,7 @@ import { ButtonComponent } from './components/button/button.component';
 import { InputComponent } from './components/input/input.component';
 import { CardComponent } from './components/card/card.component';
 import { PaginationComponent } from './components/pagination/pagination.component';
+import { AddPartnerComponent } from './pages/add-partner/add-partner.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { PaginationComponent } from './components/pagination/pagination.componen
     ButtonComponent,
     InputComponent,
     CardComponent,
-    PaginationComponent
+    PaginationComponent,
+    AddPartnerComponent
   ],
   imports: [
     BrowserModule,

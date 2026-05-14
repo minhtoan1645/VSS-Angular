@@ -4,6 +4,7 @@ export interface MainNavItem {
   icon: string;
   label: string;
   route?: string;
+  activeRoutes?: string[];
 }
 
 export type DashboardSectionKey = 'users' | 'partners';
@@ -15,7 +16,7 @@ export const DEFAULT_DASHBOARD_SECTION_KEY: DashboardSectionKey = 'users';
 
 export const MAIN_NAV_ITEMS: MainNavItem[] = [
   { icon: 'assets/images/icons/messages-2.png', label: 'Hội thoại' },
-  { icon: 'assets/images/icons/tag-user.png', label: 'Quản lý', route: '/users' },
+  { icon: 'assets/images/icons/tag-user.png', label: 'Quản lý', route: '/users', activeRoutes: ['/users', '/partners'] },
   { icon: 'assets/images/icons/presention-chart.png', label: 'Phân tích' }
 ];
 
@@ -48,9 +49,8 @@ export const DASHBOARD_SECTION_ITEMS: Record<DashboardSectionKey, DashboardSecti
     },
     {
       key: 'users',
-      label: 'Danh sách người dùng',
-      icon: 'assets/images/icons/edit-2.png',
-      route: '/users'
+      label: 'Danh sách yêu cầu',
+      icon: 'assets/images/icons/edit-2.png'
     },
     {
       key: 'analytics',

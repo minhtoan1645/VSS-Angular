@@ -2,7 +2,7 @@
   <app-sidebar [sectionTitle]="sectionTitle" [sectionItems]="sectionItems"></app-sidebar>
   <app-header [title]="tabTitle" [iconSrc]="tabIcon"></app-header>
 
-  <main class="dashboard-content">
+  <main class="dashboard-content" [ngClass]="contentClass">
     <router-outlet></router-outlet>
   </main>
 </div>

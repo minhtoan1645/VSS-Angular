@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
 import { BehaviorSubject, combineLatest, Subscription } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { ALL_OPTION_LABEL, DEFAULT_PAGE_SIZE, PAGE_SIZE_OPTIONS } from '../../constants/app.constants';
@@ -56,7 +57,8 @@ export class PartnersComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly formBuilder: FormBuilder,
-    private readonly partnerService: PartnerService
+    private readonly partnerService: PartnerService,
+    private readonly router: Router
   ) {}
 
   ngOnInit(): void {
@@ -106,6 +108,10 @@ export class PartnersComponent implements OnInit, OnDestroy {
   onPageSizeChange(pageSize: number): void {
     this.pageSizeSubject.next(pageSize);
     this.currentPageSubject.next(1);
+  }
+
+  goToAddPartner(): void {
+    this.router.navigate(['/partners/add']);
   }
 
   getVisibleIndustries(partner: Partner): string[] {

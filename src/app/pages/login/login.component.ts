@@ -33,6 +33,6 @@ export class LoginComponent {
       return;
     }
 
-    this.router.navigate(['/users']);
+    this.router.navigate(['/partners']);
   }
 }

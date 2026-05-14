@@ -36,10 +36,12 @@ app-forgot-password,
 app-verify-code,
 app-reset-password,
 app-users,
-app-partners {
+app-partners,
+app-add-partner {
   display: block;
   width: 100%;
   min-width: 0;
+  max-width: 100%;
 }
 
 /* Accessibility */

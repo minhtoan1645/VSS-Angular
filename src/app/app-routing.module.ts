@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 import { DashboardLayoutComponent } from './layouts/dashboard-layout/dashboard-layout.component';
+import { AddPartnerComponent } from './pages/add-partner/add-partner.component';
 import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
 import { LoginComponent } from './pages/login/login.component';
 import { PartnersComponent } from './pages/partners/partners.component';
@@ -69,6 +70,17 @@ const routes: Routes = [
           tabIcon: 'assets/images/icons/tag-user.png',
           sectionTitle: 'Người dùng',
           sectionKey: 'users'
+        }
+      },
+      {
+        path: 'partners/add',
+        component: AddPartnerComponent,
+        data: {
+          tabTitle: 'Đối tác',
+          tabIcon: 'assets/images/icons/tag-user.png',
+          sectionTitle: 'Đối tác',
+          sectionKey: 'partners',
+          contentClass: 'dashboard-content--add-partner'
         }
       },
       {
