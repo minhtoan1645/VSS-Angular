@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BehaviorSubject, combineLatest, Subscription } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -39,6 +39,18 @@ export class PartnersComponent implements OnInit, OnDestroy {
     expiryYear: [ALL_OPTION_LABEL]
   });
 
+  readonly cityOptions = ['Hà Nội', 'TP. Hồ Chí Minh', 'Đà Nẵng', 'Cần Thơ'];
+  readonly districtOptions = ['Quận Thanh Xuân', 'Quận Cầu Giấy', 'Quận 1', 'Quận Hải Châu'];
+  readonly wardOptions = ['Phường Khương Trung', 'Phường Dịch Vọng', 'Phường Bến Nghé', 'Phường Hải Châu I'];
+
+  readonly editPartnerForm = this.formBuilder.group({
+    partnerName: ['', Validators.required],
+    city: ['', Validators.required],
+    district: ['', Validators.required],
+    ward: ['', Validators.required],
+    address: ['', Validators.required]
+  });
+
   partners: Partner[] = [];
   industryOptions: string[] = [ALL_OPTION_LABEL];
   expiryYearOptions: string[] = [ALL_OPTION_LABEL];
@@ -49,11 +61,14 @@ export class PartnersComponent implements OnInit, OnDestroy {
     totalItems: 0,
     totalPages: 1
   };
+  editingPartner: Partner | null = null;
+  deletingPartner: Partner | null = null;
 
   private readonly partners$ = this.partnerService.getPartners();
   private readonly currentPageSubject = new BehaviorSubject<number>(1);
   private readonly pageSizeSubject = new BehaviorSubject<number>(DEFAULT_PAGE_SIZE);
   private readonly subscriptions = new Subscription();
+  private readonly deletedPartnerIds = new Set<number>();
 
   constructor(
     private readonly formBuilder: FormBuilder,
@@ -114,6 +129,62 @@ export class PartnersComponent implements OnInit, OnDestroy {
     this.router.navigate(['/partners/add']);
   }
 
+  goToPartnerDetail(partner: Partner): void {
+    this.router.navigate(['/partners', partner.id]);
+  }
+
+  openEditPartnerModal(partner: Partner): void {
+    this.editingPartner = partner;
+    this.editPartnerForm.setValue({
+      partnerName: partner.name,
+      city: 'Hà Nội',
+      district: 'Quận Thanh Xuân',
+      ward: 'Phường Khương Trung',
+      address: 'Số 88 Phố Tố Vĩnh Diện'
+    });
+  }
+
+  closeEditPartnerModal(): void {
+    this.editingPartner = null;
+    this.editPartnerForm.reset({
+      partnerName: '',
+      city: '',
+      district: '',
+      ward: '',
+      address: ''
+    });
+  }
+
+  savePartnerEdit(): void {
+    if (!this.editingPartner || this.editPartnerForm.invalid) {
+      this.editPartnerForm.markAllAsTouched();
+      return;
+    }
+
+    const value = this.editPartnerForm.getRawValue();
+    this.editingPartner.name = value.partnerName ?? this.editingPartner.name;
+    this.currentPageSubject.next(this.pagination.currentPage);
+    this.closeEditPartnerModal();
+  }
+
+  openDeletePartnerModal(partner: Partner): void {
+    this.deletingPartner = partner;
+  }
+
+  closeDeletePartnerModal(): void {
+    this.deletingPartner = null;
+  }
+
+  confirmDeletePartner(): void {
+    if (this.deletingPartner) {
+      this.deletedPartnerIds.add(this.deletingPartner.id);
+      this.totalPartnerCount = Math.max(this.totalPartnerCount - 1, 0);
+      this.currentPageSubject.next(this.pagination.currentPage);
+    }
+
+    this.closeDeletePartnerModal();
+  }
+
   getVisibleIndustries(partner: Partner): string[] {
     return partner.industries.slice(0, 2);
   }
@@ -158,6 +229,10 @@ export class PartnersComponent implements OnInit, OnDestroy {
 
   private applyFilters(partners: Partner[], filters: PartnerFilters): Partner[] {
     return partners.filter((partner) => {
+      if (this.deletedPartnerIds.has(partner.id)) {
+        return false;
+      }
+
       const matchesName = !filters.name || partner.name.toLowerCase().includes(filters.name);
       const matchesEmail = !filters.email || partner.email.toLowerCase().includes(filters.email);
       const matchesPhone = !filters.phone || partner.phone.toLowerCase().includes(filters.phone);

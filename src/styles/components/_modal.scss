@@ -1,0 +1,302 @@
+@use '../abstracts/variables' as v;
+@use '../abstracts/mixins' as m;
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: v.$z-modal;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(48, 54, 69, 0.38);
+}
+
+.modal-overlay--soft {
+  background: rgba(48, 54, 69, 0.34);
+}
+
+.modal-panel {
+  position: relative;
+  width: min(520px, 100%);
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+  border: 1px solid v.$color-border-subtle;
+  border-radius: 8px;
+  background: v.$color-white;
+  box-shadow: v.$shadow-lg;
+  @include m.custom-scrollbar(6px, rgba(141, 153, 187, 0.35), transparent);
+}
+
+.modal-panel--wide {
+  width: min(720px, 100%);
+}
+
+.modal-panel--partner-edit {
+  width: min(780px, 100%);
+  overflow: hidden;
+  border: 0;
+  border-radius: 10px;
+  box-shadow: 0 24px 72px rgba(86, 80, 249, 0.42);
+}
+
+.modal-panel--confirm {
+  padding: 44px 32px 30px;
+  text-align: center;
+}
+
+.modal-panel__header {
+  min-height: 58px;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 1px solid v.$color-border-subtle;
+}
+
+.modal-panel--partner-edit .modal-panel__header {
+  min-height: 92px;
+  padding: 0 32px;
+  background: v.$color-surface-muted;
+  border-bottom: 0;
+}
+
+.modal-panel--partner-edit .modal-panel__header h2 {
+  font-size: 22px;
+}
+
+.modal-panel--partner-edit .modal-panel__close {
+  color: #8b97b5;
+  background: transparent;
+  font-size: 36px;
+}
+
+.modal-panel h2,
+.modal-panel__header h2 {
+  margin: 0;
+  color: v.$color-heading;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+.modal-panel__close {
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 0;
+  border-radius: v.$radius-full;
+  color: v.$color-text;
+  background: v.$color-surface-muted;
+  font-family: v.$font-family-primary;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.modal-panel__close--floating {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+}
+
+.modal-form {
+  padding: 20px;
+}
+
+.modal-form__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.modal-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: v.$color-heading;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.modal-field strong {
+  color: v.$color-primary;
+}
+
+.modal-field--full {
+  grid-column: 1 / -1;
+}
+
+.modal-panel__actions {
+  padding-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.modal-panel__actions--center {
+  justify-content: center;
+}
+
+.modal-button {
+  min-width: 120px;
+  min-height: 38px;
+  border-radius: 6px;
+}
+
+.modal-button--wide {
+  min-width: 180px;
+}
+
+.partner-edit-form {
+  padding: 32px;
+}
+
+.partner-edit-form__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px 20px;
+}
+
+.partner-edit-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: #858da7;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.partner-edit-field strong {
+  color: v.$color-primary;
+}
+
+.partner-edit-field--full {
+  grid-column: 1 / -1;
+}
+
+.partner-edit-control {
+  min-height: 40px;
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr);
+  align-items: center;
+  border: 1px solid #8a9bc8;
+  border-radius: 5px;
+  background: v.$color-white;
+  color: #8a9bc8;
+}
+
+.partner-edit-control svg {
+  width: 19px;
+  height: 19px;
+  justify-self: center;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.partner-edit-control input,
+.partner-edit-control select {
+  width: 100%;
+  min-width: 0;
+  min-height: 38px;
+  padding: 0 14px;
+  border: 0;
+  border-left: 1px solid #8a9bc8;
+  color: v.$color-heading;
+  background: transparent;
+  font-family: v.$font-family-primary;
+  font-size: 15px;
+  font-weight: 600;
+  outline: none;
+}
+
+.partner-edit-control select {
+  appearance: none;
+  padding-right: 34px;
+  color: #8a9bc8;
+  background-image:
+    linear-gradient(45deg, transparent 50%, #8a9bc8 50%),
+    linear-gradient(135deg, #8a9bc8 50%, transparent 50%);
+  background-position:
+    calc(100% - 18px) 17px,
+    calc(100% - 12px) 17px;
+  background-size: 6px 6px;
+  background-repeat: no-repeat;
+}
+
+.partner-edit-form__actions {
+  padding-top: 24px;
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+}
+
+.partner-edit-form__button {
+  width: 160px;
+  min-height: 40px;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.partner-edit-form__button.btn--outline {
+  color: v.$color-primary;
+  border-color: #ff7b98;
+  background: v.$color-white;
+}
+
+@include m.max-md {
+  .modal-overlay {
+    padding: 14px;
+    align-items: flex-start;
+  }
+
+  .modal-form__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .modal-panel--confirm {
+    padding: 42px 18px 22px;
+  }
+
+  .modal-panel__actions,
+  .modal-panel__actions--center {
+    flex-direction: column-reverse;
+  }
+
+  .modal-button,
+  .modal-button--wide {
+    width: 100%;
+  }
+
+  .partner-edit-form {
+    padding: 22px 18px;
+  }
+
+  .modal-panel--partner-edit .modal-panel__header {
+    min-height: 72px;
+    padding: 0 18px;
+  }
+
+  .partner-edit-form__grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .partner-edit-field--full {
+    grid-column: auto;
+  }
+
+  .partner-edit-form__actions {
+    flex-direction: column-reverse;
+    gap: 12px;
+  }
+
+  .partner-edit-form__button {
+    width: 100%;
+  }
+}

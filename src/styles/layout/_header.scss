@@ -93,6 +93,11 @@
   position: relative;
   width: 30px;
   height: 30px;
+  padding: 0;
+  border: 0;
+  border-radius: v.$radius-full;
+  background: transparent;
+  cursor: pointer;
 }
 
 .dashboard-header__avatar-photo {
@@ -115,6 +120,98 @@
   border: 2px solid v.$color-white;
   border-radius: v.$radius-full;
   background: #4bd372;
+}
+
+.profile-menu {
+  position: relative;
+}
+
+.profile-menu__panel {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  z-index: v.$z-dropdown;
+  width: min(300px, calc(100vw - 24px));
+  padding: 14px;
+  border: 1px solid v.$color-border-subtle;
+  border-radius: 8px;
+  background: v.$color-white;
+  box-shadow: v.$shadow-lg;
+}
+
+.profile-menu__summary {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid v.$color-border-subtle;
+}
+
+.profile-menu__avatar {
+  width: 42px;
+  height: 42px;
+  flex-basis: 42px;
+  font-size: 14px;
+}
+
+.profile-menu__summary h2,
+.profile-menu__summary p {
+  margin: 0;
+}
+
+.profile-menu__summary h2 {
+  color: v.$color-heading;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.profile-menu__summary p {
+  margin-top: 3px;
+  color: v.$color-text;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.profile-menu__status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 38px;
+  color: v.$color-success-text;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.profile-menu__status span {
+  width: 8px;
+  height: 8px;
+  border-radius: v.$radius-full;
+  background: v.$color-success-text;
+}
+
+.profile-menu__item {
+  width: 100%;
+  min-height: 38px;
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  border: 0;
+  border-radius: 6px;
+  color: v.$color-heading;
+  background: transparent;
+  font-family: v.$font-family-primary;
+  font-size: 13px;
+  font-weight: 600;
+  text-align: left;
+  cursor: pointer;
+}
+
+.profile-menu__item:hover {
+  background: v.$color-surface-muted;
+}
+
+.profile-menu__item--danger {
+  color: v.$color-primary;
 }
 
 @include m.max-lg {

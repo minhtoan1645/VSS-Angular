@@ -6,12 +6,12 @@
 ========================================================= */
 
 .users-page {
-  min-height: 100vh;
+  min-height: 0;
   background: v.$color-white;
 }
 
 .users-page__header {
-  margin-bottom: 22px;
+  margin-bottom: 14px;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -25,6 +25,7 @@
   font-weight: 700;
   line-height: 1.2;
   color: v.$color-heading;
+  white-space: nowrap;
 }
 
 .users-page__actions {
@@ -78,7 +79,7 @@
 @include m.max-lg {
   .users-page__header {
     align-items: flex-start;
-    flex-direction: column;
+    flex-direction: row;
   }
 
   .users-page__actions {
@@ -91,6 +92,7 @@
   .users-page__header {
     align-items: flex-start;
     flex-direction: column;
+    margin-bottom: 12px;
   }
 
   .users-page__actions {

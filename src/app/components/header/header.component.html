@@ -10,9 +10,54 @@
       <img src="assets/images/icons/notification.png" alt="" />
       <span></span>
     </button>
-    <div class="dashboard-header__avatar" aria-label="Tài khoản">
-      <span class="dashboard-header__avatar-photo"></span>
-      <span class="dashboard-header__avatar-status"></span>
+
+    <div class="profile-menu">
+      <button
+        class="dashboard-header__avatar"
+        type="button"
+        aria-label="Tài khoản"
+        aria-haspopup="menu"
+        [attr.aria-expanded]="isProfileMenuOpen"
+        (click)="toggleProfileMenu()"
+      >
+        <span class="dashboard-header__avatar-photo"></span>
+        <span class="dashboard-header__avatar-status"></span>
+      </button>
+
+      <section *ngIf="isProfileMenuOpen" class="profile-menu__panel" role="menu" aria-label="Menu tài khoản">
+        <div class="profile-menu__summary">
+          <span class="avatar avatar--red profile-menu__avatar">{{ profile.initials }}</span>
+          <div>
+            <h2>{{ profile.name }}</h2>
+            <p>{{ profile.role }}</p>
+          </div>
+        </div>
+
+        <div class="profile-menu__status">
+          <span></span>
+          Hoạt động
+        </div>
+
+        <button class="profile-menu__item" type="button" role="menuitem">Thông tin cá nhân</button>
+        <button class="profile-menu__item" type="button" role="menuitem">Cài đặt</button>
+        <button class="profile-menu__item profile-menu__item--danger" type="button" role="menuitem" (click)="openLogoutModal()">
+          Đăng xuất
+        </button>
+      </section>
     </div>
   </div>
 </header>
+
+<div *ngIf="isLogoutModalOpen" class="modal-overlay" role="presentation">
+  <section class="modal-panel modal-panel--confirm" role="dialog" aria-modal="true" aria-labelledby="logout-title">
+    <button class="modal-panel__close modal-panel__close--floating" type="button" aria-label="Đóng" (click)="closeLogoutModal()">×</button>
+    <h2 id="logout-title">Bạn có chắc chắn muốn thoát không?</h2>
+
+    <footer class="modal-panel__actions modal-panel__actions--center">
+      <button class="btn btn--outline modal-button modal-button--wide" type="button" (click)="closeLogoutModal()">
+        Tiếp tục đăng nhập
+      </button>
+      <button class="btn btn--primary modal-button" type="button" (click)="confirmLogout()">Đăng xuất</button>
+    </footer>
+  </section>
+</div>

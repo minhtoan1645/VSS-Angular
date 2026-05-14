@@ -17,8 +17,8 @@
 </section>
 
 <section class="data-card" aria-label="Bảng danh sách đối tác">
-  <form class="data-table-wrap" [formGroup]="filterForm">
-    <table class="data-table">
+  <form class="data-table-wrap data-table-wrap--fit" [formGroup]="filterForm">
+    <table class="data-table data-table--partners">
       <thead>
         <tr class="data-table__head-row">
           <th scope="col">STT</th>
@@ -89,7 +89,9 @@
           <td>
             <div class="partner-cell">
               <span [class]="'avatar avatar--' + partner.avatarVariant">{{ partner.avatarText }}</span>
-              <span>{{ partner.name }}</span>
+              <button class="table-link" type="button" (click)="goToPartnerDetail(partner)">
+                {{ partner.name }}
+              </button>
             </div>
           </td>
           <td>{{ partner.email }}</td>
@@ -114,13 +116,13 @@
           <td>{{ partner.expiryDate }}</td>
           <td>
             <div class="table-actions">
-              <button type="button" [attr.aria-label]="'Sửa ' + partner.name">
+              <button type="button" [attr.aria-label]="'Sửa ' + partner.name" (click)="openEditPartnerModal(partner)">
                 <img src="assets/images/icons/edit-2.png" alt="" />
               </button>
               <button type="button" [attr.aria-label]="'Khóa ' + partner.name">
                 <img src="assets/images/icons/Lock.png" alt="" />
               </button>
-              <button type="button" [attr.aria-label]="'Xóa ' + partner.name">
+              <button class="table-actions__danger" type="button" [attr.aria-label]="'Xóa ' + partner.name" (click)="openDeletePartnerModal(partner)">
                 <img src="assets/images/icons/trash.png" alt="" />
               </button>
             </div>
@@ -140,3 +142,97 @@
     (pageSizeChange)="onPageSizeChange($event)"
   ></app-pagination>
 </section>
+
+<div *ngIf="editingPartner" class="modal-overlay modal-overlay--soft" role="presentation">
+  <section class="modal-panel modal-panel--partner-edit" role="dialog" aria-modal="true" aria-labelledby="edit-partner-title">
+    <header class="modal-panel__header">
+      <h2 id="edit-partner-title">Sửa thông tin đối tác</h2>
+      <button class="modal-panel__close" type="button" aria-label="Đóng" (click)="closeEditPartnerModal()">×</button>
+    </header>
+
+    <form class="partner-edit-form" [formGroup]="editPartnerForm" (ngSubmit)="savePartnerEdit()" novalidate>
+      <div class="partner-edit-form__grid">
+        <label class="partner-edit-field partner-edit-field--full">
+          <span>Tên đối tác <strong>*</strong></span>
+          <span class="partner-edit-control">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 12.5a4.25 4.25 0 1 0 0-8.5 4.25 4.25 0 0 0 0 8.5Z" />
+              <path d="M4.75 20a7.25 7.25 0 0 1 14.5 0" />
+            </svg>
+            <input type="text" formControlName="partnerName" />
+          </span>
+        </label>
+
+        <label class="partner-edit-field">
+          <span>Tỉnh/Thành phố</span>
+          <span class="partner-edit-control partner-edit-control--select">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 21s6-5.3 6-11a6 6 0 0 0-12 0c0 5.7 6 11 6 11Z" />
+              <circle cx="12" cy="10" r="2.2" />
+            </svg>
+            <select formControlName="city">
+              <option value="">Chọn tỉnh/thành phố</option>
+              <option *ngFor="let option of cityOptions" [value]="option">{{ option }}</option>
+            </select>
+          </span>
+        </label>
+
+        <label class="partner-edit-field">
+          <span>Quận/Huyện</span>
+          <span class="partner-edit-control partner-edit-control--select">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 21s6-5.3 6-11a6 6 0 0 0-12 0c0 5.7 6 11 6 11Z" />
+              <circle cx="12" cy="10" r="2.2" />
+            </svg>
+            <select formControlName="district">
+              <option value="">Chọn quận/huyện</option>
+              <option *ngFor="let option of districtOptions" [value]="option">{{ option }}</option>
+            </select>
+          </span>
+        </label>
+
+        <label class="partner-edit-field">
+          <span>Phường/Xã</span>
+          <span class="partner-edit-control partner-edit-control--select">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 21s6-5.3 6-11a6 6 0 0 0-12 0c0 5.7 6 11 6 11Z" />
+              <circle cx="12" cy="10" r="2.2" />
+            </svg>
+            <select formControlName="ward">
+              <option value="">Chọn phường/xã</option>
+              <option *ngFor="let option of wardOptions" [value]="option">{{ option }}</option>
+            </select>
+          </span>
+        </label>
+
+        <label class="partner-edit-field">
+          <span>Địa chỉ</span>
+          <span class="partner-edit-control">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 6.5 10 4l4 2 5-2.5v14l-5 2.5-4-2-5 2.5v-14Z" />
+              <path d="M10 4v14M14 6v14" />
+            </svg>
+            <input type="text" formControlName="address" placeholder="Nhập địa chỉ cụ thể" />
+          </span>
+        </label>
+      </div>
+
+      <footer class="partner-edit-form__actions">
+        <button class="btn btn--outline partner-edit-form__button" type="button" (click)="closeEditPartnerModal()">Hủy bỏ</button>
+        <button class="btn btn--primary partner-edit-form__button" type="submit">Lưu</button>
+      </footer>
+    </form>
+  </section>
+</div>
+
+<div *ngIf="deletingPartner" class="modal-overlay" role="presentation">
+  <section class="modal-panel modal-panel--confirm" role="dialog" aria-modal="true" aria-labelledby="delete-partner-title">
+    <button class="modal-panel__close modal-panel__close--floating" type="button" aria-label="Đóng" (click)="closeDeletePartnerModal()">×</button>
+    <h2 id="delete-partner-title">Bạn có chắc chắn muốn xoá đối tác {{ deletingPartner.name }} không?</h2>
+
+    <footer class="modal-panel__actions modal-panel__actions--center">
+      <button class="btn btn--outline modal-button" type="button" (click)="closeDeletePartnerModal()">Hủy bỏ</button>
+      <button class="btn btn--primary modal-button" type="button" (click)="confirmDeletePartner()">Xác nhận</button>
+    </footer>
+  </section>
+</div>

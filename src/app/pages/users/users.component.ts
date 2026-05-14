@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
 import { BehaviorSubject, combineLatest, Subscription } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { ALL_OPTION_LABEL, DEFAULT_PAGE_SIZE, PAGE_SIZE_OPTIONS } from '../../constants/app.constants';
@@ -56,7 +57,8 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly formBuilder: FormBuilder,
-    private readonly userService: UserService
+    private readonly userService: UserService,
+    private readonly router: Router
   ) {}
 
   ngOnInit(): void {
@@ -106,6 +108,10 @@ export class UsersComponent implements OnInit, OnDestroy {
   onPageSizeChange(pageSize: number): void {
     this.pageSizeSubject.next(pageSize);
     this.currentPageSubject.next(1);
+  }
+
+  goToUserDetail(user: User): void {
+    this.router.navigate(['/users', user.id]);
   }
 
   getVisibleDepartments(user: User): string[] {

@@ -25,6 +25,12 @@ export class UserService {
     return this.users$;
   }
 
+  getUserById(id: number): Observable<User | undefined> {
+    return this.users$.pipe(
+      map((users) => users.find((user) => user.id === id))
+    );
+  }
+
   getDepartmentOptions(): Observable<string[]> {
     return this.departmentOptions$;
   }

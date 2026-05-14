@@ -16,8 +16,8 @@
 </section>
 
 <section class="data-card" aria-label="Bảng danh sách người dùng">
-  <form class="data-table-wrap" [formGroup]="filterForm">
-    <table class="data-table">
+  <form class="data-table-wrap data-table-wrap--fit" [formGroup]="filterForm">
+    <table class="data-table data-table--users">
       <thead>
         <tr class="data-table__head-row">
           <th scope="col">STT</th>
@@ -88,7 +88,9 @@
           <td>
             <div class="partner-cell">
               <span class="avatar" [class]="'avatar avatar--' + user.avatarVariant">{{ user.avatarText }}</span>
-              <span>{{ user.name }}</span>
+              <button class="table-link" type="button" (click)="goToUserDetail(user)">
+                {{ user.name }}
+              </button>
             </div>
           </td>
           <td>{{ user.email }}</td>

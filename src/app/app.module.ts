@@ -20,6 +20,8 @@ import { InputComponent } from './components/input/input.component';
 import { CardComponent } from './components/card/card.component';
 import { PaginationComponent } from './components/pagination/pagination.component';
 import { AddPartnerComponent } from './pages/add-partner/add-partner.component';
+import { PartnerDetailComponent } from './pages/partner-detail/partner-detail.component';
+import { UserDetailComponent } from './pages/user-detail/user-detail.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +41,9 @@ import { AddPartnerComponent } from './pages/add-partner/add-partner.component';
     InputComponent,
     CardComponent,
     PaginationComponent,
-    AddPartnerComponent
+    AddPartnerComponent,
+    PartnerDetailComponent,
+    UserDetailComponent
   ],
   imports: [
     BrowserModule,

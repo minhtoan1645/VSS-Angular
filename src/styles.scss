@@ -14,6 +14,7 @@
 @use './styles/components/avatar';
 @use './styles/components/badge';
 @use './styles/components/table';
+@use './styles/components/modal';
 
 @use './styles/layout/auth';
 @use './styles/layout/dashboard';
@@ -28,3 +29,4 @@
 @use './styles/pages/register';
 @use './styles/pages/users';
 @use './styles/pages/add-partner';
+@use './styles/pages/detail';

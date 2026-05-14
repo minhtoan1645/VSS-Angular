@@ -25,6 +25,12 @@ export class PartnerService {
     return this.partners$;
   }
 
+  getPartnerById(id: number): Observable<Partner | undefined> {
+    return this.partners$.pipe(
+      map((partners) => partners.find((partner) => partner.id === id))
+    );
+  }
+
   getIndustryOptions(): Observable<string[]> {
     return this.industryOptions$;
   }
