@@ -3,10 +3,10 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
-import { Partner } from '../../models/partner.model';
-import { User } from '../../models/user.model';
-import { PartnerService } from '../../services/partner.service';
-import { UserService } from '../../services/user.service';
+import { Partner } from '../../../../models/partner.model';
+import { User } from '../../../../models/user.model';
+import { PartnerService } from '../../../../services/partner.service';
+import { UserService } from '../../../../services/user.service';
 
 @Component({
   selector: 'app-partner-detail',

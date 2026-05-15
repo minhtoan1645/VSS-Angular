@@ -31,11 +31,11 @@ interface PricingPlan {
 }
 
 @Component({
-  selector: 'app-add-partner',
-  templateUrl: './add-partner.component.html',
-  styleUrls: ['./add-partner.component.scss']
+  selector: 'app-partner-add',
+  templateUrl: './partner-add.component.html',
+  styleUrls: ['./partner-add.component.scss']
 })
-export class AddPartnerComponent implements OnDestroy {
+export class PartnerAddComponent implements OnDestroy {
   currentMainStep: MainStep = 1;
   currentSubStep: SubStep = 'information-general';
   completedSubSteps: SubStep[] = [];

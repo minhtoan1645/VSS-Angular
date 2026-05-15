@@ -3,11 +3,11 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BehaviorSubject, combineLatest, Subscription } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { ALL_OPTION_LABEL, DEFAULT_PAGE_SIZE, PAGE_SIZE_OPTIONS } from '../../constants/app.constants';
-import { PaginationState } from '../../models/pagination.model';
-import { Partner } from '../../models/partner.model';
-import { PartnerService } from '../../services/partner.service';
-import { buildOptions, buildYearOptions, paginateItems } from '../../utils/table.util';
+import { ALL_OPTION_LABEL, DEFAULT_PAGE_SIZE, PAGE_SIZE_OPTIONS } from '../../../../constants/app.constants';
+import { PaginationState } from '../../../../models/pagination.model';
+import { Partner } from '../../../../models/partner.model';
+import { PartnerService } from '../../../../services/partner.service';
+import { buildOptions, buildYearOptions, paginateItems } from '../../../../utils/table.util';
 
 interface PartnerFilters {
   name: string;
@@ -20,11 +20,11 @@ interface PartnerFilters {
 }
 
 @Component({
-  selector: 'app-partners',
-  templateUrl: './partners.component.html',
-  styleUrls: ['./partners.component.scss']
+  selector: 'app-partner-list',
+  templateUrl: './partner-list.component.html',
+  styleUrls: ['./partner-list.component.scss']
 })
-export class PartnersComponent implements OnInit, OnDestroy {
+export class PartnerListComponent implements OnInit, OnDestroy {
   readonly pageSizeOptions = [...PAGE_SIZE_OPTIONS];
   readonly packageOptions = buildOptions(['Trải nghiệm', 'Cơ bản', 'Nâng cao']);
   readonly statusOptions = buildOptions(['Đang sử dụng', 'Tạm khóa']);
@@ -129,7 +129,7 @@ export class PartnersComponent implements OnInit, OnDestroy {
     this.router.navigate(['/partners/add']);
   }
 
-  goToPartnerDetail(partner: Partner): void {
+  goToDetail(partner: Partner): void {
     this.router.navigate(['/partners', partner.id]);
   }
 

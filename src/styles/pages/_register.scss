@@ -1,5 +1,6 @@
 @use '../abstracts/variables' as v;
 @use '../abstracts/mixins' as m;
+@use '../abstracts/breakpoints' as bp;
 
 /* =========================================================
    REGISTER PAGE
@@ -33,6 +34,26 @@
 .register-page .auth__card {
   width: min(100%, 500px);
   margin-left: 0;
+}
+
+@media (min-width: bp.$breakpoint-xl) and (min-height: 800px) {
+  .register-page .auth {
+    grid-template-columns: minmax(0, 1fr) minmax(560px, 640px);
+  }
+
+  .register-page .auth__content {
+    align-items: center;
+    padding-left: 48px;
+    padding-right: 48px;
+  }
+
+  .register-page .auth__content > app-register {
+    height: auto;
+  }
+
+  .register-page .auth__card {
+    width: min(100%, 520px);
+  }
 }
 
 .register-page .card--auth {

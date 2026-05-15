@@ -3,11 +3,11 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BehaviorSubject, combineLatest, Subscription } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { ALL_OPTION_LABEL, DEFAULT_PAGE_SIZE, PAGE_SIZE_OPTIONS } from '../../constants/app.constants';
-import { PaginationState } from '../../models/pagination.model';
-import { User } from '../../models/user.model';
-import { UserService } from '../../services/user.service';
-import { buildOptions, buildYearOptions, paginateItems } from '../../utils/table.util';
+import { ALL_OPTION_LABEL, DEFAULT_PAGE_SIZE, PAGE_SIZE_OPTIONS } from '../../../../constants/app.constants';
+import { PaginationState } from '../../../../models/pagination.model';
+import { User } from '../../../../models/user.model';
+import { UserService } from '../../../../services/user.service';
+import { buildOptions, buildYearOptions, paginateItems } from '../../../../utils/table.util';
 
 interface UserFilters {
   name: string;
@@ -20,11 +20,11 @@ interface UserFilters {
 }
 
 @Component({
-  selector: 'app-users',
-  templateUrl: './users.component.html',
-  styleUrls: ['./users.component.scss']
+  selector: 'app-user-list',
+  templateUrl: './user-list.component.html',
+  styleUrls: ['./user-list.component.scss']
 })
-export class UsersComponent implements OnInit, OnDestroy {
+export class UserListComponent implements OnInit, OnDestroy {
   readonly pageSizeOptions = [...PAGE_SIZE_OPTIONS];
   readonly roleOptions = buildOptions(['Admin', 'Manager', 'Agent']);
   readonly statusOptions = buildOptions(['Đang sử dụng', 'Tạm khóa']);
@@ -119,7 +119,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.currentPageSubject.next(1);
   }
 
-  goToUserDetail(user: User): void {
+  goToDetail(user: User): void {
     this.router.navigate(['/users', user.id]);
   }
 

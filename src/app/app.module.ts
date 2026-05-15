@@ -11,17 +11,9 @@ import { RegisterComponent } from './pages/register/register.component';
 import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
 import { VerifyCodeComponent } from './pages/verify-code/verify-code.component';
-import { UsersComponent } from './pages/users/users.component';
-import { PartnersComponent } from './pages/partners/partners.component';
-import { SidebarComponent } from './components/sidebar/sidebar.component';
-import { HeaderComponent } from './components/header/header.component';
-import { ButtonComponent } from './components/button/button.component';
-import { InputComponent } from './components/input/input.component';
-import { CardComponent } from './components/card/card.component';
-import { PaginationComponent } from './components/pagination/pagination.component';
-import { AddPartnerComponent } from './pages/add-partner/add-partner.component';
-import { PartnerDetailComponent } from './pages/partner-detail/partner-detail.component';
-import { UserDetailComponent } from './pages/user-detail/user-detail.component';
+import { HeaderComponent } from './layouts/dashboard-layout/components/header/header.component';
+import { SidebarComponent } from './layouts/dashboard-layout/components/sidebar/sidebar.component';
+import { ComponentsModule } from './components/components.module';
 
 @NgModule({
   declarations: [
@@ -33,21 +25,13 @@ import { UserDetailComponent } from './pages/user-detail/user-detail.component';
     ForgotPasswordComponent,
     ResetPasswordComponent,
     VerifyCodeComponent,
-    UsersComponent,
-    PartnersComponent,
     SidebarComponent,
-    HeaderComponent,
-    ButtonComponent,
-    InputComponent,
-    CardComponent,
-    PaginationComponent,
-    AddPartnerComponent,
-    PartnerDetailComponent,
-    UserDetailComponent
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
     ReactiveFormsModule,
+    ComponentsModule,
     AppRoutingModule
   ],
   providers: [],

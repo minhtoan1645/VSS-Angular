@@ -11,7 +11,7 @@
       buttonClass="btn btn--primary users-page__button"
       label="Thêm đối tác"
       iconSrc="assets/images/icons/Plus.png"
-      (click)="goToAddPartner()"
+      (click)="$event.stopPropagation(); goToAddPartner()"
     ></app-button>
   </div>
 </section>
@@ -84,14 +84,14 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let partner of partners; trackBy: trackByPartnerId">
+        <tr *ngFor="let partner of partners; trackBy: trackByPartnerId" (click)="goToDetail(partner)">
           <td>{{ partner.id }}</td>
           <td>
             <div class="partner-cell">
               <span [class]="'avatar avatar--' + partner.avatarVariant">{{ partner.avatarText }}</span>
-              <button class="table-link" type="button" (click)="goToPartnerDetail(partner)">
+              <span class="table-link">
                 {{ partner.name }}
-              </button>
+              </span>
             </div>
           </td>
           <td>{{ partner.email }}</td>
@@ -116,13 +116,13 @@
           <td>{{ partner.expiryDate }}</td>
           <td>
             <div class="table-actions">
-              <button type="button" [attr.aria-label]="'Sửa ' + partner.name" (click)="openEditPartnerModal(partner)">
+              <button type="button" [attr.aria-label]="'Sửa ' + partner.name" (click)="$event.stopPropagation(); openEditPartnerModal(partner)">
                 <img src="assets/images/icons/edit-2.png" alt="" />
               </button>
-              <button type="button" [attr.aria-label]="'Khóa ' + partner.name">
+              <button type="button" [attr.aria-label]="'Khóa ' + partner.name" (click)="$event.stopPropagation()">
                 <img src="assets/images/icons/Lock.png" alt="" />
               </button>
-              <button class="table-actions__danger" type="button" [attr.aria-label]="'Xóa ' + partner.name" (click)="openDeletePartnerModal(partner)">
+              <button class="table-actions__danger" type="button" [attr.aria-label]="'Xóa ' + partner.name" (click)="$event.stopPropagation(); openDeletePartnerModal(partner)">
                 <img src="assets/images/icons/trash.png" alt="" />
               </button>
             </div>

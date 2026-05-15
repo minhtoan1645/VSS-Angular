@@ -83,14 +83,14 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let user of users; trackBy: trackByUserId">
+        <tr *ngFor="let user of users; trackBy: trackByUserId" (click)="goToDetail(user)">
           <td>{{ user.id }}</td>
           <td>
             <div class="partner-cell">
               <span class="avatar" [class]="'avatar avatar--' + user.avatarVariant">{{ user.avatarText }}</span>
-              <button class="table-link" type="button" (click)="goToUserDetail(user)">
+              <span class="table-link">
                 {{ user.name }}
-              </button>
+              </span>
             </div>
           </td>
           <td>{{ user.email }}</td>
@@ -115,13 +115,13 @@
           <td>{{ user.joinedDate }}</td>
           <td>
             <div class="table-actions">
-              <button type="button" [attr.aria-label]="'Sửa ' + user.name" (click)="openEditUserModal(user)">
+              <button type="button" [attr.aria-label]="'Sửa ' + user.name" (click)="$event.stopPropagation(); openEditUserModal(user)">
                 <img src="assets/images/icons/edit-2.png" alt="" />
               </button>
-              <button type="button" [attr.aria-label]="'Khóa ' + user.name">
+              <button type="button" [attr.aria-label]="'Khóa ' + user.name" (click)="$event.stopPropagation()">
                 <img src="assets/images/icons/Lock.png" alt="" />
               </button>
-              <button class="table-actions__danger" type="button" [attr.aria-label]="'Xóa ' + user.name" (click)="openDeleteUserModal(user)">
+              <button class="table-actions__danger" type="button" [attr.aria-label]="'Xóa ' + user.name" (click)="$event.stopPropagation(); openDeleteUserModal(user)">
                 <img src="assets/images/icons/trash.png" alt="" />
               </button>
             </div>

@@ -1,5 +1,6 @@
 @use '../abstracts/variables' as v;
 @use '../abstracts/mixins' as m;
+@use '../abstracts/breakpoints' as bp;
 
 /* =========================================================
    LOGIN PAGE
@@ -33,6 +34,33 @@
 .login-page .auth__card {
   width: min(100%, 492px);
   margin-left: 0;
+}
+
+@media (min-width: bp.$breakpoint-xl) and (min-height: 800px) {
+  .login-page .auth {
+    grid-template-columns: minmax(0, 1fr) minmax(560px, 640px);
+  }
+
+  .login-page .auth__content {
+    align-items: center;
+    padding-left: 48px;
+    padding-right: 48px;
+  }
+
+  .login-page .auth__content > app-login,
+  .login-page .auth__content > app-forgot-password,
+  .login-page .auth__content > app-verify-code,
+  .login-page .auth__content > app-reset-password {
+    height: auto;
+  }
+
+  /* Large desktop only: the default 492px card reads too small on 1920px screens. */
+  .login-page .auth__card,
+  .login-page.forgot-password-page .auth__card,
+  .login-page.verify-code-page .auth__card,
+  .login-page.reset-password-page .auth__card {
+    width: min(100%, 520px);
+  }
 }
 
 /* =========================================================

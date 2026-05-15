@@ -26,7 +26,7 @@ export class PartnerService {
   }
 
   getPartnerById(id: number): Observable<Partner | undefined> {
-    return this.partners$.pipe(
+    return this.getPartners().pipe(
       map((partners) => partners.find((partner) => partner.id === id))
     );
   }

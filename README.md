@@ -1,55 +1,58 @@
 # VSS Chat Platform Angular 12
 
-Project này là bản convert từ source static HTML/SCSS/JS sang Angular 12, giữ lại giao diện cũ tối đa và tổ chức lại theo `layout -> pages -> components -> services -> models -> mock-data`.
+Angular 12 conversion of the VSS Chat Platform UI. The current structure is organized by app shell, lazy feature modules, shared UI components, services, models, mock data, and global styles.
 
-## Cách chạy project
+## Run
 
 ```bash
 npm install
-ng serve
+npm start
 ```
 
-Mở `http://localhost:4200/`.
+Open `http://localhost:4200/`.
 
-## Trạng thái đã kiểm tra
-
-- `ng build --configuration development`: thành công
-- `ng build`: thành công
-- `ng test --watch=false --browsers=ChromeHeadless`: thành công
-
-## Cấu trúc thư mục chính
+## Main Structure
 
 ```text
 src/
   app/
-    components/
-      button/
-      card/
-      header/
-      input/
-      pagination/
-      sidebar/
     layouts/
       auth-layout/
       dashboard-layout/
-    mock-data/
-      partners.mock.ts
-      users.mock.ts
-    models/
-      partner.model.ts
-      pagination.model.ts
-      user.model.ts
+        components/
+          header/
+          sidebar/
+    modules/
+      user/
+        user.module.ts
+        user-routing.module.ts
+        pages/
+          user-list/
+          user-detail/
+      partner/
+        partner.module.ts
+        partner-routing.module.ts
+        pages/
+          partner-list/
+          partner-detail/
+          partner-add/
     pages/
       forgot-password/
       login/
-      partners/
       register/
       reset-password/
-      users/
       verify-code/
+    components/
+      button/
+      card/
+      input/
+      pagination/
+      components.module.ts
+    constants/
+    mock-data/
+    models/
     services/
-      partner.service.ts
-      user.service.ts
+    utils/
   assets/
   styles/
     abstracts/
@@ -57,11 +60,11 @@ src/
     components/
     layout/
     pages/
-old-static/
-docs/
 ```
 
-## Các route chính
+Generated folders and local-only files such as `dist/`, `node_modules/`, `.angular/`, `.cache/`, and `*.log` are ignored and should not be committed.
+
+## Routes
 
 - `/login`
 - `/register`
@@ -69,99 +72,43 @@ docs/
 - `/verify-code`
 - `/reset-password`
 - `/users`
+- `/users/:id`
 - `/partners`
-- `''` redirect về `/login`
+- `/partners/add`
+- `/partners/:id`
+- `''` redirects to `/login`
 
-## Layouts và components đã tạo
+## Routing Layout
 
-### Layouts
+`AppRoutingModule` keeps auth pages eager under `AuthLayoutComponent`.
+Dashboard feature areas are lazy-loaded under `DashboardLayoutComponent`:
 
-- `AuthLayoutComponent`: dùng cho login/register/forgot/reset/verify
-- `DashboardLayoutComponent`: dùng cho users/partners
+- `/users` loads `UserModule`
+- `/partners` loads `PartnerModule`
 
-### Shared components
+`UserRoutingModule` and `PartnerRoutingModule` use `RouterModule.forChild(routes)`.
 
-- `SidebarComponent`
-- `HeaderComponent`
+## Shared UI
+
+Reusable UI controls live in `src/app/components` and are exported by `ComponentsModule`:
+
 - `ButtonComponent`
-- `InputComponent`
 - `CardComponent`
+- `InputComponent`
 - `PaginationComponent`
 
-## Pages đã convert
+Global SCSS partials live separately in `src/styles/components`. That folder is for shared styles such as buttons, cards, inputs, modals, and tables; it is not a duplicate of the Angular component folder.
 
-- `LoginComponent`
-- `RegisterComponent`
-- `ForgotPasswordComponent`
-- `VerifyCodeComponent`
-- `ResetPasswordComponent`
-- `UsersComponent`
-- `PartnersComponent`
+Dashboard-only layout pieces live under `src/app/layouts/dashboard-layout/components`:
 
-## Service và mock data
+- `HeaderComponent`
+- `SidebarComponent`
 
-- `UserService`
-  - trả dữ liệu từ `MOCK_USERS`
-  - dữ liệu gồm 100 records
-- `PartnerService`
-  - trả dữ liệu từ `MOCK_PARTNERS`
-  - dữ liệu gồm 100 records
+## Data
 
-Mock data được tạo bằng TypeScript, không gọi backend và không có API thật.
+The app currently uses mock data only:
 
-## Binding đã dùng ở đâu
+- `UserService` reads from `MOCK_USERS`
+- `PartnerService` reads from `MOCK_PARTNERS`
 
-- Interpolation `{{ }}`:
-  - tiêu đề số lượng ở `users.component.html`, `partners.component.html`
-  - text route/tab trong header/sidebar
-- Property binding:
-  - `[src]` cho logo, icon, ảnh minh họa
-  - `[class]` cho avatar/status/package badge
-  - `[disabled]` cho button submit và nút pagination
-- Event binding:
-  - `(ngSubmit)` cho toàn bộ auth forms
-  - `(click)` cho resend code, pagination, action buttons
-  - `(change)` trong `PaginationComponent` để đổi page size
-- Reactive forms:
-  - dùng cho login/register/forgot/reset/verify
-  - dùng cho filter table ở users/partners
-
-## Router hoạt động thế nào
-
-- `AppRoutingModule` chia 2 layout lớn:
-  - nhóm auth dùng `AuthLayoutComponent`
-  - nhóm dashboard dùng `DashboardLayoutComponent`
-- Route con render qua `router-outlet`
-- Dashboard layout đọc `route.data` để đổi tab title, section title và menu sidebar
-
-## RxJS dùng ở đâu
-
-- `of()` trong `UserService` và `PartnerService`
-- `map()`:
-  - tạo option filter từ dữ liệu mock
-  - filter dữ liệu theo form
-  - tính `totalItems`, `totalPages`, `slice` dữ liệu theo trang
-- `subscribe()`:
-  - đồng bộ dữ liệu list ra UI
-  - reset page khi filter thay đổi
-  - lấy option phòng ban/lĩnh vực
-- `BehaviorSubject`:
-  - lưu `currentPage`
-  - lưu `pageSize`
-
-## Pagination hoạt động thế nào
-
-- mặc định `10 records / trang`
-- `PaginationComponent` có:
-  - first / previous / next / last
-  - số trang
-  - đổi page size `10 / 25 / 50`
-- `UsersComponent` và `PartnersComponent`:
-  - nhận toàn bộ data từ service
-  - filter
-  - tính `totalPages = ceil(totalItems / pageSize)`
-  - cắt mảng theo `slice(startIndex, startIndex + pageSize)`
-
-
-
-
+No backend API is wired yet.
