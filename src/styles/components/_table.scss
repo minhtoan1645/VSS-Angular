@@ -274,50 +274,144 @@
 }
 
 .data-table--partners th:nth-child(1),
-.data-table--partners td:nth-child(1) {
+.data-table--partners td:nth-child(1),
+.data-table--users th:nth-child(1),
+.data-table--users td:nth-child(1) {
   width: 4%;
 }
 
 .data-table--partners th:nth-child(2),
-.data-table--partners td:nth-child(2) {
+.data-table--partners td:nth-child(2),
+.data-table--users th:nth-child(2),
+.data-table--users td:nth-child(2) {
   width: 14%;
 }
 
 .data-table--partners th:nth-child(3),
-.data-table--partners td:nth-child(3) {
+.data-table--partners td:nth-child(3),
+.data-table--users th:nth-child(3),
+.data-table--users td:nth-child(3) {
   width: 13%;
 }
 
 .data-table--partners th:nth-child(4),
-.data-table--partners td:nth-child(4) {
+.data-table--partners td:nth-child(4),
+.data-table--users th:nth-child(4),
+.data-table--users td:nth-child(4) {
   width: 10%;
 }
 
 .data-table--partners th:nth-child(5),
-.data-table--partners td:nth-child(5) {
+.data-table--partners td:nth-child(5),
+.data-table--users th:nth-child(5),
+.data-table--users td:nth-child(5) {
   width: 18%;
 }
 
 .data-table--partners th:nth-child(6),
-.data-table--partners td:nth-child(6) {
+.data-table--partners td:nth-child(6),
+.data-table--users th:nth-child(6),
+.data-table--users td:nth-child(6) {
   width: 10%;
 }
 
 .data-table--partners th:nth-child(7),
-.data-table--partners td:nth-child(7) {
+.data-table--partners td:nth-child(7),
+.data-table--users th:nth-child(7),
+.data-table--users td:nth-child(7) {
   width: 11%;
 }
 
 .data-table--partners th:nth-child(8),
-.data-table--partners td:nth-child(8) {
+.data-table--partners td:nth-child(8),
+.data-table--users th:nth-child(8),
+.data-table--users td:nth-child(8) {
   width: 10%;
 }
 
 .data-table--partners th:nth-child(9),
 .data-table--partners td:nth-child(9) {
-  width: 78px;
-  min-width: 78px !important;
-  max-width: 78px;
+  width: 58px;
+  min-width: 58px !important;
+  max-width: 58px;
+  padding-right: 3px;
+  padding-left: 3px;
+}
+
+.data-table--partners .table-actions {
+  width: 48px;
+  gap: 3px;
+}
+
+.data-table--partners th:nth-child(2),
+.data-table--partners td:nth-child(2) {
+  width: 15%;
+}
+
+.data-table--partners th:nth-child(3),
+.data-table--partners td:nth-child(3) {
+  width: 14%;
+}
+
+.data-table--partners th:nth-child(4),
+.data-table--partners td:nth-child(4) {
+  width: 11%;
+}
+
+.data-table--partners th:nth-child(5),
+.data-table--partners td:nth-child(5) {
+  width: 20%;
+}
+
+.data-table--partners th:nth-child(8),
+.data-table--partners td:nth-child(8) {
+  width: 11%;
+}
+
+.data-table--partners th:nth-child(9),
+.data-table--partners td:nth-child(9) {
+  width: 54px;
+  min-width: 54px !important;
+  max-width: 54px;
+}
+
+.data-table--users th:nth-child(2),
+.data-table--users td:nth-child(2) {
+  width: 15%;
+}
+
+.data-table--users th:nth-child(3),
+.data-table--users td:nth-child(3) {
+  width: 14%;
+}
+
+.data-table--users th:nth-child(4),
+.data-table--users td:nth-child(4) {
+  width: 11%;
+}
+
+.data-table--users th:nth-child(5),
+.data-table--users td:nth-child(5) {
+  width: 20%;
+}
+
+.data-table--users th:nth-child(8),
+.data-table--users td:nth-child(8) {
+  width: 11%;
+}
+
+.data-table--users th:nth-child(9),
+.data-table--users td:nth-child(9) {
+  width: 54px;
+  min-width: 54px !important;
+  max-width: 54px;
+  padding-right: 3px;
+  padding-left: 3px;
+}
+
+.data-table--users .table-actions {
+  width: 48px;
+  gap: 3px;
 }
 
 .data-table th {
@@ -484,9 +578,12 @@
   width: 14px;
   height: 14px;
   object-fit: contain;
+  filter: brightness(0) saturate(100%) invert(70%) sepia(17%) saturate(606%) hue-rotate(185deg) brightness(89%) contrast(87%);
+  transition: filter v.$transition-fast;
 }
 
-.table-actions__danger img {
+.table-actions button:hover img,
+.table-actions button:focus-visible img {
   filter: brightness(0) saturate(100%) invert(16%) sepia(98%) saturate(6813%) hue-rotate(341deg) brightness(96%) contrast(104%);
 }
 
@@ -656,6 +753,27 @@
 
   .data-table--partners th:nth-child(9),
   .data-table--partners td:nth-child(9),
+  .data-table--users th:nth-child(9),
+  .data-table--users td:nth-child(9) {
+    width: 64px;
+    max-width: 64px;
+  }
+
+  .data-table--users th:nth-child(6),
+  .data-table--users td:nth-child(6) {
+    display: none;
+  }
+
+  .data-table--users th:nth-child(2),
+  .data-table--users td:nth-child(2) {
+    width: 64%;
+  }
+
+  .data-table--users th:nth-child(7),
+  .data-table--users td:nth-child(7) {
+    width: 24%;
+  }
+
   .data-table--users th:nth-child(9),
   .data-table--users td:nth-child(9) {
     width: 64px;

@@ -45,7 +45,7 @@
           <path d="M12 21s6-5.3 6-11a6 6 0 0 0-12 0c0 5.7 6 11 6 11Z" />
           <circle cx="12" cy="10" r="2.2" />
         </svg>
-        Số 88 Phố Tố Vĩnh Diện, Phường Khương Trung, Quận Thanh Xuân, Thành phố Hà Nội, Việt Nam
+        {{ partner.address }}, Phường Khương Trung, Quận Thanh Xuân, Thành phố Hà Nội, Việt Nam
       </p>
     </div>
 
@@ -70,7 +70,7 @@
 
     <div class="partner-summary-card__package">
       <div class="partner-summary-card__tools" aria-label="Thao tác đối tác">
-        <button type="button" aria-label="Sửa đối tác">
+        <button type="button" aria-label="Sửa đối tác" (click)="openEditPartnerModal(partner)">
           <img src="assets/images/icons/edit-2.png" alt="" />
         </button>
         <button type="button" aria-label="Khóa đối tác">
@@ -101,13 +101,16 @@
           Thời hạn
         </span>
         <strong>Còn lại 10 ngày</strong>
+        <span class="partner-summary-card__progress" aria-hidden="true">
+          <span></span>
+        </span>
         <time>01/11/2021</time>
         <time>01/12/2021</time>
       </div>
     </div>
   </section>
 
-  <section class="detail-section" aria-labelledby="partner-users-title">
+  <section class="detail-section detail-section--data" aria-labelledby="partner-users-title">
     <header class="detail-section__header detail-section__header--with-actions">
       <div class="detail-section__title">
         <h2 id="partner-users-title">Danh sách người dùng ({{ relatedUsers.length }})</h2>
@@ -115,11 +118,11 @@
       </div>
 
       <div class="detail-section__actions">
-        <button class="btn btn--outline users-page__button" type="button">
+        <button class="btn btn--outline detail-action detail-action--export" type="button">
           <img src="assets/images/icons/export.png" alt="" />
           Xuất danh sách
         </button>
-        <button class="btn btn--primary users-page__button" type="button">
+        <button class="btn btn--primary detail-action detail-action--add" type="button">
           <img src="assets/images/icons/Plus.png" alt="" />
           Thêm người dùng
         </button>
@@ -127,7 +130,7 @@
     </header>
 
     <div class="detail-table-wrap">
-      <table class="data-table data-table--compact">
+      <table class="data-table data-table--compact data-table--detail-users">
         <thead>
           <tr class="data-table__head-row">
             <th scope="col">STT</th>
@@ -172,8 +175,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let user of relatedUsers; trackBy: trackByUserId; let index = index">
-            <td>{{ index + 1 }}</td>
+          <tr *ngFor="let user of visibleUsers; trackBy: trackByUserId; let index = index">
+            <td>{{ userStartRecord + index }}</td>
             <td>
               <div class="partner-cell">
                 <span [class]="'avatar avatar--' + user.avatarVariant">{{ user.avatarText }}</span>
@@ -201,13 +204,13 @@
             <td>{{ user.joinedDate }}</td>
             <td>
               <div class="table-actions">
-                <button type="button" [attr.aria-label]="'Sửa ' + user.name">
+                <button type="button" [attr.aria-label]="'Sửa ' + user.name" (click)="openEditUserModal(user)">
                   <img src="assets/images/icons/edit-2.png" alt="" />
                 </button>
                 <button type="button" [attr.aria-label]="'Khóa ' + user.name">
                   <img src="assets/images/icons/Lock.png" alt="" />
                 </button>
-                <button type="button" [attr.aria-label]="'Xóa ' + user.name">
+                <button class="table-actions__danger" type="button" [attr.aria-label]="'Xóa ' + user.name" (click)="openDeleteUserModal(user)">
                   <img src="assets/images/icons/trash.png" alt="" />
                 </button>
               </div>
@@ -220,24 +223,31 @@
     <footer class="detail-table-footer">
       <div class="table-footer__size">
         <select aria-label="Số dòng mỗi trang">
-          <option>{{ pageSize }}</option>
+          <option>{{ userPageSize }}</option>
         </select>
       </div>
 
       <div class="detail-table-footer__right">
-        <p>Hiển thị từ 1 tới {{ relatedUsers.length }} trên {{ relatedUsers.length }} bản ghi</p>
+        <p>Hiển thị từ {{ userStartRecord }} tới {{ userEndRecord }} trên {{ relatedUsers.length }} bản ghi</p>
         <nav class="pagination" aria-label="Phân trang người dùng">
-          <button type="button" aria-label="Trang đầu">
+          <button type="button" aria-label="Trang đầu" (click)="setUserPage(1)">
             <img src="assets/images/icons/arrow-letft.png" alt="" />
           </button>
-          <button type="button" aria-label="Trang trước">
+          <button type="button" aria-label="Trang trước" (click)="setUserPage(userCurrentPage - 1)">
             <img src="assets/images/icons/arrow-left.png" alt="" />
           </button>
-          <button class="pagination__item--active" type="button">1</button>
-          <button type="button" aria-label="Trang sau">
+          <button
+            *ngFor="let page of userPages"
+            [class.pagination__item--active]="page === userCurrentPage"
+            type="button"
+            (click)="setUserPage(page)"
+          >
+            {{ page }}
+          </button>
+          <button type="button" aria-label="Trang sau" (click)="setUserPage(userCurrentPage + 1)">
             <img src="assets/images/icons/right.png" alt="" />
           </button>
-          <button type="button" aria-label="Trang cuối">
+          <button type="button" aria-label="Trang cuối" (click)="setUserPage(userTotalPages)">
             <img src="assets/images/icons/arrow-righttt.png" alt="" />
           </button>
         </nav>
@@ -245,12 +255,168 @@
     </footer>
   </section>
 
-  <section class="detail-section detail-section--empty" aria-labelledby="partner-apps-title">
-    <header class="detail-section__header">
-      <h2 id="partner-apps-title">Danh sách ứng dụng</h2>
+  <section class="detail-section detail-section--data detail-section--apps" aria-labelledby="partner-apps-title">
+    <header class="detail-section__header detail-section__header--with-actions">
+      <div class="detail-section__title">
+        <h2 id="partner-apps-title">Danh sách ứng dụng</h2>
+      </div>
     </header>
     <div class="detail-empty-state">Chưa có ứng dụng nào.</div>
+    <footer class="detail-table-footer detail-table-footer--placeholder" aria-hidden="true"></footer>
   </section>
+
+  <div *ngIf="editingPartner" class="modal-overlay modal-overlay--soft" role="presentation">
+    <section class="modal-panel modal-panel--partner-edit" role="dialog" aria-modal="true" aria-labelledby="detail-edit-partner-title">
+      <header class="modal-panel__header">
+        <h2 id="detail-edit-partner-title">Sửa thông tin đối tác</h2>
+        <button class="modal-panel__close" type="button" aria-label="Đóng modal sửa đối tác" (click)="closeEditPartnerModal()">
+          ×
+        </button>
+      </header>
+
+      <form class="partner-edit-form" [formGroup]="editPartnerForm" (ngSubmit)="savePartnerEdit()" novalidate>
+        <div class="partner-edit-form__grid">
+          <label class="partner-edit-field partner-edit-field--full">
+            <span>Tên đối tác <strong>*</strong></span>
+            <span class="partner-edit-control">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 12.5a4.25 4.25 0 1 0 0-8.5 4.25 4.25 0 0 0 0 8.5Z" />
+                <path d="M4.75 20a7.25 7.25 0 0 1 14.5 0" />
+              </svg>
+              <input type="text" formControlName="partnerName" />
+            </span>
+          </label>
+
+          <label class="partner-edit-field">
+            <span>Tỉnh/Thành phố</span>
+            <span class="partner-edit-control partner-edit-control--select">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 21s6-5.3 6-11a6 6 0 0 0-12 0c0 5.7 6 11 6 11Z" />
+                <circle cx="12" cy="10" r="2.2" />
+              </svg>
+              <select formControlName="city">
+                <option value="">Chọn tỉnh/thành phố</option>
+                <option *ngFor="let option of cityOptions" [value]="option">{{ option }}</option>
+              </select>
+            </span>
+          </label>
+
+          <label class="partner-edit-field">
+            <span>Quận/Huyện</span>
+            <span class="partner-edit-control partner-edit-control--select">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 21s6-5.3 6-11a6 6 0 0 0-12 0c0 5.7 6 11 6 11Z" />
+                <circle cx="12" cy="10" r="2.2" />
+              </svg>
+              <select formControlName="district">
+                <option value="">Chọn quận/huyện</option>
+                <option *ngFor="let option of districtOptions" [value]="option">{{ option }}</option>
+              </select>
+            </span>
+          </label>
+
+          <label class="partner-edit-field">
+            <span>Phường/Xã</span>
+            <span class="partner-edit-control partner-edit-control--select">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 21s6-5.3 6-11a6 6 0 0 0-12 0c0 5.7 6 11 6 11Z" />
+                <circle cx="12" cy="10" r="2.2" />
+              </svg>
+              <select formControlName="ward">
+                <option value="">Chọn phường/xã</option>
+                <option *ngFor="let option of wardOptions" [value]="option">{{ option }}</option>
+              </select>
+            </span>
+          </label>
+
+          <label class="partner-edit-field">
+            <span>Địa chỉ</span>
+            <span class="partner-edit-control">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M5 6.5 10 4l4 2 5-2.5v14l-5 2.5-4-2-5 2.5v-14Z" />
+                <path d="M10 4v14M14 6v14" />
+              </svg>
+              <input type="text" formControlName="address" placeholder="Nhập địa chỉ cụ thể" />
+            </span>
+          </label>
+        </div>
+
+        <footer class="partner-edit-form__actions">
+          <button class="btn btn--outline partner-edit-form__button" type="button" (click)="closeEditPartnerModal()">Hủy bỏ</button>
+          <button class="btn btn--primary partner-edit-form__button" type="submit">Lưu</button>
+        </footer>
+      </form>
+    </section>
+  </div>
+
+  <div *ngIf="editingUser" class="modal-overlay modal-overlay--soft" role="presentation">
+    <section
+      class="modal-panel modal-panel--user-edit"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="edit-user-title"
+    >
+      <header class="modal-panel__header">
+        <h2 id="edit-user-title">Sửa thông tin người dùng</h2>
+        <button class="modal-panel__close" type="button" aria-label="Đóng modal sửa người dùng" (click)="closeEditUserModal()">
+          ×
+        </button>
+      </header>
+
+      <form class="user-edit-form" [formGroup]="editUserForm" (ngSubmit)="saveUserEdit()" novalidate>
+        <div class="user-edit-form__grid">
+          <label class="user-edit-field">
+            <span>Tên người dùng <strong>*</strong></span>
+            <span class="user-edit-control">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M20 21a8 8 0 0 0-16 0" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+              <input formControlName="name" type="text" autocomplete="name" />
+            </span>
+          </label>
+
+          <label class="user-edit-field">
+            <span>Email <strong>*</strong></span>
+            <span class="user-edit-control">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="4" y="6" width="16" height="12" rx="2" />
+                <path d="m5.5 8 6.5 5 6.5-5" />
+              </svg>
+              <input formControlName="email" type="email" autocomplete="email" />
+            </span>
+          </label>
+
+          <label class="user-edit-field">
+            <span>Số điện thoại <strong>*</strong></span>
+            <span class="user-edit-control">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M7.2 4.8 9.5 4l2 4.7-1.7 1.1a12.7 12.7 0 0 0 4.4 4.4l1.1-1.7 4.7 2-.8 2.3c-.3.9-1.2 1.5-2.1 1.3C10.9 17.2 6.8 13.1 5.9 6.9c-.2-.9.4-1.8 1.3-2.1Z" />
+              </svg>
+              <input formControlName="phone" type="tel" autocomplete="tel" />
+            </span>
+          </label>
+        </div>
+
+        <div class="user-edit-form__actions">
+          <button class="btn btn--outline user-edit-form__button" type="button" (click)="closeEditUserModal()">Hủy bỏ</button>
+          <button class="btn btn--primary user-edit-form__button" type="submit">Lưu</button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <div *ngIf="deletingUser" class="modal-overlay" role="presentation">
+    <section class="modal-panel modal-panel--confirm" role="dialog" aria-modal="true" aria-labelledby="detail-delete-user-title">
+      <button class="modal-panel__close modal-panel__close--floating" type="button" aria-label="Đóng" (click)="closeDeleteUserModal()">×</button>
+      <h2 id="detail-delete-user-title">Bạn có chắc chắn muốn xoá người dùng {{ deletingUser.name }} không?</h2>
+
+      <footer class="modal-panel__actions modal-panel__actions--center">
+        <button class="btn btn--outline modal-button" type="button" (click)="closeDeleteUserModal()">Hủy bỏ</button>
+        <button class="btn btn--primary modal-button" type="button" (click)="confirmDeleteUser()">Xác nhận</button>
+      </footer>
+    </section>
+  </div>
 </section>
 
 <ng-template #notFound>

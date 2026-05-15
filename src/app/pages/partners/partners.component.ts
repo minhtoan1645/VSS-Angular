@@ -140,7 +140,7 @@ export class PartnersComponent implements OnInit, OnDestroy {
       city: 'Hà Nội',
       district: 'Quận Thanh Xuân',
       ward: 'Phường Khương Trung',
-      address: 'Số 88 Phố Tố Vĩnh Diện'
+      address: partner.address
     });
   }
 
@@ -163,6 +163,7 @@ export class PartnersComponent implements OnInit, OnDestroy {
 
     const value = this.editPartnerForm.getRawValue();
     this.editingPartner.name = value.partnerName ?? this.editingPartner.name;
+    this.editingPartner.address = value.address ?? this.editingPartner.address;
     this.currentPageSubject.next(this.pagination.currentPage);
     this.closeEditPartnerModal();
   }

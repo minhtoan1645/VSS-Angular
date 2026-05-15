@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BehaviorSubject, combineLatest, Subscription } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -39,7 +39,15 @@ export class UsersComponent implements OnInit, OnDestroy {
     joinedYear: [ALL_OPTION_LABEL]
   });
 
+  readonly editUserForm = this.formBuilder.group({
+    name: ['', Validators.required],
+    email: ['', [Validators.required, Validators.email]],
+    phone: ['', Validators.required]
+  });
+
   users: User[] = [];
+  editingUser: User | null = null;
+  deletingUser: User | null = null;
   departmentOptions: string[] = [ALL_OPTION_LABEL];
   joinedYearOptions: string[] = [ALL_OPTION_LABEL];
   totalUserCount = 0;
@@ -54,6 +62,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   private readonly currentPageSubject = new BehaviorSubject<number>(1);
   private readonly pageSizeSubject = new BehaviorSubject<number>(DEFAULT_PAGE_SIZE);
   private readonly subscriptions = new Subscription();
+  private readonly deletedUserIds = new Set<number>();
 
   constructor(
     private readonly formBuilder: FormBuilder,
@@ -114,6 +123,67 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.router.navigate(['/users', user.id]);
   }
 
+  openEditUserModal(user: User): void {
+    this.editingUser = user;
+    this.editUserForm.setValue({
+      name: user.name,
+      email: user.email,
+      phone: user.phone
+    });
+  }
+
+  closeEditUserModal(): void {
+    this.editingUser = null;
+    this.editUserForm.reset({
+      name: '',
+      email: '',
+      phone: ''
+    });
+  }
+
+  saveUserEdit(): void {
+    if (!this.editingUser) {
+      return;
+    }
+
+    if (this.editUserForm.invalid) {
+      this.editUserForm.markAllAsTouched();
+      return;
+    }
+
+    const value = this.editUserForm.getRawValue();
+    this.editingUser.name = value.name?.trim() ?? this.editingUser.name;
+    this.editingUser.email = value.email?.trim() ?? this.editingUser.email;
+    this.editingUser.phone = value.phone?.trim() ?? this.editingUser.phone;
+    this.editingUser.avatarText = this.getAvatarText(this.editingUser.name);
+    this.users = [...this.users];
+    this.closeEditUserModal();
+  }
+
+  openDeleteUserModal(user: User): void {
+    this.deletingUser = user;
+  }
+
+  closeDeleteUserModal(): void {
+    this.deletingUser = null;
+  }
+
+  confirmDeleteUser(): void {
+    if (!this.deletingUser) {
+      return;
+    }
+
+    this.deletedUserIds.add(this.deletingUser.id);
+
+    if (this.editingUser?.id === this.deletingUser.id) {
+      this.closeEditUserModal();
+    }
+
+    this.totalUserCount = Math.max(this.totalUserCount - 1, 0);
+    this.closeDeleteUserModal();
+    this.currentPageSubject.next(this.currentPageSubject.value);
+  }
+
   getVisibleDepartments(user: User): string[] {
     return user.departments.slice(0, 2);
   }
@@ -158,6 +228,10 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   private applyFilters(users: User[], filters: UserFilters): User[] {
     return users.filter((user) => {
+      if (this.deletedUserIds.has(user.id)) {
+        return false;
+      }
+
       const matchesName = !filters.name || user.name.toLowerCase().includes(filters.name);
       const matchesEmail = !filters.email || user.email.toLowerCase().includes(filters.email);
       const matchesPhone = !filters.phone || user.phone.toLowerCase().includes(filters.phone);
@@ -168,5 +242,12 @@ export class UsersComponent implements OnInit, OnDestroy {
 
       return matchesName && matchesEmail && matchesPhone && matchesDepartment && matchesRole && matchesStatus && matchesYear;
     });
+  }
+
+  private getAvatarText(name: string): string {
+    const words = name.trim().split(/\s+/);
+    const first = words[0]?.charAt(0) ?? '';
+    const last = words.length > 1 ? words[words.length - 1].charAt(0) : words[0]?.charAt(1) ?? '';
+    return `${first}${last}`.toUpperCase();
   }
 }

@@ -32,12 +32,13 @@
   width: min(720px, 100%);
 }
 
-.modal-panel--partner-edit {
-  width: min(780px, 100%);
+.modal-panel--partner-edit,
+.modal-panel--user-edit {
+  width: min(640px, calc(100vw - 32px));
   overflow: hidden;
   border: 0;
-  border-radius: 10px;
-  box-shadow: 0 24px 72px rgba(86, 80, 249, 0.42);
+  border-radius: 8px;
+  box-shadow: 0 16px 42px rgba(86, 80, 249, 0.32);
 }
 
 .modal-panel--confirm {
@@ -55,21 +56,27 @@
   border-bottom: 1px solid v.$color-border-subtle;
 }
 
-.modal-panel--partner-edit .modal-panel__header {
-  min-height: 92px;
-  padding: 0 32px;
+.modal-panel--partner-edit .modal-panel__header,
+.modal-panel--user-edit .modal-panel__header {
+  min-height: 48px;
+  padding: 0 22px;
   background: v.$color-surface-muted;
   border-bottom: 0;
 }
 
-.modal-panel--partner-edit .modal-panel__header h2 {
-  font-size: 22px;
+.modal-panel--partner-edit .modal-panel__header h2,
+.modal-panel--user-edit .modal-panel__header h2 {
+  font-size: 17px;
+  line-height: 1.25;
 }
 
-.modal-panel--partner-edit .modal-panel__close {
+.modal-panel--partner-edit .modal-panel__close,
+.modal-panel--user-edit .modal-panel__close {
+  width: 24px;
+  height: 24px;
   color: #8b97b5;
   background: transparent;
-  font-size: 36px;
+  font-size: 24px;
 }
 
 .modal-panel h2,
@@ -150,21 +157,21 @@
 }
 
 .partner-edit-form {
-  padding: 32px;
+  padding: 24px 28px 26px;
 }
 
 .partner-edit-form__grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 24px 20px;
+  gap: 18px 18px;
 }
 
 .partner-edit-field {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 7px;
   color: #858da7;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
 }
 
@@ -177,9 +184,9 @@
 }
 
 .partner-edit-control {
-  min-height: 40px;
+  min-height: 38px;
   display: grid;
-  grid-template-columns: 44px minmax(0, 1fr);
+  grid-template-columns: 42px minmax(0, 1fr);
   align-items: center;
   border: 1px solid #8a9bc8;
   border-radius: 5px;
@@ -187,9 +194,15 @@
   color: #8a9bc8;
 }
 
+.partner-edit-control:focus-within,
+.user-edit-control:focus-within {
+  border-color: #5680f9;
+  box-shadow: 0 0 0 2px rgba(86, 128, 249, 0.18);
+}
+
 .partner-edit-control svg {
-  width: 19px;
-  height: 19px;
+  width: 17px;
+  height: 17px;
   justify-self: center;
   fill: none;
   stroke: currentColor;
@@ -202,48 +215,140 @@
 .partner-edit-control select {
   width: 100%;
   min-width: 0;
-  min-height: 38px;
-  padding: 0 14px;
+  min-height: 36px;
+  padding: 0 12px;
   border: 0;
   border-left: 1px solid #8a9bc8;
   color: v.$color-heading;
   background: transparent;
   font-family: v.$font-family-primary;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 600;
   outline: none;
 }
 
+.modal-panel--partner-edit button:focus-visible,
+.modal-panel--user-edit button:focus-visible {
+  outline: 2px solid rgba(86, 128, 249, 0.8);
+  outline-offset: 2px;
+}
+
+.modal-panel--partner-edit input:focus-visible,
+.modal-panel--partner-edit select:focus-visible,
+.modal-panel--user-edit input:focus-visible {
+  outline: 0;
+}
+
 .partner-edit-control select {
   appearance: none;
-  padding-right: 34px;
+  padding-right: 30px;
   color: #8a9bc8;
   background-image:
     linear-gradient(45deg, transparent 50%, #8a9bc8 50%),
     linear-gradient(135deg, #8a9bc8 50%, transparent 50%);
   background-position:
-    calc(100% - 18px) 17px,
-    calc(100% - 12px) 17px;
+    calc(100% - 17px) 16px,
+    calc(100% - 11px) 16px;
   background-size: 6px 6px;
   background-repeat: no-repeat;
 }
 
 .partner-edit-form__actions {
-  padding-top: 24px;
+  padding-top: 20px;
   display: flex;
   justify-content: center;
-  gap: 40px;
+  gap: 32px;
 }
 
 .partner-edit-form__button {
-  width: 160px;
-  min-height: 40px;
+  width: 144px;
+  min-height: 38px;
   border-radius: 5px;
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 700;
 }
 
 .partner-edit-form__button.btn--outline {
+  color: v.$color-primary;
+  border-color: #ff7b98;
+  background: v.$color-white;
+}
+
+.user-edit-form {
+  padding: 24px 28px 26px;
+}
+
+.user-edit-form__grid {
+  display: grid;
+  gap: 18px;
+}
+
+.user-edit-field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  color: #858da7;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.user-edit-field strong {
+  color: v.$color-primary;
+}
+
+.user-edit-control {
+  min-height: 38px;
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr);
+  align-items: center;
+  border: 1px solid #8a9bc8;
+  border-radius: 5px;
+  background: v.$color-white;
+  color: #8a9bc8;
+}
+
+.user-edit-control svg {
+  width: 17px;
+  height: 17px;
+  justify-self: center;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.user-edit-control input {
+  width: 100%;
+  min-width: 0;
+  min-height: 36px;
+  padding: 0 12px;
+  border: 0;
+  border-left: 1px solid #8a9bc8;
+  color: v.$color-heading;
+  background: transparent;
+  font-family: v.$font-family-primary;
+  font-size: 14px;
+  font-weight: 600;
+  outline: none;
+}
+
+.user-edit-form__actions {
+  padding-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+}
+
+.user-edit-form__button {
+  width: 144px;
+  min-height: 38px;
+  border-radius: 5px;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.user-edit-form__button.btn--outline {
   color: v.$color-primary;
   border-color: #ff7b98;
   background: v.$color-white;
@@ -273,13 +378,20 @@
     width: 100%;
   }
 
-  .partner-edit-form {
+  .partner-edit-form,
+  .user-edit-form {
     padding: 22px 18px;
   }
 
-  .modal-panel--partner-edit .modal-panel__header {
-    min-height: 72px;
+  .modal-panel--partner-edit .modal-panel__header,
+  .modal-panel--user-edit .modal-panel__header {
+    min-height: 64px;
     padding: 0 18px;
+  }
+
+  .modal-panel--partner-edit .modal-panel__header h2,
+  .modal-panel--user-edit .modal-panel__header h2 {
+    font-size: 18px;
   }
 
   .partner-edit-form__grid {
@@ -291,12 +403,14 @@
     grid-column: auto;
   }
 
-  .partner-edit-form__actions {
+  .partner-edit-form__actions,
+  .user-edit-form__actions {
     flex-direction: column-reverse;
     gap: 12px;
   }
 
-  .partner-edit-form__button {
+  .partner-edit-form__button,
+  .user-edit-form__button {
     width: 100%;
   }
 }

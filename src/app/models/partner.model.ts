@@ -5,6 +5,7 @@ export interface Partner {
   name: string;
   email: string;
   phone: string;
+  address: string;
   industries: string[];
   packageName: 'Trải nghiệm' | 'Cơ bản' | 'Nâng cao';
   status: 'Đang sử dụng' | 'Tạm khóa';
