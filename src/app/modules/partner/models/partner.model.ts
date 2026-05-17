@@ -1,4 +1,4 @@
-import { AvatarVariant } from './avatar-variant.type';
+import { AvatarVariant } from '../../../shared/models/avatar-variant.type';
 
 export interface Partner {
   id: number;

@@ -1,5 +1,5 @@
-import { ALL_OPTION_LABEL } from '../constants/app.constants';
-import { PaginationState } from '../models/pagination.model';
+import { ALL_OPTION_LABEL } from '../../core/constants/app.constants';
+import { PaginationState } from '../components/pagination/pagination.model';
 
 export interface PaginatedItems<T> {
   items: T[];

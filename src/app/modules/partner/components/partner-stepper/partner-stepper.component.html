@@ -1,0 +1,44 @@
+<ol class="partner-stepper">
+  <li
+    *ngFor="let step of steps; let stepIndex = index"
+    class="partner-stepper__item"
+    [class.partner-stepper__item--active]="isStepActive(stepIndex + 1)"
+    [class.partner-stepper__item--current]="isCurrentStep(stepIndex + 1)"
+  >
+    <div class="partner-stepper__marker" aria-hidden="true">
+      <svg *ngIf="step.icon === 'person'" viewBox="0 0 24 24">
+        <path d="M12 12.5a4.25 4.25 0 1 0 0-8.5 4.25 4.25 0 0 0 0 8.5Z" />
+        <path d="M4.75 20a7.25 7.25 0 0 1 14.5 0" />
+      </svg>
+      <svg *ngIf="step.icon === 'card'" viewBox="0 0 24 24">
+        <rect x="4" y="5.5" width="16" height="13" rx="2" />
+        <path d="M7.5 10h9M8 14h3.5M14 14h2" />
+      </svg>
+      <svg *ngIf="step.icon === 'check'" viewBox="0 0 24 24">
+        <path d="m6.5 12.5 3.6 3.6 7.4-8.2" />
+      </svg>
+    </div>
+
+    <div class="partner-stepper__content">
+      <h2>
+        <button
+          class="partner-stepper__title-button"
+          type="button"
+          [disabled]="stepIndex + 1 > currentMainStep"
+          (click)="stepSelect.emit(stepIndex + 1)"
+        >
+          {{ step.title }}
+        </button>
+      </h2>
+      <ul *ngIf="step.substeps.length" class="partner-stepper__substeps">
+        <li
+          *ngFor="let substep of step.substeps"
+          [class.partner-stepper__substep--active]="isSubStepActive(substep.id)"
+          [class.partner-stepper__substep--completed]="isSubStepCompleted(substep.id)"
+        >
+          {{ substep.label }}
+        </li>
+      </ul>
+    </div>
+  </li>
+</ol>

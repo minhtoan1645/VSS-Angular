@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
-import { MAIN_NAV_ITEMS, MainNavItem } from '../../../../constants/dashboard.constants';
-import { DashboardSectionItem } from '../../../../models/dashboard-section-item.model';
+import { MAIN_NAV_ITEMS, MainNavItem } from '../../constants/dashboard.constants';
+import { DashboardSectionItem } from '../../models/dashboard-section-item.model';
 
 @Component({
   selector: 'app-sidebar',

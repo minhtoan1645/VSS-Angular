@@ -9,9 +9,9 @@ import {
   DEFAULT_DASHBOARD_TAB_ICON,
   DEFAULT_DASHBOARD_TAB_TITLE,
   DashboardSectionKey
-} from '../../constants/dashboard.constants';
-import { DashboardSectionItem } from '../../models/dashboard-section-item.model';
-import { getDeepestRouteData } from '../../utils/route-data.util';
+} from './constants/dashboard.constants';
+import { DashboardSectionItem } from './models/dashboard-section-item.model';
+import { getDeepestRouteData } from '../../core/utils/route-data.util';
 
 @Component({
   selector: 'app-dashboard-layout',

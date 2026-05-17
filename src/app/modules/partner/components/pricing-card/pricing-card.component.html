@@ -1,0 +1,37 @@
+<article
+  *ngIf="plan"
+  class="pricing-card"
+  [class.pricing-card--selected]="selected"
+>
+  <div class="pricing-card__content">
+    <h2>{{ plan.name }}</h2>
+    <p class="pricing-card__price">
+      {{ plan.price }}
+      <span *ngIf="plan.suffix">{{ plan.suffix }}</span>
+    </p>
+    <p class="pricing-card__desc">{{ plan.description }}</p>
+
+    <ul class="pricing-card__features">
+      <li *ngFor="let feature of plan.features" [class.pricing-card__feature--muted]="!feature.enabled">
+        <span class="pricing-card__feature-icon" aria-hidden="true">{{ feature.enabled ? '✓' : '−' }}</span>
+        <span>{{ feature.label }}</span>
+      </li>
+    </ul>
+  </div>
+
+  <div class="pricing-card__visual">
+    <img class="pricing-card__shape" src="assets/images/add-partner/Vector 23.png" alt="" aria-hidden="true" />
+    <img class="pricing-card__illustration" [src]="plan.image" alt="" aria-hidden="true" />
+  </div>
+
+  <div class="pricing-card__footer">
+    <button
+      class="pricing-card__button"
+      [class.pricing-card__button--active]="selected"
+      type="button"
+      (click)="planSelect.emit(plan.id)"
+    >
+      {{ selected ? 'Đang chọn' : 'Lựa chọn' }}
+    </button>
+  </div>
+</article>

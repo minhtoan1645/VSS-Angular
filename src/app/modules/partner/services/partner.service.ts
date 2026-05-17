@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { MOCK_PARTNERS } from '../mock-data/partners.mock';
+import { MOCK_PARTNERS } from '../data/partners.mock';
 import { Partner } from '../models/partner.model';
-import { buildOptions } from '../utils/table.util';
+import { buildOptions } from '../../../shared/utils/table.util';
 
 @Injectable({
   providedIn: 'root'

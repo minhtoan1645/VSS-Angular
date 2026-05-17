@@ -3,32 +3,12 @@ import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
-type MainStep = 1 | 2 | 3;
-type SubStep = 'information-general' | 'information-business' | 'package-duration' | 'package-type';
-
-interface PartnerStep {
-  title: string;
-  icon: string;
-  substeps: Array<{
-    id: SubStep;
-    label: string;
-  }>;
-}
-
-interface PricingFeature {
-  label: string;
-  enabled: boolean;
-}
-
-interface PricingPlan {
-  id: string;
-  name: string;
-  price: string;
-  suffix?: string;
-  description: string;
-  image: string;
-  features: PricingFeature[];
-}
+import {
+  PartnerAddMainStep,
+  PartnerAddSubStep,
+  PartnerStep,
+  PricingPlan
+} from '../../models/partner-add.model';
 
 @Component({
   selector: 'app-partner-add',
@@ -36,9 +16,9 @@ interface PricingPlan {
   styleUrls: ['./partner-add.component.scss']
 })
 export class PartnerAddComponent implements OnDestroy {
-  currentMainStep: MainStep = 1;
-  currentSubStep: SubStep = 'information-general';
-  completedSubSteps: SubStep[] = [];
+  currentMainStep: PartnerAddMainStep = 1;
+  currentSubStep: PartnerAddSubStep = 'information-general';
+  completedSubSteps: PartnerAddSubStep[] = [];
   selectedPackageId = 'basic';
   selectedBillingCycle = 'month';
   isFieldPickerOpen = false;
@@ -283,22 +263,6 @@ export class PartnerAddComponent implements OnDestroy {
 
   cancel(): void {
     this.router.navigate(['/partners']);
-  }
-
-  isStepActive(stepNumber: number): boolean {
-    return this.currentMainStep >= stepNumber;
-  }
-
-  isCurrentStep(stepNumber: number): boolean {
-    return this.currentMainStep === stepNumber;
-  }
-
-  isSubStepActive(substep: string): boolean {
-    return this.currentSubStep === substep;
-  }
-
-  isSubStepCompleted(substep: string): boolean {
-    return this.completedSubSteps.includes(substep as SubStep);
   }
 
   trackByPlanId(_: number, plan: PricingPlan): string {

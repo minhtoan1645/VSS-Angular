@@ -3,11 +3,11 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BehaviorSubject, combineLatest, Subscription } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { ALL_OPTION_LABEL, DEFAULT_PAGE_SIZE, PAGE_SIZE_OPTIONS } from '../../../../constants/app.constants';
-import { PaginationState } from '../../../../models/pagination.model';
-import { User } from '../../../../models/user.model';
-import { UserService } from '../../../../services/user.service';
-import { buildOptions, buildYearOptions, paginateItems } from '../../../../utils/table.util';
+import { ALL_OPTION_LABEL, DEFAULT_PAGE_SIZE, PAGE_SIZE_OPTIONS } from '../../../../core/constants/app.constants';
+import { PaginationState } from '../../../../shared/components/pagination/pagination.model';
+import { buildOptions, buildYearOptions, paginateItems } from '../../../../shared/utils/table.util';
+import { User } from '../../models/user.model';
+import { UserService } from '../../services/user.service';
 
 interface UserFilters {
   name: string;

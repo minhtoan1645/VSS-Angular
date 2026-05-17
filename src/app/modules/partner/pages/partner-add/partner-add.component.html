@@ -9,50 +9,13 @@
       <span>Thêm đối tác</span>
     </button>
 
-    <ol class="partner-stepper">
-      <li
-        *ngFor="let step of steps; let stepIndex = index"
-        class="partner-stepper__item"
-        [class.partner-stepper__item--active]="isStepActive(stepIndex + 1)"
-        [class.partner-stepper__item--current]="isCurrentStep(stepIndex + 1)"
-      >
-        <div class="partner-stepper__marker" aria-hidden="true">
-          <svg *ngIf="step.icon === 'person'" viewBox="0 0 24 24">
-            <path d="M12 12.5a4.25 4.25 0 1 0 0-8.5 4.25 4.25 0 0 0 0 8.5Z" />
-            <path d="M4.75 20a7.25 7.25 0 0 1 14.5 0" />
-          </svg>
-          <svg *ngIf="step.icon === 'card'" viewBox="0 0 24 24">
-            <rect x="4" y="5.5" width="16" height="13" rx="2" />
-            <path d="M7.5 10h9M8 14h3.5M14 14h2" />
-          </svg>
-          <svg *ngIf="step.icon === 'check'" viewBox="0 0 24 24">
-            <path d="m6.5 12.5 3.6 3.6 7.4-8.2" />
-          </svg>
-        </div>
-
-        <div class="partner-stepper__content">
-          <h2>
-            <button
-              class="partner-stepper__title-button"
-              type="button"
-              [disabled]="stepIndex + 1 > currentMainStep"
-              (click)="goToStep(stepIndex + 1)"
-            >
-              {{ step.title }}
-            </button>
-          </h2>
-          <ul *ngIf="step.substeps.length" class="partner-stepper__substeps">
-            <li
-              *ngFor="let substep of step.substeps"
-              [class.partner-stepper__substep--active]="isSubStepActive(substep.id)"
-              [class.partner-stepper__substep--completed]="isSubStepCompleted(substep.id)"
-            >
-              {{ substep.label }}
-            </li>
-          </ul>
-        </div>
-      </li>
-    </ol>
+    <app-partner-stepper
+      [steps]="steps"
+      [currentMainStep]="currentMainStep"
+      [currentSubStep]="currentSubStep"
+      [completedSubSteps]="completedSubSteps"
+      (stepSelect)="goToStep($event)"
+    ></app-partner-stepper>
   </aside>
 
   <main class="add-partner__content">
@@ -260,43 +223,12 @@
       </header>
 
       <div class="pricing-grid">
-        <article
+        <app-pricing-card
           *ngFor="let plan of pricingPlans; trackBy: trackByPlanId"
-          class="pricing-card"
-          [class.pricing-card--selected]="selectedPackageId === plan.id"
-        >
-          <div class="pricing-card__content">
-            <h2>{{ plan.name }}</h2>
-            <p class="pricing-card__price">
-              {{ plan.price }}
-              <span *ngIf="plan.suffix">{{ plan.suffix }}</span>
-            </p>
-            <p class="pricing-card__desc">{{ plan.description }}</p>
-
-            <ul class="pricing-card__features">
-              <li *ngFor="let feature of plan.features" [class.pricing-card__feature--muted]="!feature.enabled">
-                <span class="pricing-card__feature-icon" aria-hidden="true">{{ feature.enabled ? '✓' : '−' }}</span>
-                <span>{{ feature.label }}</span>
-              </li>
-            </ul>
-          </div>
-
-          <div class="pricing-card__visual">
-            <img class="pricing-card__shape" src="assets/images/add-partner/Vector 23.png" alt="" aria-hidden="true" />
-            <img class="pricing-card__illustration" [src]="plan.image" alt="" aria-hidden="true" />
-          </div>
-
-          <div class="pricing-card__footer">
-            <button
-              class="pricing-card__button"
-              [class.pricing-card__button--active]="selectedPackageId === plan.id"
-              type="button"
-              (click)="selectPackage(plan.id)"
-            >
-              {{ selectedPackageId === plan.id ? 'Đang chọn' : 'Lựa chọn' }}
-            </button>
-          </div>
-        </article>
+          [plan]="plan"
+          [selected]="selectedPackageId === plan.id"
+          (planSelect)="selectPackage($event)"
+        ></app-pricing-card>
       </div>
 
       <div class="add-partner__actions package-step__actions">
