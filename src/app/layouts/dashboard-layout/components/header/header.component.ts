@@ -1,6 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { AuthService } from '../../../../core/services/auth.service';
+
 type ProfileStatus = 'Hoạt động' | 'Đang bận' | 'Tạm khóa';
 
 @Component({
@@ -23,7 +25,10 @@ export class HeaderComponent {
     role: 'Quản lý'
   };
 
-  constructor(private readonly router: Router) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly router: Router
+  ) {}
 
   toggleProfileMenu(): void {
     this.isProfileMenuOpen = !this.isProfileMenuOpen;
@@ -83,6 +88,7 @@ export class HeaderComponent {
 
   confirmLogout(): void {
     this.isLogoutModalOpen = false;
+    this.authService.logout();
     this.router.navigate(['/login']);
   }
 }

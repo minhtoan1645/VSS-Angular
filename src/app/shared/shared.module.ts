@@ -6,13 +6,15 @@ import { ButtonComponent } from './components/button/button.component';
 import { CardComponent } from './components/card/card.component';
 import { InputComponent } from './components/input/input.component';
 import { PaginationComponent } from './components/pagination/pagination.component';
+import { HasPermissionDirective } from './directives/has-permission.directive';
 
 @NgModule({
   declarations: [
     ButtonComponent,
     CardComponent,
     InputComponent,
-    PaginationComponent
+    PaginationComponent,
+    HasPermissionDirective
   ],
   imports: [
     CommonModule,
@@ -22,7 +24,8 @@ import { PaginationComponent } from './components/pagination/pagination.componen
     ButtonComponent,
     CardComponent,
     InputComponent,
-    PaginationComponent
+    PaginationComponent,
+    HasPermissionDirective
   ]
 })
 export class SharedModule {}

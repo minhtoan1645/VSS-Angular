@@ -70,10 +70,10 @@
 
     <div class="partner-summary-card__package">
       <div class="partner-summary-card__tools" aria-label="Thao tác đối tác">
-        <button type="button" aria-label="Sửa đối tác" (click)="openEditPartnerModal(partner)">
+        <button *appHasPermission="'partner:update'" type="button" aria-label="Sửa đối tác" (click)="openEditPartnerModal(partner)">
           <img src="assets/images/icons/edit-2.png" alt="" />
         </button>
-        <button type="button" aria-label="Khóa đối tác">
+        <button *appHasPermission="'partner:update'" type="button" aria-label="Khóa đối tác">
           <img src="assets/images/icons/Lock.png" alt="" />
         </button>
       </div>
@@ -110,7 +110,7 @@
     </div>
   </section>
 
-  <section class="detail-section detail-section--data" aria-labelledby="partner-users-title">
+  <section *appHasPermission="'user:view'" class="detail-section detail-section--data" aria-labelledby="partner-users-title">
     <header class="detail-section__header detail-section__header--with-actions">
       <div class="detail-section__title">
         <h2 id="partner-users-title">Danh sách người dùng ({{ relatedUsers.length }})</h2>
@@ -122,7 +122,7 @@
           <img src="assets/images/icons/export.png" alt="" />
           Xuất danh sách
         </button>
-        <button class="btn btn--primary detail-action detail-action--add" type="button">
+        <button *appHasPermission="'user:create'" class="btn btn--primary detail-action detail-action--add" type="button">
           <img src="assets/images/icons/Plus.png" alt="" />
           Thêm người dùng
         </button>
@@ -204,13 +204,13 @@
             <td>{{ user.joinedDate }}</td>
             <td>
               <div class="table-actions">
-                <button type="button" [attr.aria-label]="'Sửa ' + user.name" (click)="openEditUserModal(user)">
+                <button *appHasPermission="'user:update'" type="button" [attr.aria-label]="'Sửa ' + user.name" (click)="openEditUserModal(user)">
                   <img src="assets/images/icons/edit-2.png" alt="" />
                 </button>
-                <button type="button" [attr.aria-label]="'Khóa ' + user.name">
+                <button *appHasPermission="'user:update'" type="button" [attr.aria-label]="'Khóa ' + user.name">
                   <img src="assets/images/icons/Lock.png" alt="" />
                 </button>
-                <button class="table-actions__danger" type="button" [attr.aria-label]="'Xóa ' + user.name" (click)="openDeleteUserModal(user)">
+                <button *appHasPermission="'user:delete'" class="table-actions__danger" type="button" [attr.aria-label]="'Xóa ' + user.name" (click)="openDeleteUserModal(user)">
                   <img src="assets/images/icons/trash.png" alt="" />
                 </button>
               </div>

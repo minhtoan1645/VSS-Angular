@@ -5,21 +5,23 @@
 
   <nav class="sidebar__nav" aria-label="Menu module">
     <ng-container *ngFor="let item of mainNavItems">
-      <a
-        *ngIf="item.route; else staticMainItem"
-        class="sidebar__icon"
-        [class.sidebar__icon--active]="isMainItemActive(item)"
-        [routerLink]="item.route"
-        [attr.aria-label]="item.label"
-      >
-        <img [src]="item.icon" alt="" />
-      </a>
-
-      <ng-template #staticMainItem>
-        <span class="sidebar__icon" [attr.aria-label]="item.label">
+      <ng-container *appHasPermission="item.permission; mode: item.permissionMode">
+        <a
+          *ngIf="item.route; else staticMainItem"
+          class="sidebar__icon"
+          [class.sidebar__icon--active]="isMainItemActive(item)"
+          [routerLink]="item.route"
+          [attr.aria-label]="item.label"
+        >
           <img [src]="item.icon" alt="" />
-        </span>
-      </ng-template>
+        </a>
+
+        <ng-template #staticMainItem>
+          <span class="sidebar__icon" [attr.aria-label]="item.label">
+            <img [src]="item.icon" alt="" />
+          </span>
+        </ng-template>
+      </ng-container>
     </ng-container>
   </nav>
 
@@ -33,22 +35,24 @@
 
   <nav class="section-sidebar__nav">
     <ng-container *ngFor="let item of sectionItems">
-      <a
-        *ngIf="item.route; else disabledSectionItem"
-        class="section-sidebar__item"
-        [class.section-sidebar__item--active]="isSectionItemActive(item)"
-        [routerLink]="item.route"
-      >
-        <img [src]="item.icon" alt="" />
-        <span>{{ item.label }}</span>
-      </a>
-
-      <ng-template #disabledSectionItem>
-        <span class="section-sidebar__item">
+      <ng-container *appHasPermission="item.permission; mode: item.permissionMode">
+        <a
+          *ngIf="item.route; else disabledSectionItem"
+          class="section-sidebar__item"
+          [class.section-sidebar__item--active]="isSectionItemActive(item)"
+          [routerLink]="item.route"
+        >
           <img [src]="item.icon" alt="" />
           <span>{{ item.label }}</span>
-        </span>
-      </ng-template>
+        </a>
+
+        <ng-template #disabledSectionItem>
+          <span class="section-sidebar__item">
+            <img [src]="item.icon" alt="" />
+            <span>{{ item.label }}</span>
+          </span>
+        </ng-template>
+      </ng-container>
     </ng-container>
   </nav>
 </aside>

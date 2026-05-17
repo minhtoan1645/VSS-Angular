@@ -8,6 +8,7 @@
       iconSrc="assets/images/icons/export.png"
     ></app-button>
     <app-button
+      *appHasPermission="'partner:create'"
       buttonClass="btn btn--primary users-page__button"
       label="Thêm đối tác"
       iconSrc="assets/images/icons/Plus.png"
@@ -116,13 +117,13 @@
           <td>{{ partner.expiryDate }}</td>
           <td>
             <div class="table-actions">
-              <button type="button" [attr.aria-label]="'Sửa ' + partner.name" (click)="$event.stopPropagation(); openEditPartnerModal(partner)">
+              <button *appHasPermission="'partner:update'" type="button" [attr.aria-label]="'Sửa ' + partner.name" (click)="$event.stopPropagation(); openEditPartnerModal(partner)">
                 <img src="assets/images/icons/edit-2.png" alt="" />
               </button>
-              <button type="button" [attr.aria-label]="'Khóa ' + partner.name" (click)="$event.stopPropagation()">
+              <button *appHasPermission="'partner:update'" type="button" [attr.aria-label]="'Khóa ' + partner.name" (click)="$event.stopPropagation()">
                 <img src="assets/images/icons/Lock.png" alt="" />
               </button>
-              <button class="table-actions__danger" type="button" [attr.aria-label]="'Xóa ' + partner.name" (click)="$event.stopPropagation(); openDeletePartnerModal(partner)">
+              <button *appHasPermission="'partner:delete'" class="table-actions__danger" type="button" [attr.aria-label]="'Xóa ' + partner.name" (click)="$event.stopPropagation(); openDeletePartnerModal(partner)">
                 <img src="assets/images/icons/trash.png" alt="" />
               </button>
             </div>

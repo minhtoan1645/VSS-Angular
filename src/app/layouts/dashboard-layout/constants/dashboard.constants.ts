@@ -1,3 +1,5 @@
+import { PERMISSIONS } from '../../../core/constants/permission.constants';
+import { Permission, PermissionMode } from '../../../core/models/permission.model';
 import { DashboardSectionItem } from '../models/dashboard-section-item.model';
 
 export interface MainNavItem {
@@ -5,6 +7,8 @@ export interface MainNavItem {
   label: string;
   route?: string;
   activeRoutes?: string[];
+  permission?: Permission | Permission[];
+  permissionMode?: PermissionMode;
 }
 
 export type DashboardSectionKey = 'users' | 'partners';
@@ -16,7 +20,14 @@ export const DEFAULT_DASHBOARD_SECTION_KEY: DashboardSectionKey = 'users';
 
 export const MAIN_NAV_ITEMS: MainNavItem[] = [
   { icon: 'assets/images/icons/messages-2.png', label: 'Hội thoại' },
-  { icon: 'assets/images/icons/tag-user.png', label: 'Quản lý', route: '/users', activeRoutes: ['/users', '/partners'] },
+  {
+    icon: 'assets/images/icons/tag-user.png',
+    label: 'Quản lý',
+    route: '/users',
+    activeRoutes: ['/users', '/partners'],
+    permission: [PERMISSIONS.userView, PERMISSIONS.partnerView],
+    permissionMode: 'any'
+  },
   { icon: 'assets/images/icons/presention-chart.png', label: 'Phân tích' }
 ];
 
@@ -26,13 +37,15 @@ export const DASHBOARD_SECTION_ITEMS: Record<DashboardSectionKey, DashboardSecti
       key: 'users',
       label: 'Danh sách người dùng',
       icon: 'assets/images/icons/tag-user.png',
-      route: '/users'
+      route: '/users',
+      permission: PERMISSIONS.userView
     },
     {
       key: 'partners',
       label: 'Danh sách đối tác',
       icon: 'assets/images/icons/edit-2.png',
-      route: '/partners'
+      route: '/partners',
+      permission: PERMISSIONS.partnerView
     },
     {
       key: 'analytics',
@@ -45,7 +58,8 @@ export const DASHBOARD_SECTION_ITEMS: Record<DashboardSectionKey, DashboardSecti
       key: 'partners',
       label: 'Danh sách đối tác',
       icon: 'assets/images/icons/tag-user.png',
-      route: '/partners'
+      route: '/partners',
+      permission: PERMISSIONS.partnerView
     },
     {
       key: 'users',

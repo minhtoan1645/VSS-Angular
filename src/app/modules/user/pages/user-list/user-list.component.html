@@ -8,6 +8,7 @@
       iconSrc="assets/images/icons/export.png"
     ></app-button>
     <app-button
+      *appHasPermission="'user:create'"
       buttonClass="btn btn--primary users-page__button"
       label="Thêm người dùng"
       iconSrc="assets/images/icons/Plus.png"
@@ -115,13 +116,13 @@
           <td>{{ user.joinedDate }}</td>
           <td>
             <div class="table-actions">
-              <button type="button" [attr.aria-label]="'Sửa ' + user.name" (click)="$event.stopPropagation(); openEditUserModal(user)">
+              <button *appHasPermission="'user:update'" type="button" [attr.aria-label]="'Sửa ' + user.name" (click)="$event.stopPropagation(); openEditUserModal(user)">
                 <img src="assets/images/icons/edit-2.png" alt="" />
               </button>
-              <button type="button" [attr.aria-label]="'Khóa ' + user.name" (click)="$event.stopPropagation()">
+              <button *appHasPermission="'user:update'" type="button" [attr.aria-label]="'Khóa ' + user.name" (click)="$event.stopPropagation()">
                 <img src="assets/images/icons/Lock.png" alt="" />
               </button>
-              <button class="table-actions__danger" type="button" [attr.aria-label]="'Xóa ' + user.name" (click)="$event.stopPropagation(); openDeleteUserModal(user)">
+              <button *appHasPermission="'user:delete'" class="table-actions__danger" type="button" [attr.aria-label]="'Xóa ' + user.name" (click)="$event.stopPropagation(); openDeleteUserModal(user)">
                 <img src="assets/images/icons/trash.png" alt="" />
               </button>
             </div>
