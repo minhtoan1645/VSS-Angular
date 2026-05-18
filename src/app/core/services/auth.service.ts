@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
-import { ALL_ROLES, DEFAULT_ROLE, ROLE_PERMISSIONS } from '../constants/permission.constants';
+import { ALL_ROLES, DEFAULT_ROLE, ROLE_PERMISSIONS, TEST_USERS } from '../constants/permission.constants';
 import { AuthToken, AuthUser, Role } from '../models/auth.models';
 import { TokenStorageService } from './token-storage.service';
 
@@ -17,11 +17,10 @@ export class AuthService {
   constructor(private readonly tokenStorage: TokenStorageService) {
     this.currentRoleSubject = new BehaviorSubject<Role>(this.getInitialRole());
     this.currentRole$ = this.currentRoleSubject.asObservable();
-    this.persistMockUser(this.currentRoleSubject.value);
   }
 
-  getCurrentUser(): AuthUser {
-    return this.tokenStorage.getUser() ?? this.createMockUser(this.currentRoleSubject.value);
+  getCurrentUser(): AuthUser | null {
+    return this.tokenStorage.getUser();
   }
 
   getCurrentRole(): Role {
@@ -35,7 +34,7 @@ export class AuthService {
   }
 
   isLoggedIn(): boolean {
-    return Boolean(this.getCurrentUser());
+    return Boolean(this.tokenStorage.getToken() && this.tokenStorage.getUser());
   }
 
   isAuthenticated(): boolean {
@@ -54,7 +53,21 @@ export class AuthService {
   logout(): void {
     this.clearSession();
     this.tokenStorage.clearUser();
-    this.setCurrentRole(DEFAULT_ROLE);
+    localStorage.removeItem(CURRENT_ROLE_STORAGE_KEY);
+    this.currentRoleSubject.next(DEFAULT_ROLE);
+  }
+
+  seedTestUser(role: Role): AuthUser {
+    const user = TEST_USERS[role];
+    this.currentRoleSubject.next(role);
+    localStorage.setItem(CURRENT_ROLE_STORAGE_KEY, role);
+    this.tokenStorage.saveUser(user);
+    this.tokenStorage.saveToken({ accessToken: `mock-${role.toLowerCase()}-token` });
+    return user;
+  }
+
+  getTestUsers(): readonly AuthUser[] {
+    return Object.values(TEST_USERS);
   }
 
   private getInitialRole(): Role {
@@ -72,7 +85,8 @@ export class AuthService {
   }
 
   private persistMockUser(role: Role): void {
-    this.tokenStorage.saveUser(this.createMockUser(role));
+    const user = this.createMockUser(role);
+    this.tokenStorage.saveUser(user);
   }
 
   private createMockUser(role: Role): AuthUser {

@@ -1,7 +1,6 @@
-import { User } from '../models/user.model';
 import { AvatarVariant } from '../../../shared/models/avatar-variant.type';
+import { User } from '../models/user.model';
 
-// Temporary mock data. Replace with API responses when UserService is wired to a backend.
 const firstNames = [
   'An', 'Bình', 'Chi', 'Dương', 'Giang', 'Hà', 'Hải', 'Hương', 'Khánh', 'Lan',
   'Linh', 'Long', 'Mai', 'Minh', 'Nam', 'Ngọc', 'Phúc', 'Quân', 'Trang', 'Vy'

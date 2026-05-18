@@ -1,7 +1,6 @@
-import { Partner } from '../models/partner.model';
 import { AvatarVariant } from '../../../shared/models/avatar-variant.type';
+import { Partner } from '../models/partner.model';
 
-// Temporary mock data. Replace with API responses when PartnerService is wired to a backend.
 const partnerPrefixes = [
   'NCC', 'CT', 'Viet', 'Nova', 'Global', 'Sun', 'Blue', 'Green', 'Mega', 'Asia'
 ];

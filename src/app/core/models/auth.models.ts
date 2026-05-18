@@ -1,11 +1,12 @@
 import { Permission } from './permission.model';
 
-export type Role = 'Admin' | 'Role1' | 'Role2';
+export type Role = 'Admin' | 'Agent' | 'Manager';
 
 export interface AuthUser {
   id: string;
   displayName: string;
   email: string;
+  password?: string;
   role: Role;
   permissions: Permission[];
 }

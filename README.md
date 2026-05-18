@@ -1,15 +1,22 @@
 # VSS Chat Platform Angular 12
 
-Angular 12 conversion of the VSS Chat Platform UI. The app now follows a feature-based structure: feature modules own their pages, models, services, and mock data; shared owns reusable UI; core owns app-wide constants and utilities; layouts remain app shells.
+Đây là project Angular 12 theo hướng feature-based architecture, đã được chuẩn hóa để dễ mở rộng và sẵn sàng nối backend thật sau này.
 
-## Run
+## Mục tiêu kiến trúc
+
+- Tách rõ `core`, `shared`, `layouts`, `modules`
+- Tách riêng `api layer` và `mock layer`
+- Giữ service UI không phụ thuộc trực tiếp vào mock data
+- Chuẩn bị sẵn cho backend thật bằng `HttpClient`, interceptor, guard, permission và model tách lớp
+
+## Cách chạy
 
 ```bash
 npm install
 npm start
 ```
 
-Open `http://localhost:4200/`.
+Mở `http://localhost:4200/`.
 
 ## Build
 
@@ -17,7 +24,7 @@ Open `http://localhost:4200/`.
 npm run build
 ```
 
-## Main Structure
+## Cấu trúc thư mục
 
 ```text
 src/
@@ -31,14 +38,7 @@ src/
       utils/
     shared/
       components/
-        button/
-        card/
-        input/
-        modal/
-        pagination/
-        table/
       directives/
-      pipes/
       models/
       utils/
       shared.module.ts
@@ -46,40 +46,23 @@ src/
       auth-layout/
       dashboard-layout/
         components/
-          header/
-          sidebar/
         constants/
         models/
     modules/
       auth/
-        auth.module.ts
-        auth-routing.module.ts
         pages/
-          forgot-password/
-          login/
-          register/
-          reset-password/
-          verify-code/
       user/
-        data/
+        api/
+        mock/
         models/
-        services/
         pages/
-          user-list/
-          user-detail/
-        user.module.ts
-        user-routing.module.ts
+        services/
       partner/
-        data/
+        api/
+        mock/
         models/
-        services/
-        components/
         pages/
-          partner-list/
-          partner-detail/
-          partner-add/
-        partner.module.ts
-        partner-routing.module.ts
+        services/
   assets/
   styles/
     abstracts/
@@ -89,9 +72,40 @@ src/
     pages/
 ```
 
-Generated folders and local-only files such as `dist/`, `node_modules/`, `.angular/`, `.cache/`, and `*.log` are ignored and should not be committed.
+## Quy ước naming
 
-## Routes
+- `*.component.ts/html/scss` cho UI component
+- `*.service.ts` cho service điều phối logic
+- `*.api.service.ts` cho lớp gọi backend/API
+- `*.mock.service.ts` cho lớp trả mock data trong giai đoạn dev
+- `*.mock.ts` cho dữ liệu giả lập
+- `*.model.ts` cho interface/type của feature
+
+## Luồng dữ liệu đề xuất
+
+`component.html` → `component.ts` → `service.ts` → `api.service.ts` → backend thật
+
+Trong giai đoạn hiện tại:
+
+`component.html` → `component.ts` → `service.ts` → `api.service.ts` → `mock.service.ts` → mock data
+
+Khi có backend thật, chỉ cần thay phần trong `api.service.ts` từ `mock service` sang `HttpClient`.
+
+## Tài khoản test
+
+Dùng các tài khoản sau để test đăng nhập:
+
+- `admin@gmail.com` / `123456`
+- `agent@gmail.com` / `123456`
+- `manager@gmail.com` / `123456`
+
+Vai trò:
+
+- `Admin`: toàn quyền user + partner
+- `Agent`: chỉ xem user và partner
+- `Manager`: toàn quyền partner, không xem user
+
+## Các route chính
 
 - `/login`
 - `/register`
@@ -103,39 +117,38 @@ Generated folders and local-only files such as `dist/`, `node_modules/`, `.angul
 - `/partners`
 - `/partners/add`
 - `/partners/:id`
-- `''` redirects to `/login`
-
-## Routing Layout
-
-`AppRoutingModule` wraps auth routes with `AuthLayoutComponent` and lazy-loads `AuthModule`.
-Dashboard feature areas are lazy-loaded under `DashboardLayoutComponent`:
-
-- `/users` loads `UserModule`
-- `/partners` loads `PartnerModule`
-
-`UserRoutingModule` maps `''` to `UserListComponent` and `':id'` to `UserDetailComponent`.
-`PartnerRoutingModule` maps `''`, `'add'`, and `':id'`; keep `'add'` before `':id'`.
+- `''` chuyển hướng về `/login`
 
 ## Shared UI
 
-Reusable Angular controls live in `src/app/shared/components` and are exported by `SharedModule`:
+Các component dùng chung nằm trong `src/app/shared/components`:
 
 - `ButtonComponent`
 - `CardComponent`
 - `InputComponent`
 - `PaginationComponent`
 
-`shared/components/table` and `shared/components/modal` are reserved for generic components. Current table and modal markup still contains feature-specific actions, so it remains in feature pages until a generic API is safe.
+Các directive dùng chung cũng đặt ở `shared`.
 
-Global SCSS partials in `src/styles/components` are CSS utility patterns used by both Angular components and native template elements. Do not remove a global partial unless all class usages have been migrated.
+## Core
 
-## Data Ownership
+`core` chứa các phần nền tảng dùng toàn app:
 
-The app currently uses mock data only:
+- `AuthService`
+- `TokenStorageService`
+- `PermissionService`
+- `AuthGuard`
+- `PermissionGuard`
+- `AuthInterceptor`
+- constants và models dùng chung cho auth/permission
 
-- `UserService` reads from `modules/user/data/users.mock.ts`
-- `PartnerService` reads from `modules/partner/data/partners.mock.ts`
+## Data ownership
 
-Feature-specific models and mock data stay inside their feature module. Cross-feature UI types, such as avatar variants and pagination state, live under `shared`.
+- Mock data của `user` và `partner` nằm trong `modules/*/mock`
+- API abstraction nằm trong `modules/*/api`
+- Model của từng feature nằm trong `modules/*/models`
+- Service orchestration nằm trong `modules/*/services`
 
-`core` contains API-ready auth and permission primitives (`AuthService`, `TokenStorageService`, `PermissionService`, guards, interceptor, auth/permission models). They are intentionally not attached to current routes yet so the learning UI keeps its existing behavior.
+## Ghi chú phát triển
+
+Khi gắn backend thật, ưu tiên chỉ thay implementation trong `api` layer để hạn chế ảnh hưởng tới UI và routing.

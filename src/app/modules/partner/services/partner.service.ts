@@ -1,37 +1,27 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { MOCK_PARTNERS } from '../data/partners.mock';
+import { Observable } from 'rxjs';
+import { PartnerApiService } from '../api/partner-api.service';
+import { PartnerMockService } from '../mock/partner-mock.service';
 import { Partner } from '../models/partner.model';
-import { buildOptions } from '../../../shared/utils/table.util';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PartnerService {
-  private readonly partners$ = of(MOCK_PARTNERS);
-  private readonly industryOptions$ = this.partners$.pipe(
-    map((partners) => {
-      const industries = partners.reduce<string[]>(
-        (allIndustries, partner) => [...allIndustries, ...partner.industries],
-        []
-      );
-
-      return buildOptions(industries).slice(1);
-    })
-  );
+  constructor(
+    private readonly partnerApiService: PartnerApiService,
+    private readonly partnerMockService: PartnerMockService
+  ) {}
 
   getPartners(): Observable<Partner[]> {
-    return this.partners$;
+    return this.partnerApiService.getPartners();
   }
 
   getPartnerById(id: number): Observable<Partner | undefined> {
-    return this.getPartners().pipe(
-      map((partners) => partners.find((partner) => partner.id === id))
-    );
+    return this.partnerApiService.getPartnerById(id);
   }
 
   getIndustryOptions(): Observable<string[]> {
-    return this.industryOptions$;
+    return this.partnerMockService.getIndustryOptions();
   }
 }

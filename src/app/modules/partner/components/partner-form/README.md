@@ -1,1 +1,0 @@
-The add-partner form is still owned by `pages/partner-add` because it controls the full wizard FormGroup. Extract it here when the form inputs/outputs can be separated without changing the current flow.

@@ -1,10 +1,10 @@
-import { Role } from '../models/auth.models';
+import { AuthUser, Role } from '../models/auth.models';
 import { Permission } from '../models/permission.model';
 
 export const ROLES = {
   admin: 'Admin',
-  role1: 'Role1',
-  role2: 'Role2'
+  agent: 'Agent',
+  manager: 'Manager'
 } as const;
 
 export const DEFAULT_ROLE: Role = ROLES.admin;
@@ -31,10 +31,11 @@ export const ROLE_PERMISSIONS: Record<Role, readonly Permission[]> = {
     PERMISSIONS.partnerUpdate,
     PERMISSIONS.partnerDelete
   ],
-  [ROLES.role1]: [
+  [ROLES.agent]: [
+    PERMISSIONS.userView,
     PERMISSIONS.partnerView
   ],
-  [ROLES.role2]: [
+  [ROLES.manager]: [
     PERMISSIONS.partnerView,
     PERMISSIONS.partnerCreate,
     PERMISSIONS.partnerUpdate,
@@ -44,6 +45,33 @@ export const ROLE_PERMISSIONS: Record<Role, readonly Permission[]> = {
 
 export const ALL_ROLES: readonly Role[] = [
   ROLES.admin,
-  ROLES.role1,
-  ROLES.role2
+  ROLES.agent,
+  ROLES.manager
 ];
+
+export const TEST_USERS: Record<Role, AuthUser> = {
+  [ROLES.admin]: {
+    id: 'test-admin',
+    displayName: 'Admin Tester',
+    email: 'admin@gmail.com',
+    password: '123456',
+    role: ROLES.admin,
+    permissions: [...ROLE_PERMISSIONS[ROLES.admin]]
+  },
+  [ROLES.agent]: {
+    id: 'test-agent',
+    displayName: 'Agent Tester',
+    email: 'agent@gmail.com',
+    password: '123456',
+    role: ROLES.agent,
+    permissions: [...ROLE_PERMISSIONS[ROLES.agent]]
+  },
+  [ROLES.manager]: {
+    id: 'test-manager',
+    displayName: 'Manager Tester',
+    email: 'manager@gmail.com',
+    password: '123456',
+    role: ROLES.manager,
+    permissions: [...ROLE_PERMISSIONS[ROLES.manager]]
+  }
+};

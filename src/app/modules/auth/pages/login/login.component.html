@@ -13,6 +13,7 @@
     <div class="card__body">
       <div class="auth__form">
         <form class="form" [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
+
           <div class="form__body">
             <div class="form-group">
               <app-input
@@ -49,6 +50,9 @@
               </p>
               <p *ngIf="passwordControl?.hasError('minlength') && passwordControl?.touched" class="form-group__error">
                 Mật khẩu tối thiểu 6 ký tự.
+              </p>
+              <p *ngIf="passwordControl?.hasError('invalidCredentials') && passwordControl?.touched" class="form-group__error">
+                Email hoặc mật khẩu không đúng.
               </p>
             </div>
 

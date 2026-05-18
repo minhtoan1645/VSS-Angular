@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
+import { AuthService } from '../../../../core/services/auth.service';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -16,7 +18,8 @@ export class LoginComponent {
 
   constructor(
     private readonly formBuilder: FormBuilder,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly authService: AuthService
   ) {}
 
   get emailControl(): AbstractControl | null {
@@ -33,6 +36,18 @@ export class LoginComponent {
       return;
     }
 
+    const enteredEmail = String(this.loginForm.value.email || '').trim().toLowerCase();
+    const enteredPassword = String(this.loginForm.value.password || '');
+    const testUser = this.authService.getTestUsers().find(
+      (user) => user.email.toLowerCase() === enteredEmail && user.password === enteredPassword
+    );
+
+    if (!testUser) {
+      this.loginForm.get('password')?.setErrors({ invalidCredentials: true });
+      return;
+    }
+
+    this.authService.seedTestUser(testUser.role);
     this.router.navigate(['/partners']);
   }
 }

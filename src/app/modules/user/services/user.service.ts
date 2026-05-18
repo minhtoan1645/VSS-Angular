@@ -1,37 +1,27 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { MOCK_USERS } from '../data/users.mock';
+import { Observable } from 'rxjs';
+import { UserApiService } from '../api/user-api.service';
+import { UserMockService } from '../mock/user-mock.service';
 import { User } from '../models/user.model';
-import { buildOptions } from '../../../shared/utils/table.util';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private readonly users$ = of(MOCK_USERS);
-  private readonly departmentOptions$ = this.users$.pipe(
-    map((users) => {
-      const departments = users.reduce<string[]>(
-        (allDepartments, user) => [...allDepartments, ...user.departments],
-        []
-      );
-
-      return buildOptions(departments).slice(1);
-    })
-  );
+  constructor(
+    private readonly userApiService: UserApiService,
+    private readonly userMockService: UserMockService
+  ) {}
 
   getUsers(): Observable<User[]> {
-    return this.users$;
+    return this.userApiService.getUsers();
   }
 
   getUserById(id: number): Observable<User | undefined> {
-    return this.getUsers().pipe(
-      map((users) => users.find((user) => user.id === id))
-    );
+    return this.userApiService.getUserById(id);
   }
 
   getDepartmentOptions(): Observable<string[]> {
-    return this.departmentOptions$;
+    return this.userMockService.getDepartmentOptions();
   }
 }
