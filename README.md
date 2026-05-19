@@ -2,13 +2,6 @@
 
 Đây là project Angular 12 theo hướng feature-based architecture, đã được chuẩn hóa để dễ mở rộng và sẵn sàng nối backend thật sau này.
 
-## Mục tiêu kiến trúc
-
-- Tách rõ `core`, `shared`, `layouts`, `modules`
-- Tách riêng `api layer` và `mock layer`
-- Giữ service UI không phụ thuộc trực tiếp vào mock data
-- Chuẩn bị sẵn cho backend thật bằng `HttpClient`, interceptor, guard, permission và model tách lớp
-
 ## Cách chạy
 
 ```bash
@@ -18,15 +11,8 @@ npm start
 
 Mở `http://localhost:4200/`.
 
-## Build
-
-```bash
-npm run build
-```
-
 ## Cấu trúc thư mục
 
-```text
 src/
   app/
     core/
