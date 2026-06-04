@@ -58,23 +58,31 @@
           </th>
           <th>
             <select class="table-filter" formControlName="industry" aria-label="Lọc lĩnh vực">
-              <option *ngFor="let option of industryOptions" [value]="option">{{ option }}</option>
+              @for (option of industryOptions; track option) {
+                <option [value]="option">{{ option }}</option>
+              }
             </select>
           </th>
           <th>
             <select class="table-filter" formControlName="packageName" aria-label="Lọc gói sử dụng">
-              <option *ngFor="let option of packageOptions" [value]="option">{{ option }}</option>
+              @for (option of packageOptions; track option) {
+                <option [value]="option">{{ option }}</option>
+              }
             </select>
           </th>
           <th>
             <select class="table-filter" formControlName="status" aria-label="Lọc trạng thái">
-              <option *ngFor="let option of statusOptions" [value]="option">{{ option }}</option>
+              @for (option of statusOptions; track option) {
+                <option [value]="option">{{ option }}</option>
+              }
             </select>
           </th>
           <th>
             <div class="table-filter-group">
               <select class="table-filter" formControlName="expiryYear" aria-label="Lọc hạn sử dụng">
-                <option *ngFor="let option of expiryYearOptions" [value]="option">{{ option }}</option>
+                @for (option of expiryYearOptions; track option) {
+                  <option [value]="option">{{ option }}</option>
+                }
               </select>
               <button class="table-sort" type="button" aria-label="Sắp xếp hạn sử dụng">
                 <img src="assets/images/icons/default.png" alt="" />
@@ -85,50 +93,56 @@
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let partner of partners; trackBy: trackByPartnerId" (click)="goToDetail(partner)">
-          <td>{{ partner.id }}</td>
-          <td>
-            <div class="partner-cell">
-              <span [class]="'avatar avatar--' + partner.avatarVariant">{{ partner.avatarText }}</span>
-              <span class="table-link">
-                {{ partner.name }}
+        @for (partner of partners; track trackByPartnerId($index, partner)) {
+          <tr (click)="goToDetail(partner)">
+            <td>{{ partner.id }}</td>
+            <td>
+              <div class="partner-cell">
+                <span [class]="'avatar avatar--' + partner.avatarVariant">{{ partner.avatarText }}</span>
+                <span class="table-link">
+                  {{ partner.name }}
+                </span>
+              </div>
+            </td>
+            <td>{{ partner.email }}</td>
+            <td>{{ partner.phone }}</td>
+            <td>
+              <div class="badge-group">
+                @for (industry of getVisibleIndustries(partner); track industry) {
+                  <span class="badge badge--blue">
+                    {{ industry }}
+                  </span>
+                }
+                @if (getRemainingIndustries(partner) > 0) {
+                  <span class="badge badge--count">
+                    +{{ getRemainingIndustries(partner) }}
+                  </span>
+                }
+              </div>
+            </td>
+            <td><span [class]="getPackageBadgeClass(partner.packageName)">{{ partner.packageName }}</span></td>
+            <td>
+              <span [class]="getStatusClass(partner.status)">
+                <span></span>
+                {{ partner.status }}
               </span>
-            </div>
-          </td>
-          <td>{{ partner.email }}</td>
-          <td>{{ partner.phone }}</td>
-          <td>
-            <div class="badge-group">
-              <span *ngFor="let industry of getVisibleIndustries(partner)" class="badge badge--blue">
-                {{ industry }}
-              </span>
-              <span *ngIf="getRemainingIndustries(partner) > 0" class="badge badge--count">
-                +{{ getRemainingIndustries(partner) }}
-              </span>
-            </div>
-          </td>
-          <td><span [class]="getPackageBadgeClass(partner.packageName)">{{ partner.packageName }}</span></td>
-          <td>
-            <span [class]="getStatusClass(partner.status)">
-              <span></span>
-              {{ partner.status }}
-            </span>
-          </td>
-          <td>{{ partner.expiryDate }}</td>
-          <td>
-            <div class="table-actions">
-              <button *appHasPermission="'partner:update'" type="button" [attr.aria-label]="'Sửa ' + partner.name" (click)="$event.stopPropagation(); openEditPartnerModal(partner)">
-                <img src="assets/images/icons/edit-2.png" alt="" />
-              </button>
-              <button *appHasPermission="'partner:update'" type="button" [attr.aria-label]="'Khóa ' + partner.name" (click)="$event.stopPropagation()">
-                <img src="assets/images/icons/Lock.png" alt="" />
-              </button>
-              <button *appHasPermission="'partner:delete'" class="table-actions__danger" type="button" [attr.aria-label]="'Xóa ' + partner.name" (click)="$event.stopPropagation(); openDeletePartnerModal(partner)">
-                <img src="assets/images/icons/trash.png" alt="" />
-              </button>
-            </div>
-          </td>
-        </tr>
+            </td>
+            <td>{{ partner.expiryDate }}</td>
+            <td>
+              <div class="table-actions">
+                <button *appHasPermission="'partner:update'" type="button" [attr.aria-label]="'Sửa ' + partner.name" (click)="$event.stopPropagation(); openEditPartnerModal(partner)">
+                  <img src="assets/images/icons/edit-2.png" alt="" />
+                </button>
+                <button *appHasPermission="'partner:update'" type="button" [attr.aria-label]="'Khóa ' + partner.name" (click)="$event.stopPropagation()">
+                  <img src="assets/images/icons/Lock.png" alt="" />
+                </button>
+                <button *appHasPermission="'partner:delete'" class="table-actions__danger" type="button" [attr.aria-label]="'Xóa ' + partner.name" (click)="$event.stopPropagation(); openDeletePartnerModal(partner)">
+                  <img src="assets/images/icons/trash.png" alt="" />
+                </button>
+              </div>
+            </td>
+          </tr>
+        }
       </tbody>
     </table>
   </form>
@@ -144,96 +158,99 @@
   ></app-pagination>
 </section>
 
-<div *ngIf="editingPartner" class="modal-overlay modal-overlay--soft" role="presentation">
-  <section class="modal-panel modal-panel--partner-edit" role="dialog" aria-modal="true" aria-labelledby="edit-partner-title">
-    <header class="modal-panel__header">
-      <h2 id="edit-partner-title">Sửa thông tin đối tác</h2>
-      <button class="modal-panel__close" type="button" aria-label="Đóng" (click)="closeEditPartnerModal()">×</button>
-    </header>
+@if (editingPartner) {
+  <div class="modal-overlay modal-overlay--soft" role="presentation">
+    <section class="modal-panel modal-panel--partner-edit" role="dialog" aria-modal="true" aria-labelledby="edit-partner-title">
+      <header class="modal-panel__header">
+        <h2 id="edit-partner-title">Sửa thông tin đối tác</h2>
+        <button class="modal-panel__close" type="button" aria-label="Đóng" (click)="closeEditPartnerModal()">×</button>
+      </header>
+      <form class="partner-edit-form" [formGroup]="editPartnerForm" (ngSubmit)="savePartnerEdit()" novalidate>
+        <div class="partner-edit-form__grid">
+          <label class="partner-edit-field partner-edit-field--full">
+            <span>Tên đối tác <strong>*</strong></span>
+            <span class="partner-edit-control">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 12.5a4.25 4.25 0 1 0 0-8.5 4.25 4.25 0 0 0 0 8.5Z" />
+                <path d="M4.75 20a7.25 7.25 0 0 1 14.5 0" />
+              </svg>
+              <input type="text" formControlName="partnerName" />
+            </span>
+          </label>
+          <label class="partner-edit-field">
+            <span>Tỉnh/Thành phố</span>
+            <span class="partner-edit-control partner-edit-control--select">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 21s6-5.3 6-11a6 6 0 0 0-12 0c0 5.7 6 11 6 11Z" />
+                <circle cx="12" cy="10" r="2.2" />
+              </svg>
+              <select formControlName="city">
+                <option value="">Chọn tỉnh/thành phố</option>
+                @for (option of cityOptions; track option) {
+                  <option [value]="option">{{ option }}</option>
+                }
+              </select>
+            </span>
+          </label>
+          <label class="partner-edit-field">
+            <span>Quận/Huyện</span>
+            <span class="partner-edit-control partner-edit-control--select">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 21s6-5.3 6-11a6 6 0 0 0-12 0c0 5.7 6 11 6 11Z" />
+                <circle cx="12" cy="10" r="2.2" />
+              </svg>
+              <select formControlName="district">
+                <option value="">Chọn quận/huyện</option>
+                @for (option of districtOptions; track option) {
+                  <option [value]="option">{{ option }}</option>
+                }
+              </select>
+            </span>
+          </label>
+          <label class="partner-edit-field">
+            <span>Phường/Xã</span>
+            <span class="partner-edit-control partner-edit-control--select">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 21s6-5.3 6-11a6 6 0 0 0-12 0c0 5.7 6 11 6 11Z" />
+                <circle cx="12" cy="10" r="2.2" />
+              </svg>
+              <select formControlName="ward">
+                <option value="">Chọn phường/xã</option>
+                @for (option of wardOptions; track option) {
+                  <option [value]="option">{{ option }}</option>
+                }
+              </select>
+            </span>
+          </label>
+          <label class="partner-edit-field">
+            <span>Địa chỉ</span>
+            <span class="partner-edit-control">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M5 6.5 10 4l4 2 5-2.5v14l-5 2.5-4-2-5 2.5v-14Z" />
+                <path d="M10 4v14M14 6v14" />
+              </svg>
+              <input type="text" formControlName="address" placeholder="Nhập địa chỉ cụ thể" />
+            </span>
+          </label>
+        </div>
+        <footer class="partner-edit-form__actions">
+          <button class="btn btn--outline partner-edit-form__button" type="button" (click)="closeEditPartnerModal()">Hủy bỏ</button>
+          <button class="btn btn--primary partner-edit-form__button" type="submit">Lưu</button>
+        </footer>
+      </form>
+    </section>
+  </div>
+}
 
-    <form class="partner-edit-form" [formGroup]="editPartnerForm" (ngSubmit)="savePartnerEdit()" novalidate>
-      <div class="partner-edit-form__grid">
-        <label class="partner-edit-field partner-edit-field--full">
-          <span>Tên đối tác <strong>*</strong></span>
-          <span class="partner-edit-control">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M12 12.5a4.25 4.25 0 1 0 0-8.5 4.25 4.25 0 0 0 0 8.5Z" />
-              <path d="M4.75 20a7.25 7.25 0 0 1 14.5 0" />
-            </svg>
-            <input type="text" formControlName="partnerName" />
-          </span>
-        </label>
-
-        <label class="partner-edit-field">
-          <span>Tỉnh/Thành phố</span>
-          <span class="partner-edit-control partner-edit-control--select">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M12 21s6-5.3 6-11a6 6 0 0 0-12 0c0 5.7 6 11 6 11Z" />
-              <circle cx="12" cy="10" r="2.2" />
-            </svg>
-            <select formControlName="city">
-              <option value="">Chọn tỉnh/thành phố</option>
-              <option *ngFor="let option of cityOptions" [value]="option">{{ option }}</option>
-            </select>
-          </span>
-        </label>
-
-        <label class="partner-edit-field">
-          <span>Quận/Huyện</span>
-          <span class="partner-edit-control partner-edit-control--select">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M12 21s6-5.3 6-11a6 6 0 0 0-12 0c0 5.7 6 11 6 11Z" />
-              <circle cx="12" cy="10" r="2.2" />
-            </svg>
-            <select formControlName="district">
-              <option value="">Chọn quận/huyện</option>
-              <option *ngFor="let option of districtOptions" [value]="option">{{ option }}</option>
-            </select>
-          </span>
-        </label>
-
-        <label class="partner-edit-field">
-          <span>Phường/Xã</span>
-          <span class="partner-edit-control partner-edit-control--select">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M12 21s6-5.3 6-11a6 6 0 0 0-12 0c0 5.7 6 11 6 11Z" />
-              <circle cx="12" cy="10" r="2.2" />
-            </svg>
-            <select formControlName="ward">
-              <option value="">Chọn phường/xã</option>
-              <option *ngFor="let option of wardOptions" [value]="option">{{ option }}</option>
-            </select>
-          </span>
-        </label>
-
-        <label class="partner-edit-field">
-          <span>Địa chỉ</span>
-          <span class="partner-edit-control">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path d="M5 6.5 10 4l4 2 5-2.5v14l-5 2.5-4-2-5 2.5v-14Z" />
-              <path d="M10 4v14M14 6v14" />
-            </svg>
-            <input type="text" formControlName="address" placeholder="Nhập địa chỉ cụ thể" />
-          </span>
-        </label>
-      </div>
-
-      <footer class="partner-edit-form__actions">
-        <button class="btn btn--outline partner-edit-form__button" type="button" (click)="closeEditPartnerModal()">Hủy bỏ</button>
-        <button class="btn btn--primary partner-edit-form__button" type="submit">Lưu</button>
+@if (deletingPartner) {
+  <div class="modal-overlay" role="presentation">
+    <section class="modal-panel modal-panel--confirm" role="dialog" aria-modal="true" aria-labelledby="delete-partner-title">
+      <button class="modal-panel__close modal-panel__close--floating" type="button" aria-label="Đóng" (click)="closeDeletePartnerModal()">×</button>
+      <h2 id="delete-partner-title">Bạn có chắc chắn muốn xoá đối tác {{ deletingPartner.name }} không?</h2>
+      <footer class="modal-panel__actions modal-panel__actions--center">
+        <button class="btn btn--outline modal-button" type="button" (click)="closeDeletePartnerModal()">Hủy bỏ</button>
+        <button class="btn btn--primary modal-button" type="button" (click)="confirmDeletePartner()">Xác nhận</button>
       </footer>
-    </form>
-  </section>
-</div>
-
-<div *ngIf="deletingPartner" class="modal-overlay" role="presentation">
-  <section class="modal-panel modal-panel--confirm" role="dialog" aria-modal="true" aria-labelledby="delete-partner-title">
-    <button class="modal-panel__close modal-panel__close--floating" type="button" aria-label="Đóng" (click)="closeDeletePartnerModal()">×</button>
-    <h2 id="delete-partner-title">Bạn có chắc chắn muốn xoá đối tác {{ deletingPartner.name }} không?</h2>
-
-    <footer class="modal-panel__actions modal-panel__actions--center">
-      <button class="btn btn--outline modal-button" type="button" (click)="closeDeletePartnerModal()">Hủy bỏ</button>
-      <button class="btn btn--primary modal-button" type="button" (click)="confirmDeletePartner()">Xác nhận</button>
-    </footer>
-  </section>
-</div>
+    </section>
+  </div>
+}

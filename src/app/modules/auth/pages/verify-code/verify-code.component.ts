@@ -1,11 +1,15 @@
 import { Component } from '@angular/core';
-import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { AbstractControl, UntypedFormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
+import { CardComponent } from '../../../../shared/components/card/card.component';
+import { InputComponent } from '../../../../shared/components/input/input.component';
+import { ButtonComponent } from '../../../../shared/components/button/button.component';
 
 @Component({
-  selector: 'app-verify-code',
-  templateUrl: './verify-code.component.html',
-  styleUrls: ['./verify-code.component.scss']
+    selector: 'app-verify-code',
+    templateUrl: './verify-code.component.html',
+    styleUrls: ['./verify-code.component.scss'],
+    imports: [CardComponent, RouterLink, ReactiveFormsModule, InputComponent, ButtonComponent]
 })
 export class VerifyCodeComponent {
   readonly verifyCodeForm = this.formBuilder.group({
@@ -15,7 +19,7 @@ export class VerifyCodeComponent {
   resendCount = 0;
 
   constructor(
-    private readonly formBuilder: FormBuilder,
+    private readonly formBuilder: UntypedFormBuilder,
     private readonly router: Router
   ) {}
 

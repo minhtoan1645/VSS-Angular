@@ -1,11 +1,15 @@
 import { Component } from '@angular/core';
-import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { AbstractControl, UntypedFormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
+import { CardComponent } from '../../../../shared/components/card/card.component';
+import { InputComponent } from '../../../../shared/components/input/input.component';
+import { ButtonComponent } from '../../../../shared/components/button/button.component';
 
 @Component({
-  selector: 'app-forgot-password',
-  templateUrl: './forgot-password.component.html',
-  styleUrls: ['./forgot-password.component.scss']
+    selector: 'app-forgot-password',
+    templateUrl: './forgot-password.component.html',
+    styleUrls: ['./forgot-password.component.scss'],
+    imports: [CardComponent, RouterLink, ReactiveFormsModule, InputComponent, ButtonComponent]
 })
 export class ForgotPasswordComponent {
   readonly forgotPasswordForm = this.formBuilder.group({
@@ -13,7 +17,7 @@ export class ForgotPasswordComponent {
   });
 
   constructor(
-    private readonly formBuilder: FormBuilder,
+    private readonly formBuilder: UntypedFormBuilder,
     private readonly router: Router
   ) {}
 

@@ -1,10 +1,11 @@
-import { AbstractControl } from '@angular/forms';
+import { AbstractControl, ReactiveFormsModule } from '@angular/forms';
 import { Component, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-input',
-  templateUrl: './input.component.html',
-  styleUrls: ['./input.component.scss']
+    selector: 'app-input',
+    templateUrl: './input.component.html',
+    styleUrls: ['./input.component.scss'],
+    imports: [ReactiveFormsModule]
 })
 export class InputComponent {
   @Input() control: AbstractControl | null = null;

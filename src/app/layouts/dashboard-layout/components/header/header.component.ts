@@ -6,9 +6,9 @@ import { AuthService } from '../../../../core/services/auth.service';
 type ProfileStatus = 'Hoạt động' | 'Đang bận' | 'Tạm khóa';
 
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+    selector: 'app-header',
+    templateUrl: './header.component.html',
+    styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent {
   @Input() title = '';

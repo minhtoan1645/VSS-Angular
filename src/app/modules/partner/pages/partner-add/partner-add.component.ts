@@ -1,5 +1,5 @@
 import { Component, OnDestroy } from '@angular/core';
-import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -9,11 +9,14 @@ import {
   PartnerStep,
   PricingPlan
 } from '../../models/partner-add.model';
+import { PartnerStepperComponent } from '../../components/partner-stepper/partner-stepper.component';
+import { PricingCardComponent } from '../../components/pricing-card/pricing-card.component';
 
 @Component({
-  selector: 'app-partner-add',
-  templateUrl: './partner-add.component.html',
-  styleUrls: ['./partner-add.component.scss']
+    selector: 'app-partner-add',
+    templateUrl: './partner-add.component.html',
+    styleUrls: ['./partner-add.component.scss'],
+    imports: [ReactiveFormsModule, PartnerStepperComponent, PricingCardComponent]
 })
 export class PartnerAddComponent implements OnDestroy {
   currentMainStep: PartnerAddMainStep = 1;
@@ -138,7 +141,7 @@ export class PartnerAddComponent implements OnDestroy {
   });
 
   constructor(
-    private readonly formBuilder: FormBuilder,
+    private readonly formBuilder: UntypedFormBuilder,
     private readonly router: Router
   ) {
     this.subscriptions.add(

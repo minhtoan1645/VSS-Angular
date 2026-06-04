@@ -7,9 +7,9 @@ import {
 } from '../../models/partner-add.model';
 
 @Component({
-  selector: 'app-partner-stepper',
-  templateUrl: './partner-stepper.component.html',
-  styleUrls: ['./partner-stepper.component.scss']
+    selector: 'app-partner-stepper',
+    templateUrl: './partner-stepper.component.html',
+    styleUrls: ['./partner-stepper.component.scss']
 })
 export class PartnerStepperComponent {
   @Input() steps: PartnerStep[] = [];

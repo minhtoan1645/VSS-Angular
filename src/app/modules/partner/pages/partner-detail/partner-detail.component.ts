@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
@@ -7,11 +7,13 @@ import { User } from '../../../user/models/user.model';
 import { UserService } from '../../../user/services/user.service';
 import { Partner } from '../../models/partner.model';
 import { PartnerService } from '../../services/partner.service';
+import { HasPermissionDirective } from '../../../../shared/directives/has-permission.directive';
 
 @Component({
-  selector: 'app-partner-detail',
-  templateUrl: './partner-detail.component.html',
-  styleUrls: ['./partner-detail.component.scss']
+    selector: 'app-partner-detail',
+    templateUrl: './partner-detail.component.html',
+    styleUrls: ['./partner-detail.component.scss'],
+    imports: [HasPermissionDirective, ReactiveFormsModule]
 })
 export class PartnerDetailComponent implements OnInit, OnDestroy {
   partner: Partner | undefined;
@@ -44,7 +46,7 @@ export class PartnerDetailComponent implements OnInit, OnDestroy {
   private readonly subscriptions = new Subscription();
 
   constructor(
-    private readonly formBuilder: FormBuilder,
+    private readonly formBuilder: UntypedFormBuilder,
     private readonly route: ActivatedRoute,
     private readonly router: Router,
     private readonly partnerService: PartnerService,

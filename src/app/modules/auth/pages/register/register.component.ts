@@ -1,11 +1,15 @@
 import { Component } from '@angular/core';
-import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { AbstractControl, UntypedFormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
+import { CardComponent } from '../../../../shared/components/card/card.component';
+import { InputComponent } from '../../../../shared/components/input/input.component';
+import { ButtonComponent } from '../../../../shared/components/button/button.component';
 
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss']
+    selector: 'app-register',
+    templateUrl: './register.component.html',
+    styleUrls: ['./register.component.scss'],
+    imports: [CardComponent, ReactiveFormsModule, InputComponent, ButtonComponent, RouterLink]
 })
 export class RegisterComponent {
   readonly countries = ['Việt Nam', 'Singapore', 'Thái Lan'];
@@ -23,7 +27,7 @@ export class RegisterComponent {
   });
 
   constructor(
-    private readonly formBuilder: FormBuilder,
+    private readonly formBuilder: UntypedFormBuilder,
     private readonly router: Router
   ) {}
 

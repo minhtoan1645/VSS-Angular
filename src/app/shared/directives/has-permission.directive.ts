@@ -10,9 +10,7 @@ import { Subscription } from 'rxjs';
 import { Permission, PermissionMode } from '../../core/models/permission.model';
 import { PermissionService } from '../../core/services/permission.service';
 
-@Directive({
-  selector: '[appHasPermission]'
-})
+@Directive({ selector: '[appHasPermission]' })
 export class HasPermissionDirective implements OnDestroy {
   private hasView = false;
   private mode: PermissionMode = 'any';

@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
-import { AbstractControl, FormBuilder, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { AbstractControl, UntypedFormBuilder, ValidationErrors, ValidatorFn, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
+import { CardComponent } from '../../../../shared/components/card/card.component';
+import { InputComponent } from '../../../../shared/components/input/input.component';
+import { ButtonComponent } from '../../../../shared/components/button/button.component';
 
 function passwordMatchValidator(): ValidatorFn {
   return (control): ValidationErrors | null => {
@@ -16,9 +19,10 @@ function passwordMatchValidator(): ValidatorFn {
 }
 
 @Component({
-  selector: 'app-reset-password',
-  templateUrl: './reset-password.component.html',
-  styleUrls: ['./reset-password.component.scss']
+    selector: 'app-reset-password',
+    templateUrl: './reset-password.component.html',
+    styleUrls: ['./reset-password.component.scss'],
+    imports: [CardComponent, RouterLink, ReactiveFormsModule, InputComponent, ButtonComponent]
 })
 export class ResetPasswordComponent {
   readonly resetPasswordForm = this.formBuilder.group(
@@ -30,7 +34,7 @@ export class ResetPasswordComponent {
   );
 
   constructor(
-    private readonly formBuilder: FormBuilder,
+    private readonly formBuilder: UntypedFormBuilder,
     private readonly router: Router
   ) {}
 

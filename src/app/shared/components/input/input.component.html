@@ -1,5 +1,7 @@
 <div [class]="wrapperClass || null">
-  <label *ngIf="label" [class]="labelClass" [for]="id">{{ label }}</label>
+  @if (label) {
+    <label [class]="labelClass" [for]="id">{{ label }}</label>
+  }
 
   <input
     [id]="id"
@@ -10,40 +12,42 @@
     [autocomplete]="autocomplete"
     [attr.inputmode]="inputMode || null"
     [formControl]="$any(control)"
-  />
+    />
 
-  <button
-    *ngIf="showToggle"
-    class="input-password__toggle"
-    type="button"
-    aria-label="Hiển thị hoặc ẩn mật khẩu"
-    (click)="togglePasswordVisibility()"
-  >
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path
-        d="M2 12S5.5 5.5 12 5.5 22 12 22 12s-3.5 6.5-10 6.5S2 12 2 12Z"
-        fill="none"
-        stroke="currentColor"
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="1.8"
-      />
-      <circle
-        cx="12"
-        cy="12"
-        r="2.8"
-        fill="none"
-        stroke="currentColor"
-        stroke-width="1.8"
-      />
-      <path
-        *ngIf="!isPasswordVisible"
-        d="M4 20 20 4"
-        fill="none"
-        stroke="currentColor"
-        stroke-linecap="round"
-        stroke-width="1.8"
-      />
-    </svg>
-  </button>
-</div>
+    @if (showToggle) {
+      <button
+        class="input-password__toggle"
+        type="button"
+        aria-label="Hiển thị hoặc ẩn mật khẩu"
+        (click)="togglePasswordVisibility()"
+        >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path
+            d="M2 12S5.5 5.5 12 5.5 22 12 22 12s-3.5 6.5-10 6.5S2 12 2 12Z"
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="1.8"
+            />
+            <circle
+              cx="12"
+              cy="12"
+              r="2.8"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+              />
+              @if (!isPasswordVisible) {
+                <path
+                  d="M4 20 20 4"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-width="1.8"
+                  />
+              }
+            </svg>
+          </button>
+        }
+      </div>

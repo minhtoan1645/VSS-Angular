@@ -1,14 +1,15 @@
 import { Component, HostBinding, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { DEFAULT_AUTH_PAGE_CLASS } from '../../core/constants/app.constants';
 import { getDeepestRouteData } from '../../core/utils/route-data.util';
 
 @Component({
-  selector: 'app-auth-layout',
-  templateUrl: './auth-layout.component.html',
-  styleUrls: ['./auth-layout.component.scss']
+    selector: 'app-auth-layout',
+    templateUrl: './auth-layout.component.html',
+    styleUrls: ['./auth-layout.component.scss'],
+    imports: [RouterOutlet]
 })
 export class AuthLayoutComponent implements OnInit, OnDestroy {
   pageClasses: string[] = [DEFAULT_AUTH_PAGE_CLASS];

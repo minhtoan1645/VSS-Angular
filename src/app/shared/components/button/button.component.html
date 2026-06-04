@@ -1,5 +1,9 @@
 <button [type]="type" [class]="buttonClass" [disabled]="disabled">
-  <img *ngIf="iconSrc" [src]="iconSrc" [alt]="iconAlt" />
-  <span *ngIf="label">{{ label }}</span>
+  @if (iconSrc) {
+    <img [src]="iconSrc" [alt]="iconAlt" />
+  }
+  @if (label) {
+    <span>{{ label }}</span>
+  }
   <ng-content></ng-content>
 </button>

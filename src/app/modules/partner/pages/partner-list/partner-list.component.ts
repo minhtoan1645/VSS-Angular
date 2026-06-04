@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BehaviorSubject, combineLatest, Subscription } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -8,6 +8,9 @@ import { PaginationState } from '../../../../shared/components/pagination/pagina
 import { buildOptions, buildYearOptions, paginateItems } from '../../../../shared/utils/table.util';
 import { Partner } from '../../models/partner.model';
 import { PartnerService } from '../../services/partner.service';
+import { ButtonComponent } from '../../../../shared/components/button/button.component';
+import { HasPermissionDirective } from '../../../../shared/directives/has-permission.directive';
+import { PaginationComponent } from '../../../../shared/components/pagination/pagination.component';
 
 interface PartnerFilters {
   name: string;
@@ -20,9 +23,10 @@ interface PartnerFilters {
 }
 
 @Component({
-  selector: 'app-partner-list',
-  templateUrl: './partner-list.component.html',
-  styleUrls: ['./partner-list.component.scss']
+    selector: 'app-partner-list',
+    templateUrl: './partner-list.component.html',
+    styleUrls: ['./partner-list.component.scss'],
+    imports: [ButtonComponent, HasPermissionDirective, ReactiveFormsModule, PaginationComponent]
 })
 export class PartnerListComponent implements OnInit, OnDestroy {
   readonly pageSizeOptions = [...PAGE_SIZE_OPTIONS];
@@ -71,7 +75,7 @@ export class PartnerListComponent implements OnInit, OnDestroy {
   private readonly deletedPartnerIds = new Set<number>();
 
   constructor(
-    private readonly formBuilder: FormBuilder,
+    private readonly formBuilder: UntypedFormBuilder,
     private readonly partnerService: PartnerService,
     private readonly router: Router
   ) {}

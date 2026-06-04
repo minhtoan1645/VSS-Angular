@@ -1,13 +1,12 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 
 import { PERMISSIONS } from './core/constants/permission.constants';
-import { AuthGuard } from './core/guards/auth.guard';
-import { PermissionGuard } from './core/guards/permission.guard';
+import { authGuard } from './core/guards/auth.guard';
+import { permissionGuard } from './core/guards/permission.guard';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 import { DashboardLayoutComponent } from './layouts/dashboard-layout/dashboard-layout.component';
 
-const routes: Routes = [
+export const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
@@ -27,14 +26,14 @@ const routes: Routes = [
   {
     path: '',
     component: DashboardLayoutComponent,
-    canActivate: [AuthGuard],
-    canActivateChild: [AuthGuard],
+    canActivate: [authGuard],
+    canActivateChild: [authGuard],
     children: [
       {
         path: 'users',
         loadChildren: () =>
           import('./modules/user/user.module').then((m) => m.UserModule),
-        canActivate: [PermissionGuard],
+        canActivate: [permissionGuard],
         data: {
           permission: PERMISSIONS.userView,
           tabTitle: 'Người dùng',
@@ -47,7 +46,7 @@ const routes: Routes = [
         path: 'partners',
         loadChildren: () =>
           import('./modules/partner/partner.module').then((m) => m.PartnerModule),
-        canActivate: [PermissionGuard],
+        canActivate: [permissionGuard],
         data: {
           permission: PERMISSIONS.partnerView,
           tabTitle: 'Đối tác',
@@ -63,9 +62,3 @@ const routes: Routes = [
     redirectTo: 'login'
   }
 ];
-
-@NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
-})
-export class AppRoutingModule {}

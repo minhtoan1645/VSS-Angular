@@ -25,12 +25,16 @@
                 autocomplete="email"
                 [control]="emailControl"
               ></app-input>
-              <p *ngIf="emailControl?.hasError('required') && emailControl?.touched" class="form-group__error">
-                Email là bắt buộc.
-              </p>
-              <p *ngIf="emailControl?.hasError('email') && emailControl?.touched" class="form-group__error">
-                Email không đúng định dạng.
-              </p>
+              @if (emailControl?.hasError('required') && emailControl?.touched) {
+                <p class="form-group__error">
+                  Email là bắt buộc.
+                </p>
+              }
+              @if (emailControl?.hasError('email') && emailControl?.touched) {
+                <p class="form-group__error">
+                  Email không đúng định dạng.
+                </p>
+              }
             </div>
 
             <div class="form-group">
@@ -45,15 +49,21 @@
                 [showToggle]="true"
                 [control]="passwordControl"
               ></app-input>
-              <p *ngIf="passwordControl?.hasError('required') && passwordControl?.touched" class="form-group__error">
-                Mật khẩu là bắt buộc.
-              </p>
-              <p *ngIf="passwordControl?.hasError('minlength') && passwordControl?.touched" class="form-group__error">
-                Mật khẩu tối thiểu 6 ký tự.
-              </p>
-              <p *ngIf="passwordControl?.hasError('invalidCredentials') && passwordControl?.touched" class="form-group__error">
-                Email hoặc mật khẩu không đúng.
-              </p>
+              @if (passwordControl?.hasError('required') && passwordControl?.touched) {
+                <p class="form-group__error">
+                  Mật khẩu là bắt buộc.
+                </p>
+              }
+              @if (passwordControl?.hasError('minlength') && passwordControl?.touched) {
+                <p class="form-group__error">
+                  Mật khẩu tối thiểu 6 ký tự.
+                </p>
+              }
+              @if (passwordControl?.hasError('invalidCredentials') && passwordControl?.touched) {
+                <p class="form-group__error">
+                  Email hoặc mật khẩu không đúng.
+                </p>
+              }
             </div>
 
             <div class="form-inline">

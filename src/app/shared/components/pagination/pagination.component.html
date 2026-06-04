@@ -1,7 +1,9 @@
 <footer class="table-footer">
   <div class="table-footer__size">
     <select [value]="pageSize" aria-label="Số dòng mỗi trang" (change)="onPageSizeChange($any($event.target).value)">
-      <option *ngFor="let option of pageSizeOptions" [value]="option">{{ option }}</option>
+      @for (option of pageSizeOptions; track option) {
+        <option [value]="option">{{ option }}</option>
+      }
     </select>
   </div>
 
@@ -15,14 +17,15 @@
       <button type="button" aria-label="Trang trước" [disabled]="currentPage === 1" (click)="changePage(currentPage - 1)">
         <img src="assets/images/icons/arrow-left.png" alt="" />
       </button>
-      <button
-        *ngFor="let page of pageNumbers"
-        type="button"
-        [class.pagination__item--active]="page === currentPage"
-        (click)="changePage(page)"
-      >
-        {{ page }}
-      </button>
+      @for (page of pageNumbers; track page) {
+        <button
+          type="button"
+          [class.pagination__item--active]="page === currentPage"
+          (click)="changePage(page)"
+          >
+          {{ page }}
+        </button>
+      }
       <button type="button" aria-label="Trang sau" [disabled]="currentPage === totalPages" (click)="changePage(currentPage + 1)">
         <img src="assets/images/icons/right.png" alt="" />
       </button>

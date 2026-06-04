@@ -1,12 +1,14 @@
 import { Component, Input } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { MAIN_NAV_ITEMS, MainNavItem } from '../../constants/dashboard.constants';
 import { DashboardSectionItem } from '../../models/dashboard-section-item.model';
+import { HasPermissionDirective } from '../../../../shared/directives/has-permission.directive';
 
 @Component({
-  selector: 'app-sidebar',
-  templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.scss']
+    selector: 'app-sidebar',
+    templateUrl: './sidebar.component.html',
+    styleUrls: ['./sidebar.component.scss'],
+    imports: [RouterLink, HasPermissionDirective]
 })
 export class SidebarComponent {
   @Input() sectionTitle = 'Quản lý';

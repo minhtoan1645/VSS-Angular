@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { UntypedFormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BehaviorSubject, combineLatest, Subscription } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -8,6 +8,9 @@ import { PaginationState } from '../../../../shared/components/pagination/pagina
 import { buildOptions, buildYearOptions, paginateItems } from '../../../../shared/utils/table.util';
 import { User } from '../../models/user.model';
 import { UserService } from '../../services/user.service';
+import { ButtonComponent } from '../../../../shared/components/button/button.component';
+import { HasPermissionDirective } from '../../../../shared/directives/has-permission.directive';
+import { PaginationComponent } from '../../../../shared/components/pagination/pagination.component';
 
 interface UserFilters {
   name: string;
@@ -20,9 +23,10 @@ interface UserFilters {
 }
 
 @Component({
-  selector: 'app-user-list',
-  templateUrl: './user-list.component.html',
-  styleUrls: ['./user-list.component.scss']
+    selector: 'app-user-list',
+    templateUrl: './user-list.component.html',
+    styleUrls: ['./user-list.component.scss'],
+    imports: [ButtonComponent, HasPermissionDirective, ReactiveFormsModule, PaginationComponent]
 })
 export class UserListComponent implements OnInit, OnDestroy {
   readonly pageSizeOptions = [...PAGE_SIZE_OPTIONS];
@@ -65,7 +69,7 @@ export class UserListComponent implements OnInit, OnDestroy {
   private readonly deletedUserIds = new Set<number>();
 
   constructor(
-    private readonly formBuilder: FormBuilder,
+    private readonly formBuilder: UntypedFormBuilder,
     private readonly userService: UserService,
     private readonly router: Router
   ) {}

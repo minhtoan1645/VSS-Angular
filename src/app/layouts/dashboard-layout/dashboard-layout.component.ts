@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import {
@@ -12,14 +12,18 @@ import {
 } from './constants/dashboard.constants';
 import { DashboardSectionItem } from './models/dashboard-section-item.model';
 import { getDeepestRouteData } from '../../core/utils/route-data.util';
+import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { HeaderComponent } from './components/header/header.component';
+import { NgClass } from '@angular/common';
 
 @Component({
-  selector: 'app-dashboard-layout',
-  templateUrl: './dashboard-layout.component.html',
-  styleUrls: ['./dashboard-layout.component.scss'],
-  host: {
-    class: 'users-page'
-  }
+    selector: 'app-dashboard-layout',
+    templateUrl: './dashboard-layout.component.html',
+    styleUrls: ['./dashboard-layout.component.scss'],
+    host: {
+        class: 'users-page'
+    },
+    imports: [SidebarComponent, HeaderComponent, NgClass, RouterOutlet]
 })
 export class DashboardLayoutComponent implements OnInit, OnDestroy {
   tabTitle = DEFAULT_DASHBOARD_TAB_TITLE;

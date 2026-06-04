@@ -1,64 +1,27 @@
-import { Injectable } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  CanActivateChild,
-  Router,
-  RouterStateSnapshot,
-  UrlTree
-} from '@angular/router';
+import { inject } from '@angular/core';
+import { ActivatedRouteSnapshot, CanActivateFn, Router } from '@angular/router';
 
 import { PERMISSIONS } from '../constants/permission.constants';
 import { Permission, PermissionMode } from '../models/permission.model';
 import { PermissionService } from '../services/permission.service';
 
-@Injectable({
-  providedIn: 'root'
-})
-export class PermissionGuard implements CanActivate, CanActivateChild {
-  constructor(
-    private readonly permissionService: PermissionService,
-    private readonly router: Router
-  ) {}
+export const permissionGuard: CanActivateFn = (route: ActivatedRouteSnapshot) => {
+  const permissionService = inject(PermissionService);
+  const router = inject(Router);
 
-  canActivate(route: ActivatedRouteSnapshot): boolean | UrlTree {
-    return this.checkPermission(route);
-  }
+  const requiredPermission = route.data['permission'] as Permission | Permission[] | undefined;
+  const permissionMode = (route.data['permissionMode'] as PermissionMode | undefined) ?? 'any';
 
-  canActivateChild(
-    route: ActivatedRouteSnapshot,
-    _state: RouterStateSnapshot
-  ): boolean | UrlTree {
-    return this.checkPermission(route);
-  }
+  if (!requiredPermission) return true;
 
-  private checkPermission(route: ActivatedRouteSnapshot): boolean | UrlTree {
-    const requiredPermission = route.data.permission as Permission | Permission[] | undefined;
-    const permissionMode = route.data.permissionMode as PermissionMode | undefined;
+  const permissions = Array.isArray(requiredPermission) ? requiredPermission : [requiredPermission];
+  const hasPermission = permissionMode === 'all'
+    ? permissionService.hasAllPermissions(permissions)
+    : permissionService.hasAnyPermission(permissions);
 
-    if (!requiredPermission || this.hasRequiredPermission(requiredPermission, permissionMode)) {
-      return true;
-    }
+  if (hasPermission) return true;
 
-    return this.getDeniedRedirect();
-  }
-
-  private hasRequiredPermission(
-    requiredPermission: Permission | Permission[],
-    permissionMode: PermissionMode = 'any'
-  ): boolean {
-    const permissions = Array.isArray(requiredPermission) ? requiredPermission : [requiredPermission];
-
-    return permissionMode === 'all'
-      ? this.permissionService.hasAllPermissions(permissions)
-      : this.permissionService.hasAnyPermission(permissions);
-  }
-
-  private getDeniedRedirect(): UrlTree {
-    if (this.permissionService.hasPermission(PERMISSIONS.partnerView)) {
-      return this.router.createUrlTree(['/partners']);
-    }
-
-    return this.router.createUrlTree(['/login']);
-  }
-}
+  return permissionService.hasPermission(PERMISSIONS.partnerView)
+    ? router.createUrlTree(['/partners'])
+    : router.createUrlTree(['/login']);
+};

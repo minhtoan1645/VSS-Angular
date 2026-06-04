@@ -6,9 +6,9 @@ import { User } from '../../models/user.model';
 import { UserService } from '../../services/user.service';
 
 @Component({
-  selector: 'app-user-detail',
-  templateUrl: './user-detail.component.html',
-  styleUrls: ['./user-detail.component.scss']
+    selector: 'app-user-detail',
+    templateUrl: './user-detail.component.html',
+    styleUrls: ['./user-detail.component.scss']
 })
 export class UserDetailComponent implements OnInit, OnDestroy {
   user: User | undefined;
