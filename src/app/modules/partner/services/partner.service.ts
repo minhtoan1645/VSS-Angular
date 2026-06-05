@@ -1,17 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+
 import { PartnerApiService } from '../api/partner-api.service';
-import { PartnerMockService } from '../mock/partner-mock.service';
 import { Partner } from '../models/partner.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PartnerService {
-  constructor(
-    private readonly partnerApiService: PartnerApiService,
-    private readonly partnerMockService: PartnerMockService
-  ) {}
+  constructor(private readonly partnerApiService: PartnerApiService) {}
 
   getPartners(): Observable<Partner[]> {
     return this.partnerApiService.getPartners();
@@ -22,6 +19,6 @@ export class PartnerService {
   }
 
   getIndustryOptions(): Observable<string[]> {
-    return this.partnerMockService.getIndustryOptions();
+    return this.partnerApiService.getIndustryOptions();
   }
 }

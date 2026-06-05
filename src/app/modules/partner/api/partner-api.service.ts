@@ -1,20 +1,24 @@
-import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
+import { PARTNER_DATA_SOURCE } from './partner-data-source.token';
 import { Partner } from '../models/partner.model';
-import { PartnerMockService } from '../mock/partner-mock.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PartnerApiService {
-  constructor(private readonly partnerMockService: PartnerMockService) {}
+  private readonly dataSource = inject(PARTNER_DATA_SOURCE);
 
   getPartners(): Observable<Partner[]> {
-    return of(this.partnerMockService.getPartnersSnapshot());
+    return this.dataSource.getPartners();
   }
 
   getPartnerById(id: number): Observable<Partner | undefined> {
-    return of(this.partnerMockService.getPartnersSnapshot().find((partner) => partner.id === id));
+    return this.dataSource.getPartnerById(id);
+  }
+
+  getIndustryOptions(): Observable<string[]> {
+    return this.dataSource.getIndustryOptions();
   }
 }

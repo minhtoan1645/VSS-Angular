@@ -1,20 +1,24 @@
-import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
+import { USER_DATA_SOURCE } from './user-data-source.token';
 import { User } from '../models/user.model';
-import { UserMockService } from '../mock/user-mock.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserApiService {
-  constructor(private readonly userMockService: UserMockService) {}
+  private readonly dataSource = inject(USER_DATA_SOURCE);
 
   getUsers(): Observable<User[]> {
-    return of(this.userMockService.getUsersSnapshot());
+    return this.dataSource.getUsers();
   }
 
   getUserById(id: number): Observable<User | undefined> {
-    return of(this.userMockService.getUsersSnapshot().find((user) => user.id === id));
+    return this.dataSource.getUserById(id);
+  }
+
+  getDepartmentOptions(): Observable<string[]> {
+    return this.dataSource.getDepartmentOptions();
   }
 }

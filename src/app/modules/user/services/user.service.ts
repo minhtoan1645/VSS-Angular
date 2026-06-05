@@ -1,17 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+
 import { UserApiService } from '../api/user-api.service';
-import { UserMockService } from '../mock/user-mock.service';
 import { User } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  constructor(
-    private readonly userApiService: UserApiService,
-    private readonly userMockService: UserMockService
-  ) {}
+  constructor(private readonly userApiService: UserApiService) {}
 
   getUsers(): Observable<User[]> {
     return this.userApiService.getUsers();
@@ -22,6 +19,6 @@ export class UserService {
   }
 
   getDepartmentOptions(): Observable<string[]> {
-    return this.userMockService.getDepartmentOptions();
+    return this.userApiService.getDepartmentOptions();
   }
 }
