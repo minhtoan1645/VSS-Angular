@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
-import { ALL_ROLES, DEFAULT_ROLE, ROLE_PERMISSIONS, TEST_USERS } from '../constants/permission.constants';
+import { ALL_ROLES, DEFAULT_ROLE, TEST_USERS } from '../constants/permission.constants';
 import { AuthToken, AuthUser, Role } from '../models/auth.models';
 import { TokenStorageService } from './token-storage.service';
 
@@ -27,12 +27,6 @@ export class AuthService {
     return this.currentRoleSubject.value;
   }
 
-  setCurrentRole(role: Role): void {
-    this.currentRoleSubject.next(role);
-    localStorage.setItem(CURRENT_ROLE_STORAGE_KEY, role);
-    this.persistMockUser(role);
-  }
-
   isLoggedIn(): boolean {
     return Boolean(this.tokenStorage.getToken() && this.tokenStorage.getUser());
   }
@@ -41,31 +35,41 @@ export class AuthService {
     return this.isLoggedIn();
   }
 
-  setSession(token: AuthToken): void {
+  /** Lưu session sau khi backend xác thực thành công. */
+  setSession(token: AuthToken, user: AuthUser): void {
     this.tokenStorage.saveToken(token);
-    this.persistMockUser(this.currentRoleSubject.value);
+    this.tokenStorage.saveUser(user);
+    this.currentRoleSubject.next(user.role);
+    localStorage.setItem(CURRENT_ROLE_STORAGE_KEY, user.role);
+  }
+
+  setCurrentRole(role: Role): void {
+    this.currentRoleSubject.next(role);
+    localStorage.setItem(CURRENT_ROLE_STORAGE_KEY, role);
+  }
+
+  logout(): void {
+    this.tokenStorage.clearToken();
+    this.tokenStorage.clearUser();
+    localStorage.removeItem(CURRENT_ROLE_STORAGE_KEY);
+    this.currentRoleSubject.next(DEFAULT_ROLE);
   }
 
   clearSession(): void {
     this.tokenStorage.clearToken();
   }
 
-  logout(): void {
-    this.clearSession();
-    this.tokenStorage.clearUser();
-    localStorage.removeItem(CURRENT_ROLE_STORAGE_KEY);
-    this.currentRoleSubject.next(DEFAULT_ROLE);
-  }
-
+  /** Chỉ dùng trong môi trường dev/mock — đăng nhập bằng tài khoản test. */
   seedTestUser(role: Role): AuthUser {
     const user = TEST_USERS[role];
-    this.currentRoleSubject.next(role);
-    localStorage.setItem(CURRENT_ROLE_STORAGE_KEY, role);
     this.tokenStorage.saveUser(user);
     this.tokenStorage.saveToken({ accessToken: `mock-${role.toLowerCase()}-token` });
+    this.currentRoleSubject.next(role);
+    localStorage.setItem(CURRENT_ROLE_STORAGE_KEY, role);
     return user;
   }
 
+  /** Chỉ dùng trong môi trường dev/mock. */
   getTestUsers(): readonly AuthUser[] {
     return Object.values(TEST_USERS);
   }
@@ -75,27 +79,11 @@ export class AuthService {
     if (savedCurrentRole && this.isSupportedRole(savedCurrentRole)) {
       return savedCurrentRole;
     }
-
     const savedRole = this.tokenStorage.getUser()?.role;
     return savedRole && this.isSupportedRole(savedRole) ? savedRole : DEFAULT_ROLE;
   }
 
   private isSupportedRole(role: string): role is Role {
     return ALL_ROLES.includes(role as Role);
-  }
-
-  private persistMockUser(role: Role): void {
-    const user = this.createMockUser(role);
-    this.tokenStorage.saveUser(user);
-  }
-
-  private createMockUser(role: Role): AuthUser {
-    return {
-      id: 'mock-user',
-      displayName: 'Development User',
-      email: 'dev@vss.local',
-      role,
-      permissions: [...ROLE_PERMISSIONS[role]]
-    };
   }
 }

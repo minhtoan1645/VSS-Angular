@@ -1,5 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 
 import { PartnerApiService } from '../api/partner-api.service';
 import { PartnerPatch } from '../models/partner-data-source.model';
@@ -9,25 +11,36 @@ import { Partner } from '../models/partner.model';
   providedIn: 'root'
 })
 export class PartnerService {
-  constructor(private readonly partnerApiService: PartnerApiService) {}
+  private readonly _partners = signal<Partner[]>([]);
+  readonly partners = this._partners.asReadonly();
+
+  private readonly partners$ = toObservable(this._partners);
+
+  constructor(private readonly api: PartnerApiService) {
+    this.api.getPartners().subscribe((partners) => this._partners.set(partners));
+  }
 
   getPartners(): Observable<Partner[]> {
-    return this.partnerApiService.getPartners();
+    return this.partners$;
   }
 
   getPartnerById(id: number): Observable<Partner | undefined> {
-    return this.partnerApiService.getPartnerById(id);
+    return this.partners$.pipe(map((list) => list.find((p) => p.id === id)));
   }
 
   getIndustryOptions(): Observable<string[]> {
-    return this.partnerApiService.getIndustryOptions();
+    return this.api.getIndustryOptions();
   }
 
   updatePartner(id: number, patch: PartnerPatch): Observable<Partner> {
-    return this.partnerApiService.updatePartner(id, patch);
+    return this.api.updatePartner(id, patch).pipe(
+      tap((updated) => this._partners.update((list) => list.map((p) => (p.id === id ? updated : p))))
+    );
   }
 
   deletePartner(id: number): Observable<void> {
-    return this.partnerApiService.deletePartner(id);
+    return this.api.deletePartner(id).pipe(
+      tap(() => this._partners.update((list) => list.filter((p) => p.id !== id)))
+    );
   }
 }

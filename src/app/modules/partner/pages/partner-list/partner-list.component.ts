@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UntypedFormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BehaviorSubject, combineLatest, Subscription } from 'rxjs';
-import { map, startWith, switchMap } from 'rxjs/operators';
+import { map, startWith } from 'rxjs/operators';
 import { ALL_OPTION_LABEL, DEFAULT_PAGE_SIZE, PAGE_SIZE_OPTIONS } from '../../../../core/constants/app.constants';
 import { PaginationState } from '../../../../shared/components/pagination/pagination.model';
 import { buildOptions, buildYearOptions, paginateItems } from '../../../../shared/utils/table.util';
@@ -68,10 +68,7 @@ export class PartnerListComponent implements OnInit, OnDestroy {
   editingPartner: Partner | null = null;
   deletingPartner: Partner | null = null;
 
-  private readonly refreshSubject = new BehaviorSubject<void>(undefined);
-  private readonly partners$ = this.refreshSubject.pipe(
-    switchMap(() => this.partnerService.getPartners())
-  );
+  private readonly partners$ = this.partnerService.getPartners();
   private readonly currentPageSubject = new BehaviorSubject<number>(1);
   private readonly pageSizeSubject = new BehaviorSubject<number>(DEFAULT_PAGE_SIZE);
   private readonly subscriptions = new Subscription();
@@ -165,10 +162,7 @@ export class PartnerListComponent implements OnInit, OnDestroy {
       this.partnerService.updatePartner(this.editingPartner.id, {
         name: partnerName?.trim(),
         address: address?.trim()
-      }).subscribe(() => {
-        this.closeEditPartnerModal();
-        this.refreshSubject.next();
-      })
+      }).subscribe(() => this.closeEditPartnerModal())
     );
   }
 
@@ -185,10 +179,7 @@ export class PartnerListComponent implements OnInit, OnDestroy {
       return;
     }
     this.subscriptions.add(
-      this.partnerService.deletePartner(this.deletingPartner.id).subscribe(() => {
-        this.closeDeletePartnerModal();
-        this.refreshSubject.next();
-      })
+      this.partnerService.deletePartner(this.deletingPartner.id).subscribe(() => this.closeDeletePartnerModal())
     );
   }
 

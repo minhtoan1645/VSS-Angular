@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UntypedFormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BehaviorSubject, combineLatest, Subscription } from 'rxjs';
-import { map, startWith, switchMap } from 'rxjs/operators';
+import { map, startWith } from 'rxjs/operators';
 import { ALL_OPTION_LABEL, DEFAULT_PAGE_SIZE, PAGE_SIZE_OPTIONS } from '../../../../core/constants/app.constants';
 import { PaginationState } from '../../../../shared/components/pagination/pagination.model';
 import { buildOptions, buildYearOptions, paginateItems } from '../../../../shared/utils/table.util';
@@ -62,10 +62,7 @@ export class UserListComponent implements OnInit, OnDestroy {
     totalPages: 1
   };
 
-  private readonly refreshSubject = new BehaviorSubject<void>(undefined);
-  private readonly users$ = this.refreshSubject.pipe(
-    switchMap(() => this.userService.getUsers())
-  );
+  private readonly users$ = this.userService.getUsers();
   private readonly currentPageSubject = new BehaviorSubject<number>(1);
   private readonly pageSizeSubject = new BehaviorSubject<number>(DEFAULT_PAGE_SIZE);
   private readonly subscriptions = new Subscription();
@@ -154,10 +151,7 @@ export class UserListComponent implements OnInit, OnDestroy {
         name: name?.trim(),
         email: email?.trim(),
         phone: phone?.trim()
-      }).subscribe(() => {
-        this.refreshSubject.next();
-        this.closeEditUserModal();
-      })
+      }).subscribe(() => this.closeEditUserModal())
     );
   }
 
@@ -178,10 +172,7 @@ export class UserListComponent implements OnInit, OnDestroy {
       this.closeEditUserModal();
     }
     this.subscriptions.add(
-      this.userService.deleteUser(idToDelete).subscribe(() => {
-        this.closeDeleteUserModal();
-        this.refreshSubject.next();
-      })
+      this.userService.deleteUser(idToDelete).subscribe(() => this.closeDeleteUserModal())
     );
   }
 

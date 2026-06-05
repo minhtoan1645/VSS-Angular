@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UntypedFormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { BehaviorSubject, combineLatest, Subscription } from 'rxjs';
+import { combineLatest, Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { User } from '../../../user/models/user.model';
 import { UserService } from '../../../user/services/user.service';
@@ -43,7 +43,6 @@ export class PartnerDetailComponent implements OnInit, OnDestroy {
   });
 
   private users: User[] = [];
-  private readonly refreshSubject = new BehaviorSubject<void>(undefined);
   private readonly subscriptions = new Subscription();
 
   constructor(
@@ -59,14 +58,10 @@ export class PartnerDetailComponent implements OnInit, OnDestroy {
       this.route.paramMap.pipe(
         switchMap((params) => {
           const id = Number(params.get('id'));
-          return this.refreshSubject.pipe(
-            switchMap(() =>
-              combineLatest([
-                this.partnerService.getPartnerById(id),
-                this.userService.getUsers()
-              ])
-            )
-          );
+          return combineLatest([
+            this.partnerService.getPartnerById(id),
+            this.userService.getUsers()
+          ]);
         })
       ).subscribe(([partner, users]) => {
         this.partner = partner;
@@ -157,10 +152,7 @@ export class PartnerDetailComponent implements OnInit, OnDestroy {
       this.partnerService.updatePartner(this.editingPartner.id, {
         name: partnerName?.trim(),
         address: address?.trim()
-      }).subscribe(() => {
-        this.closeEditPartnerModal();
-        this.refreshSubject.next();
-      })
+      }).subscribe(() => this.closeEditPartnerModal())
     );
   }
 
@@ -185,10 +177,7 @@ export class PartnerDetailComponent implements OnInit, OnDestroy {
         name: name?.trim(),
         email: email?.trim(),
         phone: phone?.trim()
-      }).subscribe(() => {
-        this.closeEditUserModal();
-        this.refreshSubject.next();
-      })
+      }).subscribe(() => this.closeEditUserModal())
     );
   }
 
@@ -209,10 +198,7 @@ export class PartnerDetailComponent implements OnInit, OnDestroy {
       this.closeEditUserModal();
     }
     this.subscriptions.add(
-      this.userService.deleteUser(idToDelete).subscribe(() => {
-        this.closeDeleteUserModal();
-        this.refreshSubject.next();
-      })
+      this.userService.deleteUser(idToDelete).subscribe(() => this.closeDeleteUserModal())
     );
   }
 
