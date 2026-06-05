@@ -49,6 +49,9 @@ export class UserListComponent implements OnInit, OnDestroy {
     phone: ['', Validators.required]
   });
 
+  readonly isLoading = this.userService.isLoading;
+  readonly loadError = this.userService.loadError;
+
   users: User[] = [];
   editingUser: User | null = null;
   deletingUser: User | null = null;

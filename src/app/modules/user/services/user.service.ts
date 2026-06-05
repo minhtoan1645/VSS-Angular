@@ -12,12 +12,20 @@ import { User } from '../models/user.model';
 })
 export class UserService {
   private readonly _users = signal<User[]>([]);
+  private readonly _loading = signal(true);
+  private readonly _loadError = signal<string | null>(null);
+
   readonly users = this._users.asReadonly();
+  readonly isLoading = this._loading.asReadonly();
+  readonly loadError = this._loadError.asReadonly();
 
   private readonly users$ = toObservable(this._users);
 
   constructor(private readonly api: UserApiService) {
-    this.api.getUsers().subscribe((users) => this._users.set(users));
+    this.api.getUsers().subscribe({
+      next: (users) => { this._users.set(users); this._loading.set(false); },
+      error: () => { this._loadError.set('Không thể tải danh sách người dùng.'); this._loading.set(false); }
+    });
   }
 
   getUsers(): Observable<User[]> {

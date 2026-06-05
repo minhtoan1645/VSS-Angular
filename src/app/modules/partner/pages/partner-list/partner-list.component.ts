@@ -55,6 +55,9 @@ export class PartnerListComponent implements OnInit, OnDestroy {
     address: ['', Validators.required]
   });
 
+  readonly isLoading = this.partnerService.isLoading;
+  readonly loadError = this.partnerService.loadError;
+
   partners: Partner[] = [];
   industryOptions: string[] = [ALL_OPTION_LABEL];
   expiryYearOptions: string[] = [ALL_OPTION_LABEL];

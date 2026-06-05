@@ -5,6 +5,8 @@ import { authGuard } from './core/guards/auth.guard';
 import { permissionGuard } from './core/guards/permission.guard';
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 import { DashboardLayoutComponent } from './layouts/dashboard-layout/dashboard-layout.component';
+import { ForbiddenComponent } from './shared/pages/forbidden/forbidden.component';
+import { NotFoundComponent } from './shared/pages/not-found/not-found.component';
 
 export const routes: Routes = [
   {
@@ -29,6 +31,10 @@ export const routes: Routes = [
     canActivate: [authGuard],
     canActivateChild: [authGuard],
     children: [
+      {
+        path: 'forbidden',
+        component: ForbiddenComponent
+      },
       {
         path: 'users',
         loadChildren: () =>
@@ -59,6 +65,6 @@ export const routes: Routes = [
   },
   {
     path: '**',
-    redirectTo: 'login'
+    component: NotFoundComponent
   }
 ];

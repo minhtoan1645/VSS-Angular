@@ -12,12 +12,20 @@ import { Partner } from '../models/partner.model';
 })
 export class PartnerService {
   private readonly _partners = signal<Partner[]>([]);
+  private readonly _loading = signal(true);
+  private readonly _loadError = signal<string | null>(null);
+
   readonly partners = this._partners.asReadonly();
+  readonly isLoading = this._loading.asReadonly();
+  readonly loadError = this._loadError.asReadonly();
 
   private readonly partners$ = toObservable(this._partners);
 
   constructor(private readonly api: PartnerApiService) {
-    this.api.getPartners().subscribe((partners) => this._partners.set(partners));
+    this.api.getPartners().subscribe({
+      next: (partners) => { this._partners.set(partners); this._loading.set(false); },
+      error: () => { this._loadError.set('Không thể tải danh sách đối tác.'); this._loading.set(false); }
+    });
   }
 
   getPartners(): Observable<Partner[]> {

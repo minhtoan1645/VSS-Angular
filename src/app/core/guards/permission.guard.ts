@@ -1,7 +1,6 @@
 import { inject } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivateFn, Router } from '@angular/router';
 
-import { PERMISSIONS } from '../constants/permission.constants';
 import { Permission, PermissionMode } from '../models/permission.model';
 import { PermissionService } from '../services/permission.service';
 
@@ -21,7 +20,5 @@ export const permissionGuard: CanActivateFn = (route: ActivatedRouteSnapshot) =>
 
   if (hasPermission) return true;
 
-  return permissionService.hasPermission(PERMISSIONS.partnerView)
-    ? router.createUrlTree(['/partners'])
-    : router.createUrlTree(['/login']);
+  return router.createUrlTree(['/forbidden']);
 };

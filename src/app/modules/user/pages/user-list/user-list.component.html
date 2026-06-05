@@ -1,3 +1,7 @@
+@if (loadError()) {
+  <p class="data-error" role="alert">{{ loadError() }}</p>
+}
+
 <section class="users-page__header">
   <h1>Danh sách người dùng ({{ totalUserCount }})</h1>
 
