@@ -87,12 +87,21 @@ Style component được đóng gói theo cơ chế view encapsulation mặc đ�
 
 ### Quản lý trạng thái
 
-Không dùng NgRx hay thư viện state bên ngoài. Trạng thái được lưu trong service (`BehaviorSubject`) và `localStorage`. Dữ liệu bất đồng bộ truyền qua Observable; template dùng `async` pipe khi có thể.
+Không dùng NgRx. `UserService` và `PartnerService` dùng **Angular Signals** (`signal()`, `.asReadonly()`) để lưu danh sách, trạng thái loading, và lỗi. `toObservable()` phải khai báo ở field initializer (không trong method) để đảm bảo injection context. `AuthService` vẫn dùng `BehaviorSubject` cho `currentRole$`.
 
 ### TypeScript
 
 Chế độ strict được bật (`strict: true`, `strictInjectionParameters`, `strictTemplates`). Mọi code mới phải vượt qua kiểm tra strict. Không dùng `any`.
 
-### Quản lý trạng thái
+### Error pages & UX
 
-Không dùng NgRx. Trạng thái lưu trong service (`BehaviorSubject`) và `localStorage`. Observable truyền qua template bằng `async` pipe. PHASE 4 sẽ chuyển sang Angular Signals.
+- `/forbidden` — `ForbiddenComponent` (403) tại `shared/pages/forbidden/`
+- `**` wildcard — `NotFoundComponent` (404) tại `shared/pages/not-found/`
+- `authInterceptor` bắt HTTP 401: tự động `logout()` + redirect `/login`
+- `permissionGuard` redirect `/forbidden` khi thiếu quyền (không redirect `/login`)
+
+### Unit Tests
+
+Framework: Karma + Jasmine. Chạy `npm test`. Spec files đặt cạnh file nguồn (`*.spec.ts`).
+
+Đã có tests cho: `table.util`, `PermissionService`, `authGuard`, `permissionGuard`, `HasPermissionDirective`, `UserListComponent` (43 tests).

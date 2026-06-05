@@ -81,4 +81,19 @@ feature/
 - **[2026-06-04]** Khởi tạo dự án VSS Angular với mock data, chưa có backend
 - **[2026-06-04]** Tạo cấu trúc `.claude/` với CLAUDE.md, agent.md, memory.md
 - **[2026-06-05]** Xác nhận Angular 21.2.16 (không phải 12): standalone components, `bootstrapApplication`, functional guards/interceptors, routes tại `app.routes.ts`
-- **[2026-06-05]** Hiện tại hybrid pattern: root standalone + `*.module.ts` vẫn còn cho lazy-load chunk — PHASE 1 sẽ dọn sạch sang `*.routes.ts`
+- **[2026-06-05] PHASE 1** — Xóa 6 `*.module.ts` / `*-routing.module.ts`; tạo `auth.routes.ts`, `user.routes.ts`, `partner.routes.ts`; chuyển sang full standalone
+- **[2026-06-05] PHASE 2** — InjectionToken pattern: `USER_DATA_SOURCE`, `PARTNER_DATA_SOURCE`; `*ApiService` không còn phụ thuộc trực tiếp vào mock; mock đăng ký tại `main.ts`
+- **[2026-06-05] PHASE 3** — Mock services giữ internal mutable state (`items[]`), trả về snapshot (`[...this.items]`), hỗ trợ CRUD thực sự
+- **[2026-06-05] PHASE 4** — `UserService`, `PartnerService` dùng Angular Signals (`signal()`, `.asReadonly()`); `toObservable()` khai báo ở field initializer (không trong method) để đảm bảo injection context; dọn `AuthService` (xóa `createMockUser`/`persistMockUser`)
+- **[2026-06-05] PHASE 5** — Trang 404 (`NotFoundComponent`) và 403 (`ForbiddenComponent`) tại `shared/pages/`; `permissionGuard` redirect `/forbidden`; `authInterceptor` bắt 401 → logout + `/login`; `isLoading`/`loadError` signals trên service, hiển thị trong template
+- **[2026-06-05] PHASE 6** — 43 unit tests (43 PASS): `table.util`, `PermissionService`, `authGuard`, `permissionGuard`, `HasPermissionDirective`, `UserListComponent`
+
+---
+
+## Tech Debt còn lại
+
+- Chưa có unit test cho `partner-list`, `user-detail`, `partner-detail`, `AuthService`, `UserMockService`
+- `AuthService.currentRole$` vẫn là `BehaviorSubject` — PHASE 4+ có thể chuyển sang Signal
+- `user-list` / `partner-list` dùng `UntypedFormBuilder` — nên chuyển sang typed `FormBuilder`
+- Chưa có backend thực — khi có, chỉ cần sửa `*ApiService` (đổi `of(mock)` → `http.get(...)`)
+- Loading state hiện tại chỉ check error / initial load — không có per-request loading indicator
