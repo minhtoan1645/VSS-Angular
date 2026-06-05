@@ -1,6 +1,6 @@
-# VSS Chat Platform Angular 12
+# VSS Chat Platform Angular 21
 
-Đây là project Angular 12 theo hướng feature-based architecture, đã được chuẩn hóa để dễ mở rộng và sẵn sàng nối backend thật sau này.
+Đây là project Angular 21 theo hướng feature-based architecture với standalone components, đã được chuẩn hóa để dễ mở rộng và sẵn sàng nối backend thật sau này.
 
 ## Cách chạy
 
@@ -45,6 +45,7 @@ src/
         services/
       partner/
         api/
+        components/
         mock/
         models/
         pages/
@@ -116,6 +117,13 @@ Các component dùng chung nằm trong `src/app/shared/components`:
 
 Các directive dùng chung cũng đặt ở `shared`.
 
+## Kiến trúc
+
+- **Standalone components** — không dùng `NgModule` ở root; entry point qua `bootstrapApplication` trong `main.ts`
+- **Functional guards** — `authGuard`, `permissionGuard` (không phải class)
+- **Functional interceptors** — `authInterceptor` (không phải class)
+- **Routes** — khai báo trong `app.routes.ts`; lazy-load feature qua `loadChildren`
+
 ## Core
 
 `core` chứa các phần nền tảng dùng toàn app:
@@ -123,9 +131,9 @@ Các directive dùng chung cũng đặt ở `shared`.
 - `AuthService`
 - `TokenStorageService`
 - `PermissionService`
-- `AuthGuard`
-- `PermissionGuard`
-- `AuthInterceptor`
+- `authGuard` (functional)
+- `permissionGuard` (functional)
+- `authInterceptor` (functional)
 - constants và models dùng chung cho auth/permission
 
 ## Data ownership

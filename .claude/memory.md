@@ -26,7 +26,7 @@ Claude sẽ đọc file này để hiểu ngữ cảnh mà không cần hỏi l�
 | Trường | Giá trị |
 |---|---|
 | Tên dự án | VSS Angular |
-| Framework | Angular 12 |
+| Framework | Angular 21.2.16 |
 | Ngôn ngữ | TypeScript (strict mode) |
 | Style | SCSS (7-1 pattern) |
 | Backend | Chưa có — đang dùng mock service |
@@ -69,18 +69,17 @@ feature/
 ├── api/            ← *ApiService (sẽ gọi HttpClient khi có backend)
 ├── mock/           ← *MockService + mock data
 ├── models/         ← Interfaces
-├── pages/          ← Smart component (trang)
+├── pages/          ← Smart component (trang) — standalone
 ├── services/       ← *Service (business logic)
-├── feature.module.ts
+├── feature.module.ts       ← còn tồn tại; PHASE 1 xóa
 └── feature-routing.module.ts
 ```
 
 ---
 
-## Ghi chú kỹ thuật để cập nhật
-
-> Phần này dùng để ghi lại các quyết định, thay đổi, hoặc vấn đề phát sinh trong quá trình phát triển.
-> Cập nhật thủ công khi có thay đổi đáng kể.
+## Ghi chú kỹ thuật
 
 - **[2026-06-04]** Khởi tạo dự án VSS Angular với mock data, chưa có backend
 - **[2026-06-04]** Tạo cấu trúc `.claude/` với CLAUDE.md, agent.md, memory.md
+- **[2026-06-05]** Xác nhận Angular 21.2.16 (không phải 12): standalone components, `bootstrapApplication`, functional guards/interceptors, routes tại `app.routes.ts`
+- **[2026-06-05]** Hiện tại hybrid pattern: root standalone + `*.module.ts` vẫn còn cho lazy-load chunk — PHASE 1 sẽ dọn sạch sang `*.routes.ts`
