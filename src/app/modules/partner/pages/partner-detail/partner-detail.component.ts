@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UntypedFormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { BehaviorSubject, combineLatest, Subscription } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { User } from '../../../user/models/user.model';
 import { UserService } from '../../../user/services/user.service';
@@ -43,6 +43,7 @@ export class PartnerDetailComponent implements OnInit, OnDestroy {
   });
 
   private users: User[] = [];
+  private readonly refreshSubject = new BehaviorSubject<void>(undefined);
   private readonly subscriptions = new Subscription();
 
   constructor(
@@ -55,21 +56,20 @@ export class PartnerDetailComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.subscriptions.add(
-      this.route.paramMap
-        .pipe(
-          switchMap((params) => {
-            const id = Number(params.get('id'));
-            return this.partnerService.getPartnerById(id);
-          })
-        )
-        .subscribe((partner) => {
-          this.partner = partner;
-          this.updateRelatedUsers();
+      this.route.paramMap.pipe(
+        switchMap((params) => {
+          const id = Number(params.get('id'));
+          return this.refreshSubject.pipe(
+            switchMap(() =>
+              combineLatest([
+                this.partnerService.getPartnerById(id),
+                this.userService.getUsers()
+              ])
+            )
+          );
         })
-    );
-
-    this.subscriptions.add(
-      this.userService.getUsers().subscribe((users) => {
+      ).subscribe(([partner, users]) => {
+        this.partner = partner;
         this.users = users;
         this.updateRelatedUsers();
       })
@@ -96,11 +96,9 @@ export class PartnerDetailComponent implements OnInit, OnDestroy {
     if (packageName === 'Trải nghiệm') {
       return 'partner-package-name partner-package-name--trial';
     }
-
     if (packageName === 'Cơ bản') {
       return 'partner-package-name partner-package-name--basic';
     }
-
     return 'partner-package-name partner-package-name--advanced';
   }
 
@@ -146,68 +144,52 @@ export class PartnerDetailComponent implements OnInit, OnDestroy {
 
   closeEditPartnerModal(): void {
     this.editingPartner = null;
-    this.editPartnerForm.reset({
-      partnerName: '',
-      city: '',
-      district: '',
-      ward: '',
-      address: ''
-    });
+    this.editPartnerForm.reset({ partnerName: '', city: '', district: '', ward: '', address: '' });
   }
 
   savePartnerEdit(): void {
-    if (!this.editingPartner) {
-      return;
-    }
-
-    if (this.editPartnerForm.invalid) {
+    if (!this.editingPartner || this.editPartnerForm.invalid) {
       this.editPartnerForm.markAllAsTouched();
       return;
     }
-
-    const value = this.editPartnerForm.getRawValue();
-    this.editingPartner.name = value.partnerName?.trim() ?? this.editingPartner.name;
-    this.editingPartner.address = value.address?.trim() ?? this.editingPartner.address;
-    this.editingPartner.avatarText = this.getAvatarText(this.editingPartner.name);
-    this.partner = { ...this.editingPartner };
-    this.closeEditPartnerModal();
+    const { partnerName, address } = this.editPartnerForm.getRawValue();
+    this.subscriptions.add(
+      this.partnerService.updatePartner(this.editingPartner.id, {
+        name: partnerName?.trim(),
+        address: address?.trim()
+      }).subscribe(() => {
+        this.closeEditPartnerModal();
+        this.refreshSubject.next();
+      })
+    );
   }
 
   openEditUserModal(user: User): void {
     this.editingUser = user;
-    this.editUserForm.setValue({
-      name: user.name,
-      email: user.email,
-      phone: user.phone
-    });
+    this.editUserForm.setValue({ name: user.name, email: user.email, phone: user.phone });
   }
 
   closeEditUserModal(): void {
     this.editingUser = null;
-    this.editUserForm.reset({
-      name: '',
-      email: '',
-      phone: ''
-    });
+    this.editUserForm.reset({ name: '', email: '', phone: '' });
   }
 
   saveUserEdit(): void {
-    if (!this.editingUser) {
-      return;
-    }
-
-    if (this.editUserForm.invalid) {
+    if (!this.editingUser || this.editUserForm.invalid) {
       this.editUserForm.markAllAsTouched();
       return;
     }
-
-    const value = this.editUserForm.getRawValue();
-    this.editingUser.name = value.name?.trim() ?? this.editingUser.name;
-    this.editingUser.email = value.email?.trim() ?? this.editingUser.email;
-    this.editingUser.phone = value.phone?.trim() ?? this.editingUser.phone;
-    this.editingUser.avatarText = this.getAvatarText(this.editingUser.name);
-    this.relatedUsers = [...this.relatedUsers];
-    this.closeEditUserModal();
+    const { name, email, phone } = this.editUserForm.getRawValue();
+    this.subscriptions.add(
+      this.userService.updateUser(this.editingUser.id, {
+        name: name?.trim(),
+        email: email?.trim(),
+        phone: phone?.trim()
+      }).subscribe(() => {
+        this.closeEditUserModal();
+        this.refreshSubject.next();
+      })
+    );
   }
 
   openDeleteUserModal(user: User): void {
@@ -222,16 +204,16 @@ export class PartnerDetailComponent implements OnInit, OnDestroy {
     if (!this.deletingUser) {
       return;
     }
-
-    this.users = this.users.filter((item) => item.id !== this.deletingUser?.id);
-    this.relatedUsers = this.relatedUsers.filter((item) => item.id !== this.deletingUser?.id);
-
-    if (this.editingUser?.id === this.deletingUser.id) {
+    const idToDelete = this.deletingUser.id;
+    if (this.editingUser?.id === idToDelete) {
       this.closeEditUserModal();
     }
-
-    this.closeDeleteUserModal();
-    this.setUserPage(this.userCurrentPage);
+    this.subscriptions.add(
+      this.userService.deleteUser(idToDelete).subscribe(() => {
+        this.closeDeleteUserModal();
+        this.refreshSubject.next();
+      })
+    );
   }
 
   private updateRelatedUsers(): void {
@@ -240,17 +222,9 @@ export class PartnerDetailComponent implements OnInit, OnDestroy {
       this.userCurrentPage = 1;
       return;
     }
-
     const startIndex = ((this.partner.id - 1) * 20) % this.users.length;
     const orderedUsers = [...this.users.slice(startIndex), ...this.users.slice(0, startIndex)];
     this.relatedUsers = orderedUsers.slice(0, 20);
     this.userCurrentPage = 1;
-  }
-
-  private getAvatarText(name: string): string {
-    const words = name.trim().split(/\s+/);
-    const first = words[0]?.charAt(0) ?? '';
-    const last = words.length > 1 ? words[words.length - 1].charAt(0) : words[0]?.charAt(1) ?? '';
-    return `${first}${last}`.toUpperCase();
   }
 }

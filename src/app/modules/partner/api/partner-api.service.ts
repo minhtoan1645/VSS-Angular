@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { PARTNER_DATA_SOURCE } from './partner-data-source.token';
+import { PartnerPatch } from '../models/partner-data-source.model';
 import { Partner } from '../models/partner.model';
 
 @Injectable({
@@ -20,5 +21,13 @@ export class PartnerApiService {
 
   getIndustryOptions(): Observable<string[]> {
     return this.dataSource.getIndustryOptions();
+  }
+
+  updatePartner(id: number, patch: PartnerPatch): Observable<Partner> {
+    return this.dataSource.updatePartner(id, patch);
+  }
+
+  deletePartner(id: number): Observable<void> {
+    return this.dataSource.deletePartner(id);
   }
 }

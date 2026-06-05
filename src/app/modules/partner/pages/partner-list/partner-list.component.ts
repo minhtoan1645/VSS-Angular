@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UntypedFormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BehaviorSubject, combineLatest, Subscription } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { map, startWith, switchMap } from 'rxjs/operators';
 import { ALL_OPTION_LABEL, DEFAULT_PAGE_SIZE, PAGE_SIZE_OPTIONS } from '../../../../core/constants/app.constants';
 import { PaginationState } from '../../../../shared/components/pagination/pagination.model';
 import { buildOptions, buildYearOptions, paginateItems } from '../../../../shared/utils/table.util';
@@ -68,11 +68,13 @@ export class PartnerListComponent implements OnInit, OnDestroy {
   editingPartner: Partner | null = null;
   deletingPartner: Partner | null = null;
 
-  private readonly partners$ = this.partnerService.getPartners();
+  private readonly refreshSubject = new BehaviorSubject<void>(undefined);
+  private readonly partners$ = this.refreshSubject.pipe(
+    switchMap(() => this.partnerService.getPartners())
+  );
   private readonly currentPageSubject = new BehaviorSubject<number>(1);
   private readonly pageSizeSubject = new BehaviorSubject<number>(DEFAULT_PAGE_SIZE);
   private readonly subscriptions = new Subscription();
-  private readonly deletedPartnerIds = new Set<number>();
 
   constructor(
     private readonly formBuilder: UntypedFormBuilder,
@@ -150,13 +152,7 @@ export class PartnerListComponent implements OnInit, OnDestroy {
 
   closeEditPartnerModal(): void {
     this.editingPartner = null;
-    this.editPartnerForm.reset({
-      partnerName: '',
-      city: '',
-      district: '',
-      ward: '',
-      address: ''
-    });
+    this.editPartnerForm.reset({ partnerName: '', city: '', district: '', ward: '', address: '' });
   }
 
   savePartnerEdit(): void {
@@ -164,12 +160,16 @@ export class PartnerListComponent implements OnInit, OnDestroy {
       this.editPartnerForm.markAllAsTouched();
       return;
     }
-
-    const value = this.editPartnerForm.getRawValue();
-    this.editingPartner.name = value.partnerName ?? this.editingPartner.name;
-    this.editingPartner.address = value.address ?? this.editingPartner.address;
-    this.currentPageSubject.next(this.pagination.currentPage);
-    this.closeEditPartnerModal();
+    const { partnerName, address } = this.editPartnerForm.getRawValue();
+    this.subscriptions.add(
+      this.partnerService.updatePartner(this.editingPartner.id, {
+        name: partnerName?.trim(),
+        address: address?.trim()
+      }).subscribe(() => {
+        this.closeEditPartnerModal();
+        this.refreshSubject.next();
+      })
+    );
   }
 
   openDeletePartnerModal(partner: Partner): void {
@@ -181,13 +181,15 @@ export class PartnerListComponent implements OnInit, OnDestroy {
   }
 
   confirmDeletePartner(): void {
-    if (this.deletingPartner) {
-      this.deletedPartnerIds.add(this.deletingPartner.id);
-      this.totalPartnerCount = Math.max(this.totalPartnerCount - 1, 0);
-      this.currentPageSubject.next(this.pagination.currentPage);
+    if (!this.deletingPartner) {
+      return;
     }
-
-    this.closeDeletePartnerModal();
+    this.subscriptions.add(
+      this.partnerService.deletePartner(this.deletingPartner.id).subscribe(() => {
+        this.closeDeletePartnerModal();
+        this.refreshSubject.next();
+      })
+    );
   }
 
   getVisibleIndustries(partner: Partner): string[] {
@@ -202,11 +204,9 @@ export class PartnerListComponent implements OnInit, OnDestroy {
     if (packageName === 'Trải nghiệm') {
       return 'badge badge--soft-success';
     }
-
     if (packageName === 'Cơ bản') {
       return 'badge badge--soft-info';
     }
-
     return 'badge badge--soft-danger';
   }
 
@@ -220,7 +220,6 @@ export class PartnerListComponent implements OnInit, OnDestroy {
 
   private getFilters(): PartnerFilters {
     const rawValue = this.filterForm.getRawValue();
-
     return {
       name: rawValue.name?.trim().toLowerCase() ?? '',
       email: rawValue.email?.trim().toLowerCase() ?? '',
@@ -234,10 +233,6 @@ export class PartnerListComponent implements OnInit, OnDestroy {
 
   private applyFilters(partners: Partner[], filters: PartnerFilters): Partner[] {
     return partners.filter((partner) => {
-      if (this.deletedPartnerIds.has(partner.id)) {
-        return false;
-      }
-
       const matchesName = !filters.name || partner.name.toLowerCase().includes(filters.name);
       const matchesEmail = !filters.email || partner.email.toLowerCase().includes(filters.email);
       const matchesPhone = !filters.phone || partner.phone.toLowerCase().includes(filters.phone);
@@ -245,7 +240,6 @@ export class PartnerListComponent implements OnInit, OnDestroy {
       const matchesPackage = filters.packageName === ALL_OPTION_LABEL || partner.packageName === filters.packageName;
       const matchesStatus = filters.status === ALL_OPTION_LABEL || partner.status === filters.status;
       const matchesYear = filters.expiryYear === ALL_OPTION_LABEL || partner.expiryDate.endsWith(filters.expiryYear);
-
       return matchesName && matchesEmail && matchesPhone && matchesIndustry && matchesPackage && matchesStatus && matchesYear;
     });
   }

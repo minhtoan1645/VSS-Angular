@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { UntypedFormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BehaviorSubject, combineLatest, Subscription } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { map, startWith, switchMap } from 'rxjs/operators';
 import { ALL_OPTION_LABEL, DEFAULT_PAGE_SIZE, PAGE_SIZE_OPTIONS } from '../../../../core/constants/app.constants';
 import { PaginationState } from '../../../../shared/components/pagination/pagination.model';
 import { buildOptions, buildYearOptions, paginateItems } from '../../../../shared/utils/table.util';
@@ -62,11 +62,13 @@ export class UserListComponent implements OnInit, OnDestroy {
     totalPages: 1
   };
 
-  private readonly users$ = this.userService.getUsers();
+  private readonly refreshSubject = new BehaviorSubject<void>(undefined);
+  private readonly users$ = this.refreshSubject.pipe(
+    switchMap(() => this.userService.getUsers())
+  );
   private readonly currentPageSubject = new BehaviorSubject<number>(1);
   private readonly pageSizeSubject = new BehaviorSubject<number>(DEFAULT_PAGE_SIZE);
   private readonly subscriptions = new Subscription();
-  private readonly deletedUserIds = new Set<number>();
 
   constructor(
     private readonly formBuilder: UntypedFormBuilder,
@@ -138,30 +140,25 @@ export class UserListComponent implements OnInit, OnDestroy {
 
   closeEditUserModal(): void {
     this.editingUser = null;
-    this.editUserForm.reset({
-      name: '',
-      email: '',
-      phone: ''
-    });
+    this.editUserForm.reset({ name: '', email: '', phone: '' });
   }
 
   saveUserEdit(): void {
-    if (!this.editingUser) {
-      return;
-    }
-
-    if (this.editUserForm.invalid) {
+    if (!this.editingUser || this.editUserForm.invalid) {
       this.editUserForm.markAllAsTouched();
       return;
     }
-
-    const value = this.editUserForm.getRawValue();
-    this.editingUser.name = value.name?.trim() ?? this.editingUser.name;
-    this.editingUser.email = value.email?.trim() ?? this.editingUser.email;
-    this.editingUser.phone = value.phone?.trim() ?? this.editingUser.phone;
-    this.editingUser.avatarText = this.getAvatarText(this.editingUser.name);
-    this.users = [...this.users];
-    this.closeEditUserModal();
+    const { name, email, phone } = this.editUserForm.getRawValue();
+    this.subscriptions.add(
+      this.userService.updateUser(this.editingUser.id, {
+        name: name?.trim(),
+        email: email?.trim(),
+        phone: phone?.trim()
+      }).subscribe(() => {
+        this.refreshSubject.next();
+        this.closeEditUserModal();
+      })
+    );
   }
 
   openDeleteUserModal(user: User): void {
@@ -176,16 +173,16 @@ export class UserListComponent implements OnInit, OnDestroy {
     if (!this.deletingUser) {
       return;
     }
-
-    this.deletedUserIds.add(this.deletingUser.id);
-
-    if (this.editingUser?.id === this.deletingUser.id) {
+    const idToDelete = this.deletingUser.id;
+    if (this.editingUser?.id === idToDelete) {
       this.closeEditUserModal();
     }
-
-    this.totalUserCount = Math.max(this.totalUserCount - 1, 0);
-    this.closeDeleteUserModal();
-    this.currentPageSubject.next(this.currentPageSubject.value);
+    this.subscriptions.add(
+      this.userService.deleteUser(idToDelete).subscribe(() => {
+        this.closeDeleteUserModal();
+        this.refreshSubject.next();
+      })
+    );
   }
 
   getVisibleDepartments(user: User): string[] {
@@ -200,11 +197,9 @@ export class UserListComponent implements OnInit, OnDestroy {
     if (role === 'Admin') {
       return 'badge badge--soft-danger';
     }
-
     if (role === 'Manager') {
       return 'badge badge--soft-info';
     }
-
     return 'badge badge--soft-success';
   }
 
@@ -218,7 +213,6 @@ export class UserListComponent implements OnInit, OnDestroy {
 
   private getFilters(): UserFilters {
     const rawValue = this.filterForm.getRawValue();
-
     return {
       name: rawValue.name?.trim().toLowerCase() ?? '',
       email: rawValue.email?.trim().toLowerCase() ?? '',
@@ -232,10 +226,6 @@ export class UserListComponent implements OnInit, OnDestroy {
 
   private applyFilters(users: User[], filters: UserFilters): User[] {
     return users.filter((user) => {
-      if (this.deletedUserIds.has(user.id)) {
-        return false;
-      }
-
       const matchesName = !filters.name || user.name.toLowerCase().includes(filters.name);
       const matchesEmail = !filters.email || user.email.toLowerCase().includes(filters.email);
       const matchesPhone = !filters.phone || user.phone.toLowerCase().includes(filters.phone);
@@ -243,15 +233,7 @@ export class UserListComponent implements OnInit, OnDestroy {
       const matchesRole = filters.role === ALL_OPTION_LABEL || user.role === filters.role;
       const matchesStatus = filters.status === ALL_OPTION_LABEL || user.status === filters.status;
       const matchesYear = filters.joinedYear === ALL_OPTION_LABEL || user.joinedDate.endsWith(filters.joinedYear);
-
       return matchesName && matchesEmail && matchesPhone && matchesDepartment && matchesRole && matchesStatus && matchesYear;
     });
-  }
-
-  private getAvatarText(name: string): string {
-    const words = name.trim().split(/\s+/);
-    const first = words[0]?.charAt(0) ?? '';
-    const last = words.length > 1 ? words[words.length - 1].charAt(0) : words[0]?.charAt(1) ?? '';
-    return `${first}${last}`.toUpperCase();
   }
 }
