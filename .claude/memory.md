@@ -71,8 +71,7 @@ feature/
 ├── models/         ← Interfaces
 ├── pages/          ← Smart component (trang) — standalone
 ├── services/       ← *Service (business logic)
-├── feature.module.ts       ← còn tồn tại; PHASE 1 xóa
-└── feature-routing.module.ts
+└── feature.routes.ts       ← Route array; lazy-loaded bằng loadChildren
 ```
 
 ---

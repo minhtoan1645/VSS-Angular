@@ -49,13 +49,8 @@ feature/
 ├── models/     # Interfaces / kiểu dữ liệu
 ├── pages/      # Smart component (trang) — standalone
 ├── services/   # *Service — điều phối business logic
-├── feature.module.ts      # ← còn tồn tại; PHASE 1 sẽ chuyển sang *.routes.ts
-└── feature-routing.module.ts
+└── feature.routes.ts   # Route array cho lazy-load chunk
 ```
-
-> **Lưu ý trạng thái hiện tại (hybrid):** Root app dùng standalone/`bootstrapApplication`,
-> nhưng `auth.module.ts`, `user.module.ts`, `partner.module.ts` vẫn còn — được dùng như
-> lazy chunk. PHASE 1 sẽ xóa các module file này và chuyển sang `*.routes.ts` thuần túy.
 
 ### Luồng dữ liệu
 

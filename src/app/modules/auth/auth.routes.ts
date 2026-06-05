@@ -1,5 +1,4 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes } from '@angular/router';
 
 import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
 import { LoginComponent } from './pages/login/login.component';
@@ -7,7 +6,7 @@ import { RegisterComponent } from './pages/register/register.component';
 import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
 import { VerifyCodeComponent } from './pages/verify-code/verify-code.component';
 
-const routes: Routes = [
+export const authRoutes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
@@ -44,9 +43,3 @@ const routes: Routes = [
     }
   }
 ];
-
-@NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
-})
-export class AuthRoutingModule {}

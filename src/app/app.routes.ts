@@ -19,7 +19,7 @@ export const routes: Routes = [
       {
         path: '',
         loadChildren: () =>
-          import('./modules/auth/auth.module').then((m) => m.AuthModule)
+          import('./modules/auth/auth.routes').then((m) => m.authRoutes)
       }
     ]
   },
@@ -32,7 +32,7 @@ export const routes: Routes = [
       {
         path: 'users',
         loadChildren: () =>
-          import('./modules/user/user.module').then((m) => m.UserModule),
+          import('./modules/user/user.routes').then((m) => m.userRoutes),
         canActivate: [permissionGuard],
         data: {
           permission: PERMISSIONS.userView,
@@ -45,7 +45,7 @@ export const routes: Routes = [
       {
         path: 'partners',
         loadChildren: () =>
-          import('./modules/partner/partner.module').then((m) => m.PartnerModule),
+          import('./modules/partner/partner.routes').then((m) => m.partnerRoutes),
         canActivate: [permissionGuard],
         data: {
           permission: PERMISSIONS.partnerView,
